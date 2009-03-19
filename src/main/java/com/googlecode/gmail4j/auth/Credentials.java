@@ -6,6 +6,15 @@ public class Credentials {
 	
 	private String username;
 	
+	public Credentials() {
+	    //have to set username/password manually
+	}
+	
+	public Credentials(final String username, final char[] password) {
+		setUsername(username);
+		setPassword(password);
+	}
+	
 	public void setUsername(final String username) {
 		this.username = username;
 	}
