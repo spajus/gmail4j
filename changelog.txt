@@ -8,5 +8,4 @@ Changes in version 0.1 (2009-03-20)
 -------------------------------------
 * Initial release
 * Rss Gmail Client implementation
-* Retrieval of unread messages
-  
+  http://code.google.com/p/gmail4j/issues/detail?id=1
