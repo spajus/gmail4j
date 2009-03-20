@@ -24,22 +24,65 @@ import com.googlecode.gmail4j.GmailMessage;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndPerson;
 
-public class RssGmailMessage implements GmailMessage {
+/**
+ * Read-only {@link GmailMessage} implementation procuded by 
+ * {@link RssGmailClient}.
+ * <p>
+ * This implementation is based on <a href="https://rome.dev.java.net/">ROME</a> 
+ * {@link SyndEntry}.
+ * <p>
+ * Example use:
+ * <p><blockquote><pre>
+ *     GmailClient rssGmailClient = new RssGmailClient();
+ *     //configure the client...
+ *     for (GmailMessage message : rssGmailClient.getUnreadMessages()) {
+ *         System.out.println(message.getFrom());
+ *         System.out.println(message.getSendDate());
+ *         System.out.println(message.getSubject());
+ *         System.out.println(message.getPreview());
+ *         System.out.println(message.getLink());
+ *     }
+ * </pre></blockquote></p>
+ * 
+ * @see GmailMessage
+ * @see RssGmailClient
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ * @since 0.1
+ */
+public class RssGmailMessage extends GmailMessage {
 
+    /**
+     * <a href="https://rome.dev.java.net/">ROME</a> SyndEntry object with 
+     * Gmail message content.
+     */
     private SyndEntry rssEntry;
     
+    /**
+     * Sender's {@link EmailAddress}
+     */
     private EmailAddress from = null;
     
+    /**
+     * Cache for {@link #toString()}
+     */
     private StringBuilder toString = null;
     
-    public RssGmailMessage(final SyndEntry rssEntry) {
+    /**
+     * Package-protected constructor with {@link SyndEntry} source
+     * 
+     * @param rssEntry Source object
+     */
+    RssGmailMessage(final SyndEntry rssEntry) {
         this.rssEntry = rssEntry;
     }
     
-    public String getTitle() {
+    @Override
+    public String getSubject() {
         return rssEntry.getTitle();
     }
-    
+
+    @Override
     public EmailAddress getFrom() {
         if (from == null) {
             SyndPerson author = (SyndPerson) rssEntry.getAuthors().get(0);
@@ -48,14 +91,17 @@ public class RssGmailMessage implements GmailMessage {
         return from;
     }
     
+    @Override
     public String getLink() {
         return rssEntry.getLink();
     }
     
-    public Date getDate() {
+    @Override
+    public Date getSendDate() {
          return rssEntry.getPublishedDate();
     }
     
+    @Override
     public String getPreview() {
         return rssEntry.getDescription().getValue();
     }
@@ -67,15 +113,10 @@ public class RssGmailMessage implements GmailMessage {
         }
         toString = new StringBuilder();
         toString.append("MailMessage:{from:").append(getFrom())
-            .append(";date:").append(getDate())
-            .append(";title:").append(getTitle())
+            .append(";sendDate:").append(getSendDate())
+            .append(";subject:").append(getSubject())
             .append(";preview:").append(getPreview()).append(";}");
         return toString.toString();
     }
 
-    public String getContentText() {
-        throw new UnsupportedOperationException("RssGmailMessage has no " +
-        		"support for getting full content text");
-    }
-     
 }

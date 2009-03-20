@@ -25,25 +25,67 @@ import java.util.List;
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
+import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.auth.GmailHttpAuthenticator;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
+/**
+ * Gmail RSS feed based {@link GmailClient} implementation.
+ * <p>
+ * Functionality is limited to unread message retrieval.
+ * <p>
+ * Example use:
+ * <p><blockquote><pre>
+ *     GmailClient client = new RssGmailClient();
+ *     client.setLoginCredentials(new Credentials("user", "pass".toCharArray()));
+ *     client.init();
+ *     for (GmailMessage message : client.getUnreadMessages()) {
+ *         System.out.println(message.getFrom() + ": " + message.getTitle());
+ *     }
+ * </pre></blockquote>
+ * 
+ * @see RssGmailMessage
+ * @see Credentials
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ * @since 0.1
+ */
 public class RssGmailClient extends GmailClient {
     
+    /**
+     * Gmail feed URL. It should remain as is, however you can set a new value.
+     * 
+     * @see #setGmailFeedUrl(String)
+     */
     private String gmailFeedUrl = "https://mail.google.com/mail/feed/atom";
 
+    @Override
     public void init() {
         loginCredentials.validate();
         Authenticator.setDefault(new GmailHttpAuthenticator(loginCredentials));
     }
 
+    /**
+     * Gets {@link #gmailFeedUrl}
+     * 
+     * @return Gmail feed URL
+     */
     public String getGmailFeedUrl() {
         return gmailFeedUrl;
     }
 
+    /**
+     * Sets {@link #gmailFeedUrl}
+     * <p>
+     * Use it only if you would like to use another Gmail feed URL than the 
+     * default <a href="https://mail.google.com/mail/feed/atom">
+     * https://mail.google.com/mail/feed/atom</a>.
+     * 
+     * @param gmailFeedUrl New Gmail feed URL
+     */
     public void setGmailFeedUrl(final String gmailFeedUrl) {
         this.gmailFeedUrl = gmailFeedUrl;
     }

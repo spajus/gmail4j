@@ -40,14 +40,51 @@ import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.gmail4j.auth.Credentials;
 
+/**
+ * Dialog for getting {@link Credentials}.
+ * <p>
+ * Designed mainly for testing purposes.
+ * <p>
+ * Example use:
+ * <p><blockquote><pre>
+ *     Credentials login = LoginDialog.show("Gmail Login");
+ * </pre></blockquote>
+ * 
+ * @see Credentials
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id$
+ * @since 0.1
+ */
 public class LoginDialog {
     
+    /**
+     * Logger
+     */
     public static final Log log = LogFactory.getLog(LoginDialog.class);
 
+    /**
+     * Method that shows login window with prompt for username and password,
+     * like this:
+     * <p><pre>
+     * +------ prompt ------+
+     * |Username            |
+     * |+------------------+|
+     * ||                  ||
+     * |+------------------+|
+     * |Password            |
+     * |+------------------+|
+     * ||                  ||
+     * |+------------------+|
+     * |[OK]                |
+     * +--------------------+
+     * </pre>
+     * @param prompt
+     * @return
+     */
     public static Credentials show(final String prompt) {
         final JFrame dialog = new JFrame(prompt);
-        final CountDownLatch latch = new CountDownLatch(1);
         dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final CountDownLatch latch = new CountDownLatch(1);
         final JLabel labelUser = new JLabel("Username");
         final JTextField user = new JTextField();
         final JPasswordField pass = new JPasswordField();
@@ -62,7 +99,7 @@ public class LoginDialog {
             } 
         });
         final JLabel labelPass = new JLabel("Password");
-        JButton ok = new JButton("Done");
+        JButton ok = new JButton("OK");
         ok.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 returnCredentials(latch, user, pass, login);
@@ -86,7 +123,6 @@ public class LoginDialog {
         dialog.setLocation(screen.width / 2 - dialog.getSize().width / 2, 
                 screen.height / 2 - dialog.getSize().height / 2);
         dialog.setVisible(true);
-        
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowStateChanged(WindowEvent e) {
@@ -107,13 +143,21 @@ public class LoginDialog {
         return login;
     }
 
+    /**
+     * Inner method that releases the {@link CountDownLatch} and fills 
+     * {@link Credentials} object with values from Username and Password fields
+     * 
+     * @param latch A latch that holds application paused until login is entered
+     * @param user User {@link JTextField}
+     * @param pass Password {@link JPasswordField}
+     * @param login Login {@link Credentials}
+     */
     private static void returnCredentials(final CountDownLatch latch,
             final JTextField user, final JPasswordField pass,
             final Credentials login) {
         login.setUsername(user.getText());
         login.setPassword(pass.getPassword());
         latch.countDown();
-        
     }
 
 }
