@@ -1,4 +1,4 @@
-package com.googlecode.gmail4j.client.test;
+package com.googlecode.gmail4j.rss.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
