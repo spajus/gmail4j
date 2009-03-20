@@ -48,6 +48,7 @@ import com.sun.syndication.io.XmlReader;
  * </pre></blockquote>
  * 
  * @see RssGmailMessage
+ * @see GmailClient
  * @see Credentials
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
@@ -97,7 +98,7 @@ public class RssGmailClient extends GmailClient {
             final URL feedSource = new URL(gmailFeedUrl);
             final SyndFeedInput feedInput = new SyndFeedInput();
             final SyndFeed gmail = feedInput.build(new XmlReader(feedSource));
-            for (Object entry : gmail.getEntries()) {
+            for (final Object entry : gmail.getEntries()) {
                 if (entry instanceof SyndEntry) {
                     messages.add(new RssGmailMessage((SyndEntry) entry));
                 }
@@ -114,6 +115,7 @@ public class RssGmailClient extends GmailClient {
     @Override
     protected void finalize() throws Throwable {
         loginCredentials.dispose();
+        super.finalize();
     }
     
 }

@@ -45,13 +45,17 @@ import com.googlecode.gmail4j.util.LoginDialog;
  */
 public class RssGmailClientTest {
 
+    /**
+     * Logger
+     */
     private static final Log log = LogFactory.getLog(RssGmailClientTest.class);
 
     @Test
-    public void testGetUnreadMessages() throws Exception {
+    public void testGetUnreadMessages() {
         try {
             final GmailClient client = new RssGmailClient();
-            client.setLoginCredentials(LoginDialog.show("Enter Gmail Login"));
+            client.setLoginCredentials(LoginDialog.getInstance()
+                    .show("Enter Gmail Login"));
             log.debug("Initializing RSS client");
             client.init();
             log.debug("Getting unread messages");

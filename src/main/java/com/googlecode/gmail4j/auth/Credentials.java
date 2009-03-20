@@ -58,7 +58,7 @@ import com.googlecode.gmail4j.util.LoginDialog;
  * @version $Id$
  * @since 0.1
  */
-public class Credentials {
+public final class Credentials {
 
     /**
      * Password stored as <code>char[]</code> to enable secure disposal 
@@ -176,6 +176,7 @@ public class Credentials {
     @Override
     protected void finalize() throws Throwable {
         dispose();
+        super.finalize();
     }
 
 }

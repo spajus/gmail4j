@@ -56,7 +56,7 @@ public class RssGmailMessage extends GmailMessage {
      * <a href="https://rome.dev.java.net/">ROME</a> SyndEntry object with 
      * Gmail message content.
      */
-    private SyndEntry rssEntry;
+    private final SyndEntry rssEntry;
     
     /**
      * Sender's {@link EmailAddress}
@@ -85,7 +85,7 @@ public class RssGmailMessage extends GmailMessage {
     @Override
     public EmailAddress getFrom() {
         if (from == null) {
-            SyndPerson author = (SyndPerson) rssEntry.getAuthors().get(0);
+            final SyndPerson author = (SyndPerson) rssEntry.getAuthors().get(0);
             from = new EmailAddress(author.getName(), author.getEmail());
         }
         return from;
