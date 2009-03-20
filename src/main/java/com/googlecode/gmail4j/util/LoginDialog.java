@@ -16,8 +16,8 @@ import com.googlecode.gmail4j.auth.Credentials;
 
 public class LoginDialog {
 
-    public static Credentials show() {
-        final JFrame dialog = new JFrame("Login");
+    public static Credentials show(final String prompt) {
+        final JFrame dialog = new JFrame(prompt);
         final CountDownLatch latch = new CountDownLatch(1);
         dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final JTextField user = new JTextField();

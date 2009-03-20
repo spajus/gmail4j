@@ -1,30 +1,33 @@
 package com.googlecode.gmail4j.client;
 
-import com.googlecode.gmail4j.auth.Credentials;
+import java.util.List;
 
-public class GmailClient {
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.googlecode.gmail4j.auth.Credentials;
+import com.googlecode.gmail4j.message.GmailMessage;
+
+public abstract class GmailClient {
+
+    protected final Log log = LogFactory.getLog(getClass());
     
-    private Credentials loginCredentials;
-    
-    private String gmailFeedUrl = "https://mail.google.com/mail/feed/atom";
+    protected Credentials loginCredentials;
+
+    public GmailClient() {
+        super();
+    }
 
     public void setLoginCredentials(final Credentials loginCredentials) {
         this.loginCredentials = loginCredentials;
     }
 
     public void setLoginCredentials(final String username, final char[] password) {
-        this.loginCredentials = new Credentials(username, password);
-    }
-
-    public String getGmailFeedUrl() {
-        return gmailFeedUrl;
-    }
-
-    public void setGmailFeedUrl(final String gmailFeedUrl) {
-        this.gmailFeedUrl = gmailFeedUrl;
+        setLoginCredentials(new Credentials(username, password));
     }
     
+    public abstract void init();
     
-    
+    public abstract List<GmailMessage> getUnreadMessages();
 
 }
