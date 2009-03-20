@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.2" timestamp="2009-03-20T14:36:09.451">
+<file name="/Users/spajus/Development/workspace/gmail4j/src/main/java/com/googlecode/gmail4j/GmailMessage.java">
+<violation beginline="83" endline="83" begincolumn="49" endcolumn="68" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer Rules" package="com.googlecode.gmail4j" class="GmailMessage" method="getTo" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;This GmailMessage &quot; appears 5 times in this file; the first occurrence is on line 83
+</violation>
+</file>
+<file name="/Users/spajus/Development/workspace/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailClient.java">
+<violation beginline="103" endline="103" begincolumn="34" endcolumn="71" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.rss" class="RssGmailClient" method="getUnreadMessages" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+</file>
+</pmd>
