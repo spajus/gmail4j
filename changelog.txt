@@ -1,0 +1,12 @@
+$Id$
+===================
+GMAIL4J CHANGELOG
+===================
+http://gmail4j.googlecode.com
+
+Changes in version 0.1 (2009-03-20)
+-------------------------------------
+* Initial release
+* Rss Gmail Client implementation
+* Retrieval of unread messages
+  
