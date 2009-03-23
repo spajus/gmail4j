@@ -19,6 +19,7 @@ package com.googlecode.gmail4j.auth;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.net.Proxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,6 +60,11 @@ public class GmailHttpAuthenticator extends Authenticator {
     private final Credentials credentials;
     
     /**
+     * Credentials given as response to {@link Proxy} authentication request.
+     */
+    private Credentials proxyCredentials;
+    
+    /**
      * Constructor that sets {@link #credentials}
      * 
      * @param credentials Gmail login
@@ -66,12 +72,30 @@ public class GmailHttpAuthenticator extends Authenticator {
     public GmailHttpAuthenticator(final Credentials credentials) {
         this.credentials = credentials;
     }
+    
+    /**
+     * Constructor that sets {@link #credentials} and {@link #proxyCredentials}
+     * 
+     * @param credentials Gmail login
+     * @param proxyCredentials Proxy authentication
+     */
+    public GmailHttpAuthenticator(final Credentials credentials, 
+            final Credentials proxyCredentials) {
+        this(credentials);
+        this.proxyCredentials = proxyCredentials;
+    }
 
     @Override
     protected PasswordAuthentication getPasswordAuthentication() {
         if (log.isDebugEnabled()) {
             log.debug("Password authentication request: " 
                     + getRequestingPrompt());
+        }
+        if (getRequestorType().equals(RequestorType.PROXY) 
+                && proxyCredentials != null) {
+            log.debug("Proxy request detected, returning proxy credentials");
+            return new PasswordAuthentication(proxyCredentials.getUsername(), 
+                    proxyCredentials.getPasword());
         }
         if ("mail.google.com".equals(getRequestingHost())) {
             log.debug("Gmail request detected, returning login credentials");

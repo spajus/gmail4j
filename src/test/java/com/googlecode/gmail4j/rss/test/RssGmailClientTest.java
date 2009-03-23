@@ -22,12 +22,14 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import com.googlecode.gmail4j.GmailClient;
-import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.rss.RssGmailClient;
@@ -53,9 +55,17 @@ public class RssGmailClientTest {
     @Test
     public void testGetUnreadMessages() {
         try {
-            final GmailClient client = new RssGmailClient();
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            final RssGmailClient client = new RssGmailClient();
             client.setLoginCredentials(LoginDialog.getInstance()
                     .show("Enter Gmail Login"));
+            if (JOptionPane.showConfirmDialog(new JFrame(), "Are you behind a proxy?", 
+                    "Gmail Test", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                client.setProxy(JOptionPane.showInputDialog("Proxy Host"), 
+                        Integer.parseInt(JOptionPane.showInputDialog("Proxy Port")));
+                client.setProxyCredentials(LoginDialog.getInstance()
+                        .show("Proxy Login"));
+            }
             log.debug("Initializing RSS client");
             client.init();
             log.debug("Getting unread messages");
@@ -64,7 +74,7 @@ public class RssGmailClientTest {
                 log.debug(message);
             }
             assertNotNull("Messages are not null", messages);
-        } catch (final GmailException e) {
+        } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         }

@@ -17,8 +17,13 @@
  */
 package com.googlecode.gmail4j.rss;
 
+import java.io.IOException;
 import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.Proxy.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,10 +68,32 @@ public class RssGmailClient extends GmailClient {
      */
     private String gmailFeedUrl = "https://mail.google.com/mail/feed/atom";
 
+    /**
+     * HTTP Proxy for making a connection.
+     * 
+     * @see #setProxy(Proxy)
+     * @see #setProxy(String, int)
+     * @see #getProxy()
+     */
+    private Proxy proxy = null;
+    
+    /**
+     * HTTP Proxy {@link Credentials}
+     * 
+     * @see #proxy
+     * @see #setProxyCredentials(Credentials)
+     * @see #setProxyCredentials(String, char[])
+     */
+    private Credentials proxyCredentials = null;
+    
     @Override
     public void init() {
         loginCredentials.validate();
-        Authenticator.setDefault(new GmailHttpAuthenticator(loginCredentials));
+        if (proxyCredentials != null) {
+            proxyCredentials.validate();
+        }
+        Authenticator.setDefault(
+                new GmailHttpAuthenticator(loginCredentials, proxyCredentials));
     }
 
     /**
@@ -77,6 +104,54 @@ public class RssGmailClient extends GmailClient {
     public String getGmailFeedUrl() {
         return gmailFeedUrl;
     }
+    
+    /**
+     * Sets the {@link #proxy}
+     * 
+     * @param proxy Proxy for RSS connection
+     */
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+    
+    /**
+     * A convenience method for setting HTTP {@link #proxy}
+     * 
+     * @param proxyHost Proxy host
+     * @param proxyPort Proxy port
+     */
+    public void setProxy(final String proxyHost, final int proxyPort) {
+        this.proxy = new Proxy(Type.HTTP, InetSocketAddress
+                .createUnresolved(proxyHost, proxyPort));
+    }
+    
+    /**
+     * Sets {@link #proxyCredentials}
+     * 
+     * @param proxyCredentials Proxy authentication
+     */
+    public void setProxyCredentials(final Credentials proxyCredentials) {
+        this.proxyCredentials = proxyCredentials;
+    }
+    
+    /**
+     * A convenience method for setting {@link #proxyCredentials}
+     * 
+     * @param username Proxy auth username
+     * @param password Proxy auth password
+     */
+    public void setProxyCredentials(final String username, final char[] password) {
+        setProxyCredentials(new Credentials(username, password));
+    }
+
+    /**
+     * Gets the {@link #proxy}
+     * 
+     * @return Proxy or null if unavailable
+     */
+    public Proxy getProxy() {
+        return this.proxy;
+    }
 
     /**
      * Sets {@link #gmailFeedUrl}
@@ -86,6 +161,7 @@ public class RssGmailClient extends GmailClient {
      * https://mail.google.com/mail/feed/atom</a>.
      * 
      * @param gmailFeedUrl New Gmail feed URL
+     * @throws GmailException if something goes wrong
      */
     public void setGmailFeedUrl(final String gmailFeedUrl) {
         this.gmailFeedUrl = gmailFeedUrl;
@@ -95,9 +171,9 @@ public class RssGmailClient extends GmailClient {
     public List<GmailMessage> getUnreadMessages() {
         final List<GmailMessage> messages = new ArrayList<GmailMessage>();
         try {
-            final URL feedSource = new URL(gmailFeedUrl);
+            final URLConnection connection = openConnection();
             final SyndFeedInput feedInput = new SyndFeedInput();
-            final SyndFeed gmail = feedInput.build(new XmlReader(feedSource));
+            final SyndFeed gmail = feedInput.build(new XmlReader(connection));
             for (final Object entry : gmail.getEntries()) {
                 if (entry instanceof SyndEntry) {
                     messages.add(new RssGmailMessage((SyndEntry) entry));
@@ -110,6 +186,26 @@ public class RssGmailClient extends GmailClient {
             throw new GmailException("Failed getting unread messages", e);
         }
         return messages;
+    }
+
+    /**
+     * Opens {@link URLConnection} for getting data from Gmail RSS.
+     * <p>
+     * May use {@link Proxy} if one is defined
+     * 
+     * @see #proxy
+     * @return connection
+     * @throws IOException if opening a connection fails
+     */
+    private URLConnection openConnection() throws IOException {
+        final URL url = new URL(gmailFeedUrl);
+        URLConnection connection = null;
+        if (proxy != null) {
+            connection = url.openConnection(proxy);
+        } else {
+            connection = url.openConnection();
+        }
+        return connection;
     }
 
     @Override
