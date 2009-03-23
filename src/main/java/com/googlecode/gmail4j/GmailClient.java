@@ -53,40 +53,20 @@ public abstract class GmailClient {
     protected final Log log = LogFactory.getLog(getClass());
     
     /**
-     * Login credentials
+     * Gmail Connection 
      */
-    protected Credentials loginCredentials;
-
+    protected GmailConnection connection;  
+    
     /**
      * Argless constructor for safe extending 
      */
     public GmailClient() {
         super();
     }
-
-    /**
-     * Setter for {@link #loginCredentials}
-     * 
-     * @param loginCredentials Gmail login
-     */
-    public void setLoginCredentials(final Credentials loginCredentials) {
-        this.loginCredentials = loginCredentials;
-    }
-
-    /**
-     * Wrapper method for setting {@link #loginCredentials}
-     * 
-     * @param username Gmail username
-     * @param password Gmail password
-     */
-    public void setLoginCredentials(final String username, final char[] password) {
-        setLoginCredentials(new Credentials(username, password));
-    }
     
-    /**
-     * Initializes the client.
-     */
-    public abstract void init();
+    public void setConnection(final GmailConnection connection) {
+        this.connection = connection;
+    }
     
     /**
      * Returns list of unread {@link GmailMessage} objects

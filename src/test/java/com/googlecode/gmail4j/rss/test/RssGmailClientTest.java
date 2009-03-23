@@ -30,8 +30,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
+import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.googlecode.gmail4j.rss.RssGmailMessage;
 import com.googlecode.gmail4j.util.LoginDialog;
@@ -57,18 +59,18 @@ public class RssGmailClientTest {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             final RssGmailClient client = new RssGmailClient();
-            client.setLoginCredentials(LoginDialog.getInstance()
+            final GmailConnection connection = new HttpGmailConnection();
+            connection.setLoginCredentials(LoginDialog.getInstance()
                     .show("Enter Gmail Login"));
             if (JOptionPane.showConfirmDialog(new JFrame(), "Are you behind a proxy?", 
                     "Gmail Test", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                client.setProxy(JOptionPane.showInputDialog("Proxy Host"), 
+                ((HttpGmailConnection) connection).setProxy(JOptionPane.showInputDialog("Proxy Host"), 
                         Integer.parseInt(JOptionPane.showInputDialog("Proxy Port")));
-                client.setProxyCredentials(LoginDialog.getInstance()
+                ((HttpGmailConnection) connection).setProxyCredentials(LoginDialog.getInstance()
                         .show("Proxy Login"));
             }
-            log.debug("Initializing RSS client");
-            client.init();
             log.debug("Getting unread messages");
+            client.setConnection(connection);
             final List<GmailMessage> messages = client.getUnreadMessages();
             for (GmailMessage message : messages) {
                 log.debug(message);
