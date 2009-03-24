@@ -104,7 +104,7 @@ public final class Credentials {
      */
     public void validate() {
         if (username == null || username.length() == 0 
-                ||password == null || password.length == 0) {
+                || password == null || password.length == 0) {
             throw new GmailException("No username and/or password provided");
         }
     }

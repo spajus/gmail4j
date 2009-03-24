@@ -17,9 +17,15 @@
  */
 package com.googlecode.gmail4j.imap;
 
+import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.Store;
+
 import com.googlecode.gmail4j.GmailClient;
+import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 
 /**
@@ -37,7 +43,18 @@ public class ImapGmailClient extends GmailClient {
     
     @Override
     public List<GmailMessage> getUnreadMessages() {
-        // TODO Auto-generated method stub
+        // TODO complete
+        try {
+        Store store = ((ImapGmailConnection) connection).openSession().getStore("imaps");
+        store.connect("imap.gmail.com", "youraccount@gmail.com", "yourpassword");
+        Folder folder = store.getFolder("INBOX");
+        folder.open(Folder.READ_WRITE); 
+        List<Message> msgs = Arrays.asList(folder.getMessages());
+        folder.close(false); 
+        store.close();
+        } catch (final Exception e) {
+            throw new GmailException("..", e);
+        }
         return null;
     }
 

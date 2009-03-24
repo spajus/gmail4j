@@ -80,5 +80,5 @@ public abstract class GmailClient {
      * @return List of unread messages
      */
     public abstract List<GmailMessage> getUnreadMessages();
-
+    
 }
