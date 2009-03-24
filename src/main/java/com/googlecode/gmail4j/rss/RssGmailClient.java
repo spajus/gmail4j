@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.gmail4j.GmailClient;
+import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
-import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -34,13 +34,13 @@ import com.sun.syndication.io.XmlReader;
 /**
  * Gmail RSS feed based {@link GmailClient} implementation.
  * <p>
- * Functionality is limited to unread message retrieval.
+ * It requires {@link HttpGmailConnection}. Functionality is limited to unread 
+ * message retrieval.
  * <p>
  * Example use:
  * <p><blockquote><pre>
  *     GmailClient client = new RssGmailClient();
- *     client.setLoginCredentials(new Credentials("user", "pass".toCharArray()));
- *     client.init();
+ *     client.setConnection(new HttpGmailConnection(gmailUser, gmailPass));
  *     for (GmailMessage message : client.getUnreadMessages()) {
  *         System.out.println(message.getFrom() + ": " + message.getTitle());
  *     }
@@ -48,7 +48,7 @@ import com.sun.syndication.io.XmlReader;
  * 
  * @see RssGmailMessage
  * @see GmailClient
- * @see Credentials
+ * @see HttpGmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1
@@ -108,6 +108,14 @@ public class RssGmailClient extends GmailClient {
         return messages;
     }
     
+    /**
+     * Gets {@link HttpGmailConnection} (casts it from parent 
+     * {@link GmailConnection})
+     * 
+     * @return HttpGmailConnection if available
+     * @throws GmailException if connection is not an instance of 
+     *         HttpGmailConnection
+     */
     private HttpGmailConnection getGmailConnection() {
         if (connection instanceof HttpGmailConnection) {
             return (HttpGmailConnection) connection;

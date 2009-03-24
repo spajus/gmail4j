@@ -18,6 +18,7 @@
 package com.googlecode.gmail4j;
 
 import com.googlecode.gmail4j.auth.Credentials;
+import com.googlecode.gmail4j.http.HttpGmailConnection;
 
 /**
  * Gmail service connection. 
@@ -25,8 +26,9 @@ import com.googlecode.gmail4j.auth.Credentials;
  * It stores Gmail account {@link Credentials}. Can be extended to use certain
  * protocols, proxies, etc. 
  * 
+ * @see HttpGmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id: GmailException.java 6 2009-03-20 08:59:14Z tomas.varaneckas $
+ * @version $Id$
  * @since 0.2
  */
 public class GmailConnection {
@@ -45,13 +47,27 @@ public class GmailConnection {
      * @see #setLoginCredentials(String, char[])
      */
     public GmailConnection() {
+        //nothing to do
     }
     
+    /**
+     * Constructor that sets {@link #loginCredentials}
+     * 
+     * @param loginCredentials Gmail login credentials
+     * @throws GmailException if credentials are not provided
+     */
     public GmailConnection(final Credentials loginCredentials) {
         loginCredentials.validate();
         this.loginCredentials = loginCredentials;
     }
     
+    /**
+     * Convenience constructor that sets {@link #loginCredentials}
+     * 
+     * @param username Gmail username
+     * @param password Gmail password
+     * @throws GmailException if credentials are not provided
+     */
     public GmailConnection(final String username, final char[] password) {
         this(new Credentials(username, password));
     }
@@ -74,7 +90,8 @@ public class GmailConnection {
      * @param password Gmail password
      * @throws GmailException if provided {@link Credentials} are invalid
      */
-    public void setLoginCredentials(final String username, final char[] password) {
+    public void setLoginCredentials(final String username, 
+            final char[] password) {
         setLoginCredentials(new Credentials(username, password));
     }
     

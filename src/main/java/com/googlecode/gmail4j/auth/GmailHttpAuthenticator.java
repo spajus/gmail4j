@@ -24,24 +24,29 @@ import java.net.Proxy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.googlecode.gmail4j.GmailClient;
-import com.googlecode.gmail4j.rss.RssGmailClient;
+import com.googlecode.gmail4j.GmailConnection;
+import com.googlecode.gmail4j.http.HttpGmailConnection;
 
 /**
- * Http {@link Authenticator} for {@link GmailClient} implementations that
- * require HTTP access to Gmail service. 
+ * Proxy aware HTTP {@link Authenticator} for {@link GmailConnection} 
+ * implementations that require HTTP access to Gmail service. 
  * <p>
  * Activate it with {@link Authenticator#setDefault(Authenticator)}:
  * <p><blockquote><pre>
  *     Credentials login = new Credentials(username, password);
  *     Authenticator.setDefault(new GmailHttpAuthenticator(login));
  * </pre></blockquote><p>
- * {@link RssGmailClient} automatically activates this on 
- * {@link RssGmailClient#init()}.
+ * When using with {@link Proxy}:
+ * <p><blockquote><pre>
+ *     Credentials login = new Credentials(username, password);
+ *     Credentials proxyLogin = new Credentials(proxyUser, proxyPass);
+ *     Authenticator.setDefault(new GmailHttpAuthenticator(login, proxyLogin));
+ * </pre></blockquote><p>
+ * {@link HttpGmailConnection} automatically activates this.
  * 
  * @see Authenticator
  * @see Credentials
- * @see RssGmailClient
+ * @see HttpGmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1

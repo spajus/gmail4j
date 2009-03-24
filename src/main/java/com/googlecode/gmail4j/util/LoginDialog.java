@@ -220,6 +220,7 @@ public class LoginDialog {
         dialog.setAlwaysOnTop(true);
         center(dialog);
         dialog.setVisible(true);
+        user.requestFocusInWindow();
     }
 
     /**

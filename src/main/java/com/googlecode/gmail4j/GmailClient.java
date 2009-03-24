@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 
 /**
@@ -30,9 +29,9 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
  * <p>
  * Example use:
  * <p><blockquote><pre>
+ *     GmailConnection connection = //...instance of GmailConnection
  *     GmailClient client = new RssGmailClient();
- *     client.setLoginCredentials(new Credentials("user", "pass".toCharArray()));
- *     client.init();
+ *     client.setConnection(connection);
  *     for (GmailMessage message : client.getUnreadMessages()) {
  *         System.out.println(message.getFrom() + ": " + message.getTitle());
  *     }
@@ -40,7 +39,7 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
  * 
  * @see RssGmailClient
  * @see GmailMessage
- * @see Credentials
+ * @see GmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1
@@ -54,6 +53,8 @@ public abstract class GmailClient {
     
     /**
      * Gmail Connection 
+     * 
+     * @see #setConnection(GmailConnection)
      */
     protected GmailConnection connection;  
     
@@ -64,6 +65,11 @@ public abstract class GmailClient {
         super();
     }
     
+    /**
+     * Sets Gmail #connection 
+     * 
+     * @param connection Gmail connection
+     */
     public void setConnection(final GmailConnection connection) {
         this.connection = connection;
     }

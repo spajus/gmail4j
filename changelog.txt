@@ -4,8 +4,13 @@ GMAIL4J CHANGELOG
 ===================
 http://gmail4j.googlecode.com
 
-Changes in version 0.1.1 (2009-??-??)
+Changes in version 0.2 (2009-03-24)
 -------------------------------------
+* Updated Maven dependencies (ROME 0.9 to 1.0)
+  http://code.google.com/p/gmail4j/issues/detail?id=4
+* Refactored Gmail4J API to use GmailConnection as an object instead of a state 
+  of GmailClient  
+  http://code.google.com/p/gmail4j/issues/detail?id=3
 * Rss Gmail Client can now use Proxy with or without authentication
   http://code.google.com/p/gmail4j/issues/detail?id=2
 
