@@ -4,7 +4,7 @@
   <groupId>com.googlecode</groupId>
   <artifactId>gmail4j</artifactId>
   <packaging>jar</packaging>
-  <name>Gmail4j</name>
+  <name>Gmail4J</name>
   <description>Gmail API for Java</description>
   <version>0.2</version>
   <url>http://gmail4j.googlecode.com</url>
