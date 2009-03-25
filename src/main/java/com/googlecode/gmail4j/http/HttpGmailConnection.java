@@ -57,7 +57,7 @@ import com.googlecode.gmail4j.auth.GmailHttpAuthenticator;
  * @version $Id$
  * @since 0.2
  */
-public class HttpGmailConnection extends GmailConnection {
+public class HttpGmailConnection extends GmailConnection implements ProxyAware {
     
     /**
      * Argless constructor.

@@ -38,18 +38,17 @@ import com.googlecode.gmail4j.GmailMessage;
 public class ImapGmailClient extends GmailClient {
 
     public ImapGmailClient() {
-        throw new UnsupportedOperationException("IMAP client is not yet implemented");
     }
     
     @Override
     public List<GmailMessage> getUnreadMessages() {
         // TODO complete
         try {
-        Store store = ((ImapGmailConnection) connection).openSession().getStore("imaps");
-        store.connect("imap.gmail.com", "youraccount@gmail.com", "yourpassword");
+        Store store = ((ImapGmailConnection) connection).openGmailStore();
         Folder folder = store.getFolder("INBOX");
         folder.open(Folder.READ_WRITE); 
         List<Message> msgs = Arrays.asList(folder.getMessages());
+        log.debug(msgs);
         folder.close(false); 
         store.close();
         } catch (final Exception e) {

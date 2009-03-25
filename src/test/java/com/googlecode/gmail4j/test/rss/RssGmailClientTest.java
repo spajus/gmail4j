@@ -15,16 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.googlecode.gmail4j.rss.test;
+package com.googlecode.gmail4j.test.rss;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,9 +30,10 @@ import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
+import com.googlecode.gmail4j.http.ProxyAware;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.googlecode.gmail4j.rss.RssGmailMessage;
-import com.googlecode.gmail4j.util.LoginDialog;
+import com.googlecode.gmail4j.test.TestConfigurer;
 
 /**
  * {@link RssGmailClient} tests
@@ -57,17 +54,15 @@ public class RssGmailClientTest {
     @Test
     public void testGetUnreadMessages() {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            TestConfigurer conf = TestConfigurer.getInstance();            
             final RssGmailClient client = new RssGmailClient();
             final GmailConnection connection = new HttpGmailConnection();
-            connection.setLoginCredentials(LoginDialog.getInstance()
-                    .show("Enter Gmail Login"));
-            if (JOptionPane.showConfirmDialog(new JFrame(), "Are you behind a proxy?", 
-                    "Gmail Test", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                ((HttpGmailConnection) connection).setProxy(JOptionPane.showInputDialog("Proxy Host"), 
-                        Integer.parseInt(JOptionPane.showInputDialog("Proxy Port")));
-                ((HttpGmailConnection) connection).setProxyCredentials(LoginDialog.getInstance()
-                        .show("Proxy Login"));
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                ((ProxyAware) connection).setProxy(conf.getProxyHost(), 
+                        conf.getProxyPort());
+                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
             }
             log.debug("Getting unread messages");
             client.setConnection(connection);
