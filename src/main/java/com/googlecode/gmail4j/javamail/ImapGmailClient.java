@@ -15,14 +15,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.googlecode.gmail4j.imap;
+package com.googlecode.gmail4j.javamail;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Store;
+import javax.mail.search.FlagTerm;
 
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
@@ -34,27 +36,32 @@ import com.googlecode.gmail4j.GmailMessage;
  * @see GmailClient
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
+ * @since 0.3
  */
 public class ImapGmailClient extends GmailClient {
 
-    public ImapGmailClient() {
-    }
-    
     @Override
     public List<GmailMessage> getUnreadMessages() {
-        // TODO complete
         try {
-        Store store = ((ImapGmailConnection) connection).openGmailStore();
-        Folder folder = store.getFolder("INBOX");
-        folder.open(Folder.READ_WRITE); 
-        List<Message> msgs = Arrays.asList(folder.getMessages());
-        log.debug(msgs);
-        folder.close(false); 
-        store.close();
+            final List<GmailMessage> unread = new ArrayList<GmailMessage>();
+            final Store store = openGmailStore();
+            final Folder folder = store.getFolder("INBOX");
+            folder.open(Folder.READ_ONLY); 
+            for (final Message msg : folder.search(new FlagTerm(
+                    new Flags(Flags.Flag.SEEN), false))) {
+                unread.add(new JavaMailGmailMessage(msg));
+            }
+            return unread;
         } catch (final Exception e) {
             throw new GmailException("..", e);
         }
-        return null;
+    }
+    
+    private Store openGmailStore() {
+        if (connection instanceof ImapGmailConnection) {
+            return ((ImapGmailConnection) connection).openGmailStore();
+        } 
+        throw new GmailException("ImapGmailClient requires ImapGmailConnection!");
     }
 
 }

@@ -1,15 +1,31 @@
-package com.googlecode.gmail4j.imap;
+/*
+ * Copyright (c) 2008-2009 Tomas Varaneckas
+ * http://www.varaneckas.com
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.googlecode.gmail4j.javamail;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Provider;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.net.SocketFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,8 +33,16 @@ import org.apache.commons.logging.LogFactory;
 import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.auth.Credentials;
+import com.googlecode.gmail4j.http.HttpProxyAwareSslSocketFactory;
 import com.googlecode.gmail4j.http.ProxyAware;
 
+/**
+ * TODO document
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id: ImapGmailClient.java 30 2009-03-25 10:16:04Z tomas.varaneckas $
+ * @since 0.3
+ */
 public class ImapGmailConnection extends GmailConnection implements ProxyAware{
     
     private static final Log log = LogFactory.getLog(ImapGmailConnection.class);
@@ -32,6 +56,8 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware{
     private Proxy proxy;
     
     private Session mailSession;
+    
+    private Store store;
     
     public ImapGmailConnection() {
         //javax.net.ssl.SSLSocketFactory
@@ -70,33 +96,25 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware{
     public Store openGmailStore() {
         synchronized (this) {
             if (mailSession == null) {
+                properties = System.getProperties();
                 if (proxy != null) {
                     log.debug("Setting proxy: " + proxy.address());
-                    InetSocketAddress addr = (InetSocketAddress) proxy.address();
-                    properties = System.getProperties();
+                    final SocketFactory sf = new HttpProxyAwareSslSocketFactory(proxy);
                     properties.setProperty("mail.imap.host", gmailImapHost);
-                    properties.put("mail.imap.ssl.enable", false);
-                    properties.put("mail.socket.debug", true);
-                    properties.put("mail.imaps.connectionpool.debug", true);
-                    properties.put("mail.imaps.ssl.socketFactory", new HttpProxyAwareSslSocketFactory(proxy));
-                    properties.put("mail.imaps.socketFactory", new HttpProxyAwareSslSocketFactory(proxy));
+                    properties.put("mail.imaps.ssl.socketFactory", sf);
                     properties.put("mail.imaps.ssl.socketFactory.fallback", "false");
                     properties.put("mail.imaps.ssl.socketFactory.port", "993");
-//                    properties.put("mail.imap.sasl.authorizationid", 
-//                            proxyCredentials.getUsername());
-//                    properties.put("proxySet", "true"); 
-//                    properties.put("http.proxyHost", addr.getHostName());
-//                    properties.put("http.proxyPort", 
-//                            String.valueOf(addr.getPort()));
                 }
-                mailSession = Session.getInstance(properties, null);
+                if (proxyCredentials != null) {
+                    mailSession = Session.getInstance(properties);               
+                } else {
+                    mailSession = Session.getInstance(properties);
+                }
                 for (Provider p : mailSession.getProviders()) {
                     log.debug(p);
                 }
-                mailSession.setDebug(true);
             }
         }
-        Store store;
         try {
             store = mailSession.getStore("imaps");
             store.connect(gmailImapHost, loginCredentials.getUsername()
@@ -107,19 +125,15 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware{
         }
         return store;
     }
-
-    private Authenticator getAuthenticator() {
-        if (proxyCredentials != null) {
-            return new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(
-                            loginCredentials.getUsername(),
-                            new String(loginCredentials.getPasword()));
-                }
-            };
+    
+    public void disconnect() {
+        try {
+            if (store != null) {
+                store.close();
+            }
+        } catch (final Exception e) {
+            log.warn("Failed closing Gmail IMAP store", e);
         }
-        return null;
     }
 
     public Proxy getProxy() {
@@ -128,6 +142,12 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware{
 
     public void setProxy(Proxy proxy) {
         this.proxy = proxy;
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        disconnect();
+        super.finalize();
     }
     
 }

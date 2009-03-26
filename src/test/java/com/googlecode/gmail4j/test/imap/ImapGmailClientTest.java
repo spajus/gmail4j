@@ -26,12 +26,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
-import com.googlecode.gmail4j.http.ProxyAware;
-import com.googlecode.gmail4j.imap.ImapGmailClient;
-import com.googlecode.gmail4j.imap.ImapGmailConnection;
+import com.googlecode.gmail4j.javamail.ImapGmailClient;
+import com.googlecode.gmail4j.javamail.ImapGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.googlecode.gmail4j.rss.RssGmailMessage;
 import com.googlecode.gmail4j.test.TestConfigurer;
@@ -57,13 +55,11 @@ public class ImapGmailClientTest {
         try {
             TestConfigurer conf = TestConfigurer.getInstance();
             final ImapGmailClient client = new ImapGmailClient();
-            final GmailConnection connection = new ImapGmailConnection();
+            final ImapGmailConnection connection = new ImapGmailConnection();
             connection.setLoginCredentials(conf.getGmailCredentials());
             if (conf.useProxy()) {
-                ((ProxyAware) connection)
-                    .setProxy(conf.getProxyHost(), conf.getProxyPort());
-                ((ProxyAware) connection)
-                    .setProxyCredentials(conf.getProxyCredentials());
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
             }
             log.debug("Getting unread messages");
             client.setConnection(connection);
@@ -72,6 +68,7 @@ public class ImapGmailClientTest {
                 log.debug(message);
             }
             assertNotNull("Messages are not null", messages);
+            connection.disconnect();
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());

@@ -95,4 +95,10 @@ public class GmailConnection {
         setLoginCredentials(new Credentials(username, password));
     }
     
+    @Override
+    protected void finalize() throws Throwable {
+        loginCredentials.dispose();
+        super.finalize();
+    }
+    
 }

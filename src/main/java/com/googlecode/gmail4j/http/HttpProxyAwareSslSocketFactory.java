@@ -1,4 +1,21 @@
-package com.googlecode.gmail4j.imap;
+/*
+ * Copyright (c) 2008-2009 Tomas Varaneckas
+ * http://www.varaneckas.com
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.googlecode.gmail4j.http;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,9 +32,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.gmail4j.auth.Credentials;
-import com.googlecode.gmail4j.http.ProxyAware;
 import com.googlecode.gmail4j.test.TestConfigurer;
 
+/**
+ * HTTP Proxy aware {@link SSLSocketFactory} implementation
+ * 
+ * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
+ * @version $Id: EmailAddress.java 6 2009-03-20 08:59:14Z tomas.varaneckas $
+ * @since 0.3
+ */
 public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory 
     implements ProxyAware {
 
@@ -46,7 +69,6 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
         this.proxy = proxy;
     }
     
-    @Override
     public Socket createSocket(Socket s, String host, int port,
             boolean autoClose) throws IOException {
         log.debug("CreateSocket" + s);
