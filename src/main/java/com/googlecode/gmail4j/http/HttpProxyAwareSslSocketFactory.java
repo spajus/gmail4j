@@ -38,7 +38,7 @@ import com.googlecode.gmail4j.test.TestConfigurer;
  * HTTP Proxy aware {@link SSLSocketFactory} implementation
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id: EmailAddress.java 6 2009-03-20 08:59:14Z tomas.varaneckas $
+ * @version $Id$
  * @since 0.3
  */
 public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory 

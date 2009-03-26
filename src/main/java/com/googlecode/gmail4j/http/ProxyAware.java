@@ -25,7 +25,7 @@ import com.googlecode.gmail4j.auth.Credentials;
  * Interface that provides way of setting and getting proxy and it's credentials.
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id: EmailAddress.java 6 2009-03-20 08:59:14Z tomas.varaneckas $
+ * @version $Id$
  * @since 0.1
  */
 public interface ProxyAware {

@@ -40,7 +40,7 @@ import com.googlecode.gmail4j.http.ProxyAware;
  * TODO document
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id: ImapGmailClient.java 30 2009-03-25 10:16:04Z tomas.varaneckas $
+ * @version $Id$
  * @since 0.3
  */
 public class ImapGmailConnection extends GmailConnection implements ProxyAware{

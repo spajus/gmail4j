@@ -41,7 +41,7 @@ import com.googlecode.gmail4j.test.TestConfigurer;
  * @see RssGmailMessage
  * @see Credentials
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id: RssGmailClientTest.java 22 2009-03-23 18:21:47Z tomas.varaneckas $
+ * @version $Id$
  */
 public class ImapGmailClientTest {
 
