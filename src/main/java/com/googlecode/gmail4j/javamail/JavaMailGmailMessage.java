@@ -17,9 +17,13 @@
  */
 package com.googlecode.gmail4j.javamail;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.mail.Address;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
@@ -106,6 +110,41 @@ public class JavaMailGmailMessage extends GmailMessage {
     }
     
     @Override
+    public List<EmailAddress> getTo() {
+        try {
+            return getAddresses(RecipientType.TO);
+        } catch (final Exception e) {
+            throw new GmailException("Failed getting List of To recipients", e);
+        }
+    }
+    
+    @Override
+    public List<EmailAddress> getCc() {
+        try {
+            return getAddresses(RecipientType.CC);
+        } catch (final Exception e) {
+            throw new GmailException("Failed getting List of Cc recipients", e);
+        }
+    }    
+    
+    /**
+     * Gets a {@link List} of {@link EmailAddress} by {@link RecipientType}
+     * 
+     * @param type Recipient type
+     * @return List of Addresses
+     * @throws MessagingException in case something is wrong
+     */
+    private List<EmailAddress> getAddresses(final RecipientType type) 
+            throws MessagingException {
+        final List<EmailAddress> addresses = new ArrayList<EmailAddress>();
+        for (final Address addr : source.getRecipients(type)) {
+            final InternetAddress temp = (InternetAddress) addr;
+            addresses.add(new EmailAddress(temp.getPersonal(), temp.getAddress()));
+        }
+        return addresses;
+    }
+
+    @Override
     public void setFrom(final EmailAddress from) {
         try {
             if (from.hasName()) {
@@ -131,7 +170,7 @@ public class JavaMailGmailMessage extends GmailMessage {
         }
         return from;
     }
-
+    
     @Override
     public Date getSendDate() {
         try {
