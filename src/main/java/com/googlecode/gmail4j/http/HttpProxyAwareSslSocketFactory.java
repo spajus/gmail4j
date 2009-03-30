@@ -19,9 +19,11 @@ package com.googlecode.gmail4j.http;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.net.Proxy.Type;
 
 import javax.net.ssl.SSLSocketFactory;
 
@@ -59,6 +61,16 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
      */
     private Proxy proxy;
     
+    /**
+     * Gmail credentials
+     */
+    private Credentials gmailCredentials;
+    
+    /**
+     * Proxy username/password
+     */
+    private Credentials proxyCredentials;
+    
     @Override
     public Socket createSocket() throws IOException {
         //FIXME doesn't work
@@ -70,7 +82,8 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
                 new UsernamePasswordCredentials(TestConfigurer.getInstance().getGmailCredentials().getUsername(), 
                         new String(TestConfigurer.getInstance().getGmailCredentials().getPasword())));
         proxyClient.getState().setProxyCredentials(AuthScope.ANY
-            , new UsernamePasswordCredentials("tomasv", "***"));
+            , new UsernamePasswordCredentials(proxyCredentials.getUsername(), 
+                    new String(proxyCredentials.getPasword())));
         ProxyClient.ConnectResponse resp = proxyClient.connect();
         return resp.getSocket();
     }
@@ -80,82 +93,72 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
      * 
      * @param proxy Proxy settings
      */
-    public HttpProxyAwareSslSocketFactory(final Proxy proxy) {
+    public HttpProxyAwareSslSocketFactory(final Proxy proxy, 
+            final Credentials gmailCredentials) {
         super();
         this.proxy = proxy;
+        this.gmailCredentials = gmailCredentials;
     }
     
     public Socket createSocket(final Socket s, final String host, int port,
             boolean autoClose) throws IOException {
-        log.debug("CreateSocket" + s);
-        return s;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String[] getDefaultCipherSuites() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String[] getSupportedCipherSuites() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Socket createSocket(String arg0, int arg1) throws IOException,
             UnknownHostException {
-        // TODO Auto-generated method stub
-        log.debug("createSocket(String arg0, int arg1)" );
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Socket createSocket(InetAddress arg0, int arg1) throws IOException {
-        // TODO Auto-generated method stub
-        log.debug("createSocket(InetAddress arg0, int arg1)" );
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Socket createSocket(String arg0, int arg1, InetAddress arg2, int arg3)
             throws IOException, UnknownHostException {
-        // TODO Auto-generated method stub
-        log.debug("createSocket(String arg0, int arg1, InetAddress arg2, int arg3)" );
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Socket createSocket(InetAddress arg0, int arg1, InetAddress arg2,
-            int arg3) throws IOException {
-        // TODO Auto-generated method stub
-        log.debug("createSocket(InetAddress arg0, int arg1, InetAddress arg2, int arg3" );
-        return null;
+    public Socket createSocket(final InetAddress address, final int port, 
+            final InetAddress address2,
+            int port2) throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     public Proxy getProxy() {
-        // TODO Auto-generated method stub
-        return null;
+        return proxy;
     }
 
-    public void setProxy(Proxy proxy) {
-        // TODO Auto-generated method stub
-        
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
     }
 
-    public void setProxy(String proxyHost, int proxyPort) {
-        // TODO Auto-generated method stub
-        
+    public void setProxy(final String proxyHost, final int proxyPort) {
+        this.proxy = new Proxy(Type.HTTP, InetSocketAddress
+                .createUnresolved(proxyHost, proxyPort));
     }
 
-    public void setProxyCredentials(Credentials proxyCredentials) {
-        // TODO Auto-generated method stub
-        
+    public void setProxyCredentials(final Credentials proxyCredentials) {
+        proxyCredentials.validate();
+        this.proxyCredentials = proxyCredentials;
     }
 
-    public void setProxyCredentials(String username, char[] password) {
-        // TODO Auto-generated method stub
-        
+    public void setProxyCredentials(final String username, final char[] password) {
+        setProxyCredentials(new Credentials(username, password));
     }
-
 
 }

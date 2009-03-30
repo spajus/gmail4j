@@ -221,12 +221,18 @@ public class JavaMailGmailMessage extends GmailMessage {
         if (toString != null) {
             return toString.toString();
         }
-        toString = new StringBuilder();
-        toString.append("MailMessage:{from:").append(getFrom())
-            .append(";sendDate:").append(getSendDate())
-            .append(";subject:").append(getSubject())
-            .append(";preview:").append(getPreview()).append(";}");
-        return toString.toString();
+        try {
+            toString = new StringBuilder();
+            toString.append("MailMessage:{from:").append(getFrom())
+                .append(";sendDate:").append(getSendDate())
+                .append(";subject:").append(getSubject())
+                .append(";preview:").append(getPreview()).append(";}");
+            return toString.toString();
+        } catch (final Exception e) {
+            toString = null;
+            return super.toString().concat("(e:").concat(e.getMessage())
+                    .concat(")");
+        }
     }
 
 }
