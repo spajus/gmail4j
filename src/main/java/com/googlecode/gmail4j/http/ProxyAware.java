@@ -23,6 +23,15 @@ import com.googlecode.gmail4j.auth.Credentials;
 
 /**
  * Interface that provides way of setting and getting proxy and it's credentials.
+ * <p>
+ * Example use:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = //some new GmailConnection
+ *     if (conn instanceof ProxyAware) {
+ *         ((ProxyAware) conn).setProxy("proxy.example.com", 8080);
+ *         ((ProxyAware) conn).setProxyCredentials(proxyUser, proxyPass);
+ *     }
+ * </pre></blockquote></p>
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$

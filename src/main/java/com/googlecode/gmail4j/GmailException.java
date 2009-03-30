@@ -23,6 +23,7 @@ package com.googlecode.gmail4j;
  * <code>GmailException</code> Extends {@link RuntimeException} to avoid 
  * unnecessary catching, so you have to catch it explicitly on demand.
  * 
+ * @see RuntimeException
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1

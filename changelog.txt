@@ -4,6 +4,16 @@ GMAIL4J CHANGELOG
 ===================
 http://gmail4j.googlecode.com
 
+
+Changes in version 0.3 (2009-04-??)
+-------------------------------------
+* Possibility to use custom java.net.Authenticator with HttpGmailConnection
+  http://code.google.com/p/gmail4j/issues/detail?id=9
+* Possibility to send messages
+  http://code.google.com/p/gmail4j/issues/detail?id=6
+* JavaMail IMAP GmailClient implementation
+  http://code.google.com/p/gmail4j/issues/detail?id=5
+
 Changes in version 0.2 (2009-03-24)
 -------------------------------------
 * Updated Maven dependencies (ROME 0.9 to 1.0)

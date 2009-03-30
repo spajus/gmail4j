@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.googlecode.gmail4j.GmailConnection;
-import com.googlecode.gmail4j.http.HttpGmailConnection;
 
 /**
  * Proxy aware HTTP {@link Authenticator} for {@link GmailConnection} 
@@ -42,11 +41,9 @@ import com.googlecode.gmail4j.http.HttpGmailConnection;
  *     Credentials proxyLogin = new Credentials(proxyUser, proxyPass);
  *     Authenticator.setDefault(new GmailHttpAuthenticator(login, proxyLogin));
  * </pre></blockquote><p>
- * {@link HttpGmailConnection} automatically activates this.
  * 
  * @see Authenticator
  * @see Credentials
- * @see HttpGmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1

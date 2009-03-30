@@ -32,15 +32,14 @@ import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.http.ProxyAware;
 import com.googlecode.gmail4j.rss.RssGmailClient;
-import com.googlecode.gmail4j.rss.RssGmailMessage;
 import com.googlecode.gmail4j.test.TestConfigurer;
 
 /**
  * {@link RssGmailClient} tests
  * 
  * @see RssGmailClient
- * @see RssGmailMessage
  * @see Credentials
+ * @see TestConfigurer
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  */
@@ -51,6 +50,9 @@ public class RssGmailClientTest {
      */
     private static final Log log = LogFactory.getLog(RssGmailClientTest.class);
 
+    /**
+     * Tests retrieval of unread messages
+     */
     @Test
     public void testGetUnreadMessages() {
         try {

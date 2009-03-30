@@ -35,14 +35,29 @@ import com.googlecode.gmail4j.util.LoginDialog;
  */
 public class TestConfigurer {
 
+    /**
+     * Singleton instance
+     */
     private static final TestConfigurer instance = new TestConfigurer();
 
-    ResourceBundle testProperties = ResourceBundle.getBundle("test");
+    /**
+     * Test properties bundle (test.properties)
+     */
+    protected ResourceBundle testProperties = ResourceBundle.getBundle("test");
     
+    /**
+     * Gmail login credentials
+     */
     private Credentials gmailCredentials;
     
+    /**
+     * Proxy login credentials
+     */
     private Credentials proxyCredentials;
     
+    /**
+     * Private singleton constructor
+     */
     private TestConfigurer() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -51,10 +66,20 @@ public class TestConfigurer {
         }
     }
 
+    /**
+     * Singleton instance getter
+     * 
+     * @return instance
+     */
     public static TestConfigurer getInstance() {
         return instance;
     }
     
+    /**
+     * Gets Gmail credentials defined in test.properties or asks to enter them
+     * 
+     * @return Gmail Credentials
+     */
     public Credentials getGmailCredentials() {
         if (gmailCredentials == null) {
             String user = testProperties.getString("test.gmail.user");
@@ -68,18 +93,47 @@ public class TestConfigurer {
         return gmailCredentials;
     }
     
+    /**
+     * Gets test recipient's email address
+     * 
+     * @return email address
+     */
+    public String getTestRecipient() {
+        return testProperties.getString("test.email.recipient");
+    }
+    
+    /**
+     * Gets proxy host
+     * 
+     * @return host or null if not defined
+     */
     public String getProxyHost() {
         return testProperties.getString("test.proxy.host");
     }
     
+    /**
+     * Gets proxy port 
+     * 
+     * @return port
+     */
     public int getProxyPort() {
         return Integer.valueOf(testProperties.getString("test.proxy.port"));
     }
     
+    /**
+     * Tells if proxy is in use
+     * 
+     * @return true if proxy host is defined
+     */ 
     public boolean useProxy() {
         return !getProxyHost().equals("");
     }
     
+    /**
+     * Gets Proxy server credentials
+     * 
+     * @return Credentials or null if not in use
+     */
     public Credentials getProxyCredentials() {
         if (!useProxy()) {
             return null;

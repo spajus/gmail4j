@@ -35,7 +35,11 @@ import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.test.TestConfigurer;
 
 /**
- * HTTP Proxy aware {@link SSLSocketFactory} implementation
+ * HTTP Proxy aware {@link SSLSocketFactory} implementation.
+ * <p>
+ * Used for making JavaMail work through HTTP Proxy.
+ * 
+ * FIXME incomplete!
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
@@ -44,8 +48,15 @@ import com.googlecode.gmail4j.test.TestConfigurer;
 public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory 
     implements ProxyAware {
 
-    private static final Log log = LogFactory.getLog(HttpProxyAwareSslSocketFactory.class);
+    /**
+     * Logger
+     */
+    private static final Log log = LogFactory.getLog(
+            HttpProxyAwareSslSocketFactory.class);
     
+    /**
+     * Proxy to go through
+     */
     private Proxy proxy;
     
     @Override
@@ -64,12 +75,17 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
         return resp.getSocket();
     }
     
+    /**
+     * Constructor with {@link Proxy}
+     * 
+     * @param proxy Proxy settings
+     */
     public HttpProxyAwareSslSocketFactory(final Proxy proxy) {
         super();
         this.proxy = proxy;
     }
     
-    public Socket createSocket(Socket s, String host, int port,
+    public Socket createSocket(final Socket s, final String host, int port,
             boolean autoClose) throws IOException {
         log.debug("CreateSocket" + s);
         return s;
@@ -77,14 +93,11 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
 
     @Override
     public String[] getDefaultCipherSuites() {
-        // TODO Auto-generated method stub
-        log.debug("getDefaultCipherSuites" );
         return null;
     }
 
     @Override
     public String[] getSupportedCipherSuites() {
-        log.debug("getSupportedCipherSuites" );
         return null;
     }
 

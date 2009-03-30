@@ -89,6 +89,9 @@ public class RssGmailClient extends GmailClient {
     public List<GmailMessage> getUnreadMessages() {
         final List<GmailMessage> messages = new ArrayList<GmailMessage>();
         try {
+            //for ROME properties loader
+            Thread.currentThread().setContextClassLoader(getClass()
+                    .getClassLoader());
             HttpGmailConnection c = getGmailConnection();
             c.setUrl(gmailFeedUrl);
             final URLConnection con = c.openConnection();
@@ -121,6 +124,12 @@ public class RssGmailClient extends GmailClient {
             return (HttpGmailConnection) connection;
         } 
         throw new GmailException("RssGmailClient requires HttpGmailConnection!");
+    }
+
+    @Override
+    public void send(final GmailMessage message) {
+        throw new UnsupportedOperationException("RssGmailClient is not " +
+        		"capable of sending messages.");
     }
     
 }

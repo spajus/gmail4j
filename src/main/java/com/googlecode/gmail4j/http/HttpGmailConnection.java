@@ -47,12 +47,12 @@ import com.googlecode.gmail4j.auth.GmailHttpAuthenticator;
  *     conn.setProxy(proxyHost, proxyPort);
  *     conn.setProxyCredentials(proxyUser, proxyPass);
  *     client.setConnection(conn);
- * </pre></blockquote><p>
+ * </pre></blockquote>
  * 
  * @see Credentials
  * @see GmailConnection
  * @see Proxy
- * @see RssGmailClient
+ * @see ProxyAware
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.2
@@ -66,6 +66,7 @@ public class HttpGmailConnection extends GmailConnection implements ProxyAware {
      * or {@link #setLoginCredentials(String, char[])}.
      */
     public HttpGmailConnection() {
+        //nothing to do
     }
     
     /**
@@ -115,6 +116,26 @@ public class HttpGmailConnection extends GmailConnection implements ProxyAware {
     private Credentials proxyCredentials = null;
     
     /**
+     * If this is set to true, HttpGmailConnection will skip a call to
+     * <code>Authenticator.setDefault(new GmailHttpAuthenticator);</code>
+     * <p>
+     * Default is <code>false</code>
+     * 
+     * @see #useCustomAuthenticator(boolean)
+     */
+    private boolean useCustomAuthenticator = false;
+    
+    /**
+     * Sets {@link #useCustomAuthenticator(boolean)} flag. By default it's 
+     * set to <code>false</code>
+     * 
+     * @param use skip setting of default {@link Authenticator}?
+     */
+    public void useCustomAuthenticator(final boolean use) {
+        useCustomAuthenticator = use;
+    }
+    
+    /**
      * Sets {@link #url} for this HTTP connection
      * 
      * @param url URL of Gmail service you want to connect to
@@ -134,19 +155,22 @@ public class HttpGmailConnection extends GmailConnection implements ProxyAware {
      * May use {@link Proxy} if one is defined
      * 
      * @see #proxy
+     * @see #useCustomAuthenticator
      * @return connection
      * @throws IOException if opening a connection fails
      */
     public URLConnection openConnection() {
-        Authenticator.setDefault(
-                new GmailHttpAuthenticator(loginCredentials, proxyCredentials));
         try {
+            if (!useCustomAuthenticator) {
+                Authenticator.setDefault(
+                        new GmailHttpAuthenticator(loginCredentials, proxyCredentials));
+            }
             if (proxy != null) {
                 return url.openConnection(proxy); 
             } else {
                 return url.openConnection();
             }
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             throw new GmailException("Failed opening Gmail connection", e);
         }
     }

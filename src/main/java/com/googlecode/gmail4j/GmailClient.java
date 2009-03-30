@@ -22,8 +22,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.googlecode.gmail4j.rss.RssGmailClient;
-
 /**
  * Abstract Gmail client.
  * <p>
@@ -37,7 +35,6 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
  *     }
  * </pre></blockquote>
  * 
- * @see RssGmailClient
  * @see GmailMessage
  * @see GmailConnection
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
@@ -80,5 +77,12 @@ public abstract class GmailClient {
      * @return List of unread messages
      */
     public abstract List<GmailMessage> getUnreadMessages();
+    
+    /**
+     * Sends the message
+     * 
+     * @param message Message to be sent
+     */
+    public abstract void send(final GmailMessage message);
     
 }

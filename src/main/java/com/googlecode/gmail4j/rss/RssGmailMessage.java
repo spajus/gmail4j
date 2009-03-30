@@ -45,7 +45,6 @@ import com.sun.syndication.feed.synd.SyndPerson;
  * </pre></blockquote></p>
  * 
  * @see GmailMessage
- * @see RssGmailClient
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1

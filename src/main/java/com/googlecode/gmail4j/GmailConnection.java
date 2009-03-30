@@ -18,15 +18,23 @@
 package com.googlecode.gmail4j;
 
 import com.googlecode.gmail4j.auth.Credentials;
-import com.googlecode.gmail4j.http.HttpGmailConnection;
 
 /**
  * Gmail service connection. 
  * <p>
  * It stores Gmail account {@link Credentials}. Can be extended to use certain
- * protocols, proxies, etc. 
+ * protocols, proxies, etc.
+ * <p>
+ * Example use:
+ * <p><blockquote><pre>
+ *     GmailClient gmailClient = //.. some new instance of GmailClient
+ *     GmailConnection conn = new GmailConnection();
+ *     conn.setLoginCredentials("username", "password".toCharArray());
+ *     gmailClient.setConnection(conn);
+ * </pre></blockquote></p> 
  * 
- * @see HttpGmailConnection
+ * @see GmailClient
+ * @see Credentials
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.2

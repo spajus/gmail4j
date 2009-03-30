@@ -20,8 +20,6 @@ package com.googlecode.gmail4j;
 import java.util.Date;
 import java.util.List;
 
-import com.googlecode.gmail4j.rss.RssGmailClient;
-
 /**
  * Gmail message interface. 
  * <p>
@@ -29,7 +27,7 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
  * {@link #getContentText()}) throw {@link UnsupportedOperationException}
  * for those methods by default. 
  * <p>
- * Example use:
+ * Example: Print unread messages:
  * <p><blockquote><pre>
  *     GmailClient client = //...instantate
  *     //configure the client...
@@ -41,10 +39,19 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
  *         System.out.println(message.getLink());
  *         System.out.println(message.getContentText());
  *     }
+ * </pre></blockquote><p>
+ * Example: Send a simple message:
+ * <p><blockquote><pre>
+ *     GmailClient client = //...instantate
+ *     //configure the client...
+ *     GmailMessage message = //new GmailMessage instance
+ *     message.setSubject("Subject");
+ *     message.setContentText("Content");
+ *     message.addTo(new EmailAddress("j.smith@example.com");
+ *     client.send(message);
  * </pre></blockquote></p>
  * 
  * @see GmailMessage
- * @see RssGmailClient
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  * @since 0.1
@@ -109,18 +116,6 @@ public abstract class GmailMessage {
     }
     
     /**
-     * Sets message recipient's {@link EmailAddress}
-     * 
-     * @param to Recipient's email address
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
-     */
-    public void setTo(final EmailAddress to) {
-        throw new UnsupportedOperationException("This GmailMessage " +
-                "implementation does not support setTo()");
-    }     
-    
-    /**
      * Gets a list of message "Cc:" recipient {@link EmailAddress}<code>es</code>
      * 
      * @return list of message "Cc:" recipient email addresses
@@ -154,7 +149,19 @@ public abstract class GmailMessage {
     public void addBcc(final EmailAddress bcc) {
         throw new UnsupportedOperationException("This GmailMessage " +
                 "implementation does not support addBcc()");
-    }      
+    }    
+    
+    /**
+     * Adds message recipient's {@link EmailAddress}
+     * 
+     * @param to Recipient's email address
+     * @throws UnsupportedOperationException if implementation does not provide
+     *         this feature.
+     */
+    public void addTo(final EmailAddress to) {
+        throw new UnsupportedOperationException("This GmailMessage " +
+                "implementation does not support addTo()");
+    }       
 
     /**
      * Gets a direct link to this Gmail message
