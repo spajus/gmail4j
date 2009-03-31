@@ -256,12 +256,13 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware{
             if (mailSession == null) {
                 properties = System.getProperties();
                 properties.put("mail.transport.protocol", "smtps");
+                properties.put("mail.debug", true);
                 properties.put("mail.smtps.host", gmailSmtpHost);
                 properties.put("mail.smtps.port", gmailSmtpPort);
                 if (proxy != null) {
                     log.debug("Setting proxy: " + proxy.address());
                     final SocketFactory sf = 
-                        new HttpProxyAwareSslSocketFactory(proxy, loginCredentials);
+                        new HttpProxyAwareSslSocketFactory(proxy, proxyCredentials);
                     properties.put("mail.imap.host", gmailImapHost);
                     properties.put("mail.imaps.ssl.socketFactory", sf);
                     properties.put("mail.imaps.ssl.socketFactory.fallback", "false");

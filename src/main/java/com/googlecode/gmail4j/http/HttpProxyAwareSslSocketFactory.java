@@ -27,14 +27,15 @@ import java.net.Proxy.Type;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.ProxyClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.auth.Credentials;
-import com.googlecode.gmail4j.test.TestConfigurer;
 
 /**
  * HTTP Proxy aware {@link SSLSocketFactory} implementation.
@@ -62,42 +63,47 @@ public class HttpProxyAwareSslSocketFactory extends SSLSocketFactory
     private Proxy proxy;
     
     /**
-     * Gmail credentials
-     */
-    private Credentials gmailCredentials;
-    
-    /**
      * Proxy username/password
      */
     private Credentials proxyCredentials;
     
     @Override
     public Socket createSocket() throws IOException {
-        //FIXME doesn't work
+        //FIXME won't work..
         log.debug("Creating socket! with proxy: " + proxy.address());
+        InetSocketAddress addr = (InetSocketAddress) proxy.address();
         ProxyClient proxyClient = new ProxyClient();
-        proxyClient.getHostConfiguration().setHost("nmap.gmail.com", 993);
-        proxyClient.getHostConfiguration().setProxy("**", 123);
-        proxyClient.getState().setCredentials(new AuthScope("172.16.1.99", 993),
-                new UsernamePasswordCredentials(TestConfigurer.getInstance().getGmailCredentials().getUsername(), 
-                        new String(TestConfigurer.getInstance().getGmailCredentials().getPasword())));
-        proxyClient.getState().setProxyCredentials(AuthScope.ANY
-            , new UsernamePasswordCredentials(proxyCredentials.getUsername(), 
-                    new String(proxyCredentials.getPasword())));
+        proxyClient.getHostConfiguration().setHost("imap.gmail.com", 993);
+        proxyClient.getHostConfiguration().setProxy(addr.getHostName(), 
+                addr.getPort());
+        if (proxyCredentials != null) {
+            proxyClient.getState().setProxyCredentials(
+                    AuthScope.ANY, 
+                    new UsernamePasswordCredentials(proxyCredentials.getUsername(), 
+                        new String(proxyCredentials.getPasword())));
+        }
+        log.debug("Trying to connect to proxy");
         ProxyClient.ConnectResponse resp = proxyClient.connect();
+        if (resp.getConnectMethod().getStatusCode() != HttpStatus.SC_OK) {
+            log.error("Failed to connect. " + resp.getConnectMethod().getStatusLine());
+            throw new GmailException("Failed connecting to IMAP through proxy: " 
+                    + resp.getConnectMethod().getStatusLine());
+        }
+        log.debug("Connected, returning socket");
         return resp.getSocket();
     }
     
     /**
-     * Constructor with {@link Proxy}
+     * Constructor with {@link Proxy} and Proxy {@link Credentials}
      * 
      * @param proxy Proxy settings
+     * @param proxyCredentials Proxy credentials (null if none)
      */
     public HttpProxyAwareSslSocketFactory(final Proxy proxy, 
-            final Credentials gmailCredentials) {
+            final Credentials proxyCredentials) {
         super();
         this.proxy = proxy;
-        this.gmailCredentials = gmailCredentials;
+        this.proxyCredentials = proxyCredentials;
     }
     
     public Socket createSocket(final Socket s, final String host, int port,
