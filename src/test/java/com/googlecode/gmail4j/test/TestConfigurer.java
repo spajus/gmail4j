@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.UIManager;
 
+import org.junit.Ignore;
+
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.util.LoginDialog;
 
@@ -32,6 +34,7 @@ import com.googlecode.gmail4j.util.LoginDialog;
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
  * @version $Id$
  */
+@Ignore
 public class TestConfigurer {
 
     /**
