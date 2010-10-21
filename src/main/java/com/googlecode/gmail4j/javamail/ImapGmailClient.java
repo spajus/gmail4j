@@ -18,8 +18,6 @@ package com.googlecode.gmail4j.javamail;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -32,6 +30,9 @@ import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.util.CommonConstants;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * JavaMail IMAP based {@link GmailClient}
@@ -73,6 +74,11 @@ import com.googlecode.gmail4j.util.CommonConstants;
  * @since 0.3
  */
 public class ImapGmailClient extends GmailClient {
+
+     /**
+     * Logger
+     */
+    private static final Log LOG = LogFactory.getLog(ImapGmailClient.class);
 
     @Override
     public List<GmailMessage> getUnreadMessages() {
@@ -184,12 +190,10 @@ public class ImapGmailClient extends GmailClient {
                 if (folder.isOpen()) {
                     folder.close(true);
                 } else {
-                    Logger.getLogger(ImapGmailClient.class.getName()).log(
-                            Level.INFO, "{0} folder is already open", folder.getName());
+                    LOG.info("{0} folder is already open" + folder.getName());
                 }
             } catch (Exception e) {
-                Logger.getLogger(ImapGmailClient.class.getName()).log(
-                        Level.SEVERE, "Cannot close folder : " + folder.getName(), e);
+                LOG.warn("Cannot close folder : " + folder.getName(), e);
             }
         }
     }
