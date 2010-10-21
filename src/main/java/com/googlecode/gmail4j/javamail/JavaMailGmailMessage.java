@@ -220,11 +220,15 @@ public class JavaMailGmailMessage extends GmailMessage {
         }
         try {
             toString = new StringBuilder();
-            toString.append("MailMessage:{from:").append(getFrom()).append(";sendDate:").append(getSendDate()).append(";subject:").append(getSubject()).append(";preview:").append(getPreview()).append(";}");
+            toString.append("MailMessage:{from:").append(getFrom())
+                    .append(";sendDate:").append(getSendDate())
+                    .append(";subject:").append(getSubject())
+                    .append(";preview:").append(getPreview()).append(";}");
             return toString.toString();
         } catch (final Exception e) {
             toString = null;
-            return super.toString().concat("(e:").concat(e.getMessage()).concat(")");
+            return super.toString().concat("(e:").concat(e.getMessage())
+                    .concat(")");
         }
     }
 

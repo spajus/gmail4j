@@ -220,9 +220,9 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
         try {
             // if stort object instance is not null and the service connection state
             // is connected then close this service and terminate its connection.
-            // Note : due to security concerns gmail imap only allow max 10 connections
-            // because of this reason any existing connection that is open
-            // should terminate.
+            // Note : due to security concerns gmail imap only allow max 10 
+            // connections because of this reason any existing connection that 
+            // is open should terminate.
             if (isConnected()) {
                 disconnect();
             }
@@ -232,9 +232,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
                     new String(loginCredentials.getPasword()));
             setConnected(store.isConnected());
         } catch (final Exception e) {
-            System.out.println("openGmailStore error : ");
-            e.printStackTrace();
-            //throw new GmailException("Failed opening Gmail IMAP store", e);
+            throw new GmailException("Failed opening Gmail IMAP store", e);
         }
         return store;
     }
