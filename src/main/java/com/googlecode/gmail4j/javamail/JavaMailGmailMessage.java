@@ -57,17 +57,15 @@ public class JavaMailGmailMessage extends GmailMessage {
      * Original JavaMail {@link Message}
      */
     final Message source;
-    
     /**
      * Cache for {@link #toString()}
      */
     private StringBuilder toString;
-    
     /**
      * Sender's email address
      */
     private EmailAddress from;
-    
+
     /**
      * Constructor with source {@link Message}
      * 
@@ -76,7 +74,7 @@ public class JavaMailGmailMessage extends GmailMessage {
     public JavaMailGmailMessage(final Message source) {
         this.source = source;
     }
-    
+
     /**
      * Constructor that creates a new empty JavaMail {@link MimeMessage}
      */
@@ -92,22 +90,22 @@ public class JavaMailGmailMessage extends GmailMessage {
     public Message getMessage() {
         return source;
     }
-    
+
     @Override
     public void addTo(final EmailAddress to) {
         try {
             if (to.hasName()) {
-                source.addRecipient(RecipientType.TO, 
+                source.addRecipient(RecipientType.TO,
                         new InternetAddress(to.getEmail(), to.getName()));
             } else {
-                source.addRecipient(RecipientType.TO, 
+                source.addRecipient(RecipientType.TO,
                         new InternetAddress(to.getEmail()));
             }
         } catch (final Exception e) {
             throw new GmailException("Failed adding To recipient", e);
         }
     }
-    
+
     @Override
     public List<EmailAddress> getTo() {
         try {
@@ -116,7 +114,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed getting List of To recipients", e);
         }
     }
-    
+
     @Override
     public List<EmailAddress> getCc() {
         try {
@@ -124,8 +122,8 @@ public class JavaMailGmailMessage extends GmailMessage {
         } catch (final Exception e) {
             throw new GmailException("Failed getting List of Cc recipients", e);
         }
-    }    
-    
+    }
+
     /**
      * Gets a {@link List} of {@link EmailAddress} by {@link RecipientType}
      * 
@@ -133,7 +131,7 @@ public class JavaMailGmailMessage extends GmailMessage {
      * @return List of Addresses
      * @throws MessagingException in case something is wrong
      */
-    private List<EmailAddress> getAddresses(final RecipientType type) 
+    private List<EmailAddress> getAddresses(final RecipientType type)
             throws MessagingException {
         final List<EmailAddress> addresses = new ArrayList<EmailAddress>();
         for (final Address addr : source.getRecipients(type)) {
@@ -156,7 +154,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed setting from address", e);
         }
     }
-    
+
     @Override
     public EmailAddress getFrom() {
         if (from == null) {
@@ -169,7 +167,7 @@ public class JavaMailGmailMessage extends GmailMessage {
         }
         return from;
     }
-    
+
     @Override
     public Date getSendDate() {
         try {
@@ -178,7 +176,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed getting send date", e);
         }
     }
-    
+
     @Override
     public void setSubject(final String subject) {
         try {
@@ -196,7 +194,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed getting message subject", e);
         }
     }
-    
+
     @Override
     public void setContentText(final String contentText) {
         try {
@@ -205,7 +203,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed settting content text", e);
         }
     }
-    
+
     @Override
     public String getPreview() {
         try {
@@ -214,7 +212,7 @@ public class JavaMailGmailMessage extends GmailMessage {
             throw new GmailException("Failed getting message preview", e);
         }
     }
-    
+
     @Override
     public String toString() {
         if (toString != null) {
@@ -222,16 +220,20 @@ public class JavaMailGmailMessage extends GmailMessage {
         }
         try {
             toString = new StringBuilder();
-            toString.append("MailMessage:{from:").append(getFrom())
-                .append(";sendDate:").append(getSendDate())
-                .append(";subject:").append(getSubject())
-                .append(";preview:").append(getPreview()).append(";}");
+            toString.append("MailMessage:{from:").append(getFrom()).append(";sendDate:").append(getSendDate()).append(";subject:").append(getSubject()).append(";preview:").append(getPreview()).append(";}");
             return toString.toString();
         } catch (final Exception e) {
             toString = null;
-            return super.toString().concat("(e:").concat(e.getMessage())
-                    .concat(")");
+            return super.toString().concat("(e:").concat(e.getMessage()).concat(")");
         }
     }
 
+    @Override
+    public int getMessageNumber() {
+        try {
+            return source.getMessageNumber();
+        } catch (final Exception e) {
+            throw new GmailException("Failed getting message number", e);
+        }
+    }
 }

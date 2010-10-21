@@ -16,6 +16,9 @@
  */
 package com.googlecode.gmail4j.test.imap;
 
+import com.googlecode.gmail4j.EmailAddress;
+import com.googlecode.gmail4j.GmailClient;
+import com.googlecode.gmail4j.GmailConnection;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -25,9 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import com.googlecode.gmail4j.EmailAddress;
-import com.googlecode.gmail4j.GmailClient;
-import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.ProxyAware;
@@ -52,7 +52,6 @@ public class ImapGmailClientTest {
      * Test configuration
      */
     private TestConfigurer conf = TestConfigurer.getInstance();
-
     /**
      * Logger
      */
@@ -63,9 +62,10 @@ public class ImapGmailClientTest {
      */
     @Test
     public void testGetUnreadMessages() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
         try {
-            final ImapGmailClient client = new ImapGmailClient();
-            final ImapGmailConnection connection = new ImapGmailConnection();
             connection.setLoginCredentials(conf.getGmailCredentials());
             if (conf.useProxy()) {
                 connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
@@ -78,13 +78,16 @@ public class ImapGmailClientTest {
                 log.debug(message);
             }
             assertNotNull("Messages are not null", messages);
-            connection.disconnect();
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
         }
     }
-    
+
     /**
      * Test a sending of a simple message
      */
@@ -106,5 +109,39 @@ public class ImapGmailClientTest {
         msg.addTo(new EmailAddress(conf.getTestRecipient()));
         client.send(msg);
     }
-    
+
+    /**
+     * Tests moving of message(s) to [Gmail]/Trash
+     */
+    @Test
+    public void testMoveToTrash() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            log.debug("Starting to move message(s) to trash folder");
+            // moving single GmailMessage to trash folder
+            //GmailMessage[] jmgms = new JavaMailGmailMessage[1];
+            //jmgms[0] = messages.get(0);
+            //client.moveToTrash(jmgms);
+            client.moveToTrash(messages.toArray(new JavaMailGmailMessage[0]));
+
+            log.debug("Finished moving all selected message(s) to trash");
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
 }

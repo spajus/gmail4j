@@ -117,4 +117,9 @@ public class RssGmailMessage extends GmailMessage {
         return toString.toString();
     }
 
+    @Override
+    public int getMessageNumber() {
+        throw new UnsupportedOperationException("RssGmailClient is not " +
+        		"capable of getting message number.");
+    }
 }
