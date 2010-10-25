@@ -101,11 +101,14 @@ public class GmailConnection {
             final char[] password) {
         setLoginCredentials(new Credentials(username, password));
     }
-    
+
+    //FIXME Use Finalization Only When You Must.
+    // Don't rely on finalizers to release non-memory resources.
+    /**
     @Override
     protected void finalize() throws Throwable {
         loginCredentials.dispose();
         super.finalize();
-    }
+    }**/
     
 }
