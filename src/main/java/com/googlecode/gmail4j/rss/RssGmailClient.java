@@ -87,13 +87,14 @@ public class RssGmailClient extends GmailClient {
     @Override
     public List<GmailMessage> getUnreadMessages() {
         final List<GmailMessage> messages = new ArrayList<GmailMessage>();
+        HttpGmailConnection c = null;
         try {
             //for ROME properties loader
             Thread.currentThread().setContextClassLoader(getClass()
                     .getClassLoader());
-            HttpGmailConnection c = getGmailConnection();
+            c = getGmailConnection();
             c.setUrl(gmailFeedUrl);
-            final URLConnection con = c.openConnection();
+            final URLConnection con = c.openConnection(); 
             final SyndFeedInput feedInput = new SyndFeedInput();
             final SyndFeed gmail = feedInput.build(new XmlReader(con));
             for (final Object entry : gmail.getEntries()) {

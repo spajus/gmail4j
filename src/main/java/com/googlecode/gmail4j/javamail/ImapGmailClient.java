@@ -126,13 +126,25 @@ public class ImapGmailClient extends GmailClient {
     @Override
     public void send(final GmailMessage message) {
         if (message instanceof JavaMailGmailMessage) {
+            Transport transport = null;
             try {
                 final JavaMailGmailMessage msg = (JavaMailGmailMessage) message;
-                getGmailTransport().sendMessage(
+                transport = getGmailTransport();
+                transport.sendMessage(
                         msg.getMessage(),
                         msg.getMessage().getAllRecipients());
             } catch (final Exception e) {
                 throw new GmailException("Failed sending message: " + message, e);
+            }
+            finally{
+                if(transport.isConnected())
+                {
+                    try {
+                        transport.close();
+                    } catch (final Exception e) {
+                        LOG.warn("Cannot Close ImapGmailConnection : " + transport, e);
+                    }
+                }
             }
         } else {
             throw new GmailException("ImapGmailClient requires JavaMailGmailMessage!");
@@ -143,13 +155,14 @@ public class ImapGmailClient extends GmailClient {
      * Moves the given {@link GmailMessage}'s to Trash the folder.
      *
      * @param gmailMessages {@link GmailMessage} message(s)
-     * @throws GmailException if {@link GmailMessage} array is null/length <= 0
-     * or unable to move GmailMessage(s) to the Trash Folder
+     * @throws GmailException if unable to move {@link GmailMessage}'s to
+     * the Trash Folder
      */
     public void moveToTrash(final GmailMessage[] gmailMessages) {
         if (gmailMessages == null || gmailMessages.length <= 0) {
-            throw new GmailException("ImapGmailClient requires GmailMessage(s)"
+            LOG.warn("ImapGmailClient requires GmailMessage(s) to move"
                     + " to move messages to trash folder");
+            return;
         }
         Folder inbox = null;
         try {

@@ -35,6 +35,7 @@ import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpProxyAwareSslSocketFactory;
 import com.googlecode.gmail4j.http.ProxyAware;
+import com.googlecode.gmail4j.util.CommonConstants;
 
 /**
  * JavaMail based IMAP {@link GmailConnection} implementation.
@@ -61,6 +62,7 @@ import com.googlecode.gmail4j.http.ProxyAware;
  */
 public class ImapGmailConnection extends GmailConnection implements ProxyAware {
 
+
     /**
      * Logger
      */
@@ -72,6 +74,14 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setGmailImapHost(String)
      */
     private String gmailImapHost = "imap.gmail.com";
+    /**
+     * Gmail IMAP port for mail receiving. Should not be set unless Gmail server
+     * has moved.
+     *
+     * @see #getGmailImapPort()
+     * @see #setGmailImapPort(int)
+     */
+    private int gmailImapPort = 993;
     /**
      * Gmail SMTP host for mail sending. Should not be set unless Gmail server 
      * has moved.
@@ -212,6 +222,27 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
     }
 
     /**
+     * Sets {@link #gmailImapPort}.
+     * <p>
+     * You don't have to set Gmail IMAP port, unless it differs from the
+     * predefined value (993).
+     *
+     * @param gmailImapPort Gmail IMAP port
+     */
+    public void setGmailImapPort(final int gmailImapPort) {
+        this.gmailImapPort = gmailImapPort;
+    }
+
+    /**
+     * Gets {@link #gmailImapPort}
+     *
+     * @return Gmail IMAP port
+     */
+    public int getGmailImapPort() {
+        return gmailImapPort;
+    }
+
+    /**
      * Opens Gmail {@link Store}
      * 
      * @return singleton instance of Gmail {@link Store}
@@ -225,10 +256,14 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
             // is open should terminate.
             if (isConnected()) {
                 disconnect();
-            }
-            
+            }            
             store = getSession().getStore("imaps");
-            store.connect(gmailImapHost, loginCredentials.getUsername().concat("@gmail.com"),
+            store.addConnectionListener(new ImapConnectionHandler(
+                    new ConnectionInfo(loginCredentials.getUsername(),
+                    gmailImapHost,
+                    gmailImapPort)));
+            store.connect(gmailImapHost, loginCredentials.getUsername()
+                    .concat(CommonConstants.GMAIL_EXTENTION),
                     new String(loginCredentials.getPasword()));
             setConnected(store.isConnected());
         } catch (final Exception e) {
@@ -245,6 +280,10 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
     public Transport getTransport() {
         try {
             final Transport transport = getSession().getTransport();
+            transport.addConnectionListener(new ImapConnectionHandler(
+                    new ConnectionInfo(loginCredentials.getUsername(),
+                    gmailSmtpHost,
+                    gmailSmtpPort)));
             transport.connect(loginCredentials.getUsername(),
                     new String(loginCredentials.getPasword()));
             return transport;
@@ -273,7 +312,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
                     properties.put("mail.imap.host", gmailImapHost);
                     properties.put("mail.imaps.ssl.socketFactory", sf);
                     properties.put("mail.imaps.ssl.socketFactory.fallback", "false");
-                    properties.put("mail.imaps.ssl.socketFactory.port", "993");
+                    properties.put("mail.imaps.ssl.socketFactory.port", gmailImapPort);
                 }
                 if (proxyCredentials != null) {
                     mailSession = Session.getInstance(properties);

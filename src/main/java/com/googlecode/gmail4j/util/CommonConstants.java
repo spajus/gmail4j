@@ -32,4 +32,5 @@ public class CommonConstants {
 
     public static final String GMAIL_INBOX = "INBOX";
     public static final String GMAIL_TRASH = "[Gmail]/Trash";
+    public static final String GMAIL_EXTENTION = "@gmail.com";
 }
