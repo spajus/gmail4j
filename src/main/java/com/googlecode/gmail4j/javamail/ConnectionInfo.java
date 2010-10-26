@@ -43,11 +43,7 @@ public class ConnectionInfo implements Serializable {
      * Gmail SMTP/IMAP port for mail sending/receiving.
      */
     private final int port;
-    /**
-     * Cache for {@link #toString()}
-     */
-    private StringBuilder toString;
-
+    
     /**
      * Constructor with Gmail user, host and port
      *
@@ -90,11 +86,8 @@ public class ConnectionInfo implements Serializable {
 
     @Override
     public String toString() {
-        if (toString != null) {
-            return toString.toString();
-        }
+        StringBuilder toString = new StringBuilder();
         try {
-            toString = new StringBuilder();
             toString.append("ConnectionInfo:{user:").append(getUser())
                     .append(";host:").append(getHost())
                     .append(";port:").append(getPort())

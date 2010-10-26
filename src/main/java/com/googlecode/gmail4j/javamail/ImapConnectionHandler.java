@@ -54,6 +54,9 @@ public class ImapConnectionHandler extends ConnectionAdapter {
      * @see #ConnectionInfo(String user, String host, int port)
      */
     private final ConnectionInfo connectionInfo;
+    /**
+     * Holds the current connection service start time in milli seconds.
+     */
     private long startTime;
 
     /**
