@@ -16,6 +16,8 @@
  */
 package com.googlecode.gmail4j;
 
+import com.googlecode.gmail4j.javamail.MessageHeaderInfo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -216,4 +218,16 @@ public abstract class GmailMessage {
      * @return Message number
      */
     public abstract int getMessageNumber();
+
+    /**
+     * Gets message headers from this part and wrap as {@link MessageHeaderInfo}.
+     * 
+     * @return {@link MessageHeaderInfo} object
+     * @throws UnsupportedOperationException if implementation does not provide
+     *         this functionality
+     */
+    public MessageHeaderInfo getMessageHeaderInfo(){
+        throw new UnsupportedOperationException("This GmailMessage "
+                + "implementation does not provide getMessageHeaderInfo()");
+    }
 }

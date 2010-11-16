@@ -18,6 +18,7 @@ package com.googlecode.gmail4j.javamail;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.mail.Address;
@@ -27,11 +28,16 @@ import javax.mail.Session;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.Header;
 
 import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
+import com.googlecode.gmail4j.util.CommonConstants;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 /**
  * <a href="http://java.sun.com/products/javamail/">JavaMail</a> implementation 
  * of {@link GmailMessage}
@@ -52,7 +58,7 @@ import com.googlecode.gmail4j.GmailMessage;
  * @since 0.3
  */
 public class JavaMailGmailMessage extends GmailMessage {
-
+        
     /**
      * Original JavaMail {@link Message}
      */
@@ -239,5 +245,52 @@ public class JavaMailGmailMessage extends GmailMessage {
         } catch (final Exception e) {
             throw new GmailException("Failed getting message number", e);
         }
+    }
+
+    @Override
+    public MessageHeaderInfo getMessageHeaderInfo() {
+        MessageHeaderInfo headerInfo = null;
+        try {
+            Map<String, String> registry = new HashMap<String, String>();
+
+            // message header tags used to get header information
+            String[] headers = new String[]{
+                CommonConstants.MESSAGE_ID,
+                CommonConstants.MESSAGE_SUBJECT,
+                CommonConstants.MESSAGE_IN_REPLY_TO,
+                CommonConstants.MESSAGE_REFERENCES};
+
+            Enumeration<Header> matchingHeaders =
+                    source.getMatchingHeaders(headers);
+
+            while (matchingHeaders.hasMoreElements()) {
+                Header header = matchingHeaders.nextElement();
+                registry.put(header.getName(), header.getValue());
+            }
+
+            if (!registry.isEmpty()) {
+                String messageId = registry.get(CommonConstants.MESSAGE_ID);
+                String subject = registry.get(CommonConstants.MESSAGE_SUBJECT);
+                String inReplyTo = registry.get(CommonConstants.MESSAGE_IN_REPLY_TO);
+                String references = registry.get(CommonConstants.MESSAGE_REFERENCES);
+
+                if (messageId != null) {
+                    headerInfo = new MessageHeaderInfo(messageId);
+                    headerInfo.setSubject(subject);
+                    headerInfo.setInReplyTo(inReplyTo);
+
+                    if (references != null) {
+                        StringTokenizer st = new StringTokenizer(references, "\n");
+                        while (st.hasMoreTokens()) {
+                            String reference = st.nextToken().trim();
+                            headerInfo.addReferences(reference);
+                        }
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            throw new GmailException("Failed getting message header information", e);
+        }
+        return headerInfo;
     }
 }
