@@ -85,7 +85,7 @@ public class ImapGmailClient extends GmailClient {
         try {
             final List<GmailMessage> unread = new ArrayList<GmailMessage>();
             final Store store = openGmailStore();
-            final Folder folder = store.getFolder(CommonConstants.GMAIL_INBOX);
+            final Folder folder = getFolder(CommonConstants.GMAIL_INBOX,store);
             folder.open(Folder.READ_ONLY);
             for (final Message msg : folder.search(new FlagTerm(
                     new Flags(Flags.Flag.SEEN), false))) {
@@ -167,7 +167,7 @@ public class ImapGmailClient extends GmailClient {
         Folder inbox = null;
         try {
             final Store store = openGmailStore();
-            inbox = store.getFolder(CommonConstants.GMAIL_INBOX);
+            inbox = getFolder(CommonConstants.GMAIL_INBOX,store);
             inbox.open(Folder.READ_WRITE);
 
             List<Message> markedMsgList = new ArrayList<Message>();
@@ -179,7 +179,7 @@ public class ImapGmailClient extends GmailClient {
                 markedMsgList.add(message);
             }
 
-            Folder trash = store.getFolder(CommonConstants.GMAIL_TRASH);
+            Folder trash = getFolder(CommonConstants.GMAIL_TRASH,store);
             // move the marked messages to trash folder
             if (!markedMsgList.isEmpty()) {
                 inbox.copyMessages(markedMsgList.toArray(new Message[0]), trash);
@@ -192,6 +192,33 @@ public class ImapGmailClient extends GmailClient {
         }
     }
 
+     /**
+     * Return the {@link Folder} object corresponding to the given name. 
+     * Note that a {@link Folder} object is returned only if the named 
+     * {@link Folder} physically exist on the Store.
+     * 
+     * @param name The name of the {@link Folder}
+     * @param store instance of Gmail {@link Store}
+     */
+    private Folder getFolder(final String name, final Store store) {
+        if (store == null) {
+            throw new GmailException("Gmail IMAP store cannot be null");
+        }
+        if (name != null) {
+            try {
+
+                Folder folder = store.getFolder(name);
+                if (folder.exists()) {
+                    return folder;
+                }
+            } catch (final Exception e) {
+                throw new GmailException("ImapGmailClient failed getting "
+                        + "Folder: " + name, e);
+            }
+        }
+        throw new GmailException("ImapGmailClient Folder name cannot be null");
+    }
+    
     /**
      * Close any {@link Folder} that contain {@link Message} and are in open state.
      *
