@@ -66,6 +66,16 @@ import org.apache.commons.logging.LogFactory;
  *     List&lt;GmailMessage&gt; messages = client.getUnreadMessages();
  *     client.moveToTrash(messages.toArray(new JavaMailGmailMessage[0]));
  * </pre></blockquote></p>
+ * Example of marking a message as read:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     List&lt;GmailMessage&gt; messages = client.getUnreadMessages();
+ *     // now get a GmailMessage item and pass it's message number
+ *     client.markAsRead(message.getMessageNumber());
+ * </pre></blockquote></p>
  * 
  * @see GmailClient
  * @see ImapGmailConnection
@@ -191,6 +201,33 @@ public class ImapGmailClient extends GmailClient {
             closeFolder(inbox);
         }
     }
+    
+    /**
+     * Mark a given {@link GmailMessage} as read.
+     *
+     * @param messageNumber the message number. ex:{@code gmailMessage.getMessageNumber()}
+     * @throws GmailException if unable to mark {@link GmailMessage} as read
+     */
+    public void markAsRead(int messageNumber) {
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid GmailMessage number");
+        }
+        Folder inbox = null;
+        try {
+            final Store store = openGmailStore();
+            inbox = getFolder(CommonConstants.GMAIL_INBOX, store);
+            inbox.open(Folder.READ_WRITE);
+            Message message = inbox.getMessage(messageNumber);
+            if (!message.isSet(Flags.Flag.SEEN)) {
+                message.setFlag(Flags.Flag.SEEN, true);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed marking"
+                    + " GmailMessage as read : " + e);
+        } finally {
+            closeFolder(inbox);
+        }
+    }
 
      /**
      * Return the {@link Folder} object corresponding to the given name. 
@@ -200,22 +237,24 @@ public class ImapGmailClient extends GmailClient {
      * @param name The name of the {@link Folder}
      * @param store instance of Gmail {@link Store}
      */
-    private Folder getFolder(final String name, final Store store) {
+    private Folder getFolder(String name, final Store store) {
         if (store == null) {
             throw new GmailException("Gmail IMAP store cannot be null");
         }
-        if (name != null) {
-            try {
-
-                Folder folder = store.getFolder(name);
-                if (folder.exists()) {
-                    return folder;
-                }
-            } catch (final Exception e) {
-                throw new GmailException("ImapGmailClient failed getting "
-                        + "Folder: " + name, e);
-            }
+        if (name == null) {
+            name = CommonConstants.GMAIL_INBOX;
         }
+        try {
+
+            Folder folder = store.getFolder(name);
+            if (folder.exists()) {
+                return folder;
+            }
+        } catch (final Exception e) {
+            throw new GmailException("ImapGmailClient failed getting "
+                    + "Folder: " + name, e);
+        }
+
         throw new GmailException("ImapGmailClient Folder name cannot be null");
     }
     

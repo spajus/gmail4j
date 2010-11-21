@@ -109,6 +109,40 @@ public class ImapGmailClientTest {
         msg.addTo(new EmailAddress(conf.getTestRecipient()));
         client.send(msg);
     }
+    
+    /**
+     * Tests marking of message as read
+     */
+    @Test
+    public void testMarkAsRead() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            if (messages.size() > 0) {
+                log.debug("Starting to mark message as read");
+                GmailMessage gmailMessage = messages.get(1);
+                log.debug("Msg Subject: " + gmailMessage.getSubject());
+                client.markAsRead(gmailMessage.getMessageNumber());
+                log.debug("Finished marking message as read");
+            }            
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
 
     /**
      * Tests moving of message(s) to [Gmail]/Trash
