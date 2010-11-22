@@ -75,6 +75,14 @@ import org.apache.commons.logging.LogFactory;
  *     // now get a GmailMessage item and pass it's message number
  *     client.markAsRead(message.getMessageNumber());
  * </pre></blockquote></p>
+ * Example of marking all messages as read:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     client.markAllAsRead();
+ * </pre></blockquote></p>
  * 
  * @see GmailClient
  * @see ImapGmailConnection
@@ -158,6 +166,7 @@ public class ImapGmailClient extends GmailClient {
     public void send(final GmailMessage message) {
         if (message instanceof JavaMailGmailMessage) {
             Transport transport = null;
+            
             try {
                 final JavaMailGmailMessage msg = (JavaMailGmailMessage) message;
                 transport = getGmailTransport();
@@ -196,6 +205,7 @@ public class ImapGmailClient extends GmailClient {
             return;
         }
         Folder folder = null;
+        
         try {
             final Store store = openGmailStore();
             folder = getFolder(this.name,store);
@@ -238,6 +248,7 @@ public class ImapGmailClient extends GmailClient {
             throw new GmailException("ImapGmailClient invalid GmailMessage number");
         }
         Folder folder = null;
+        
         try {
             final Store store = openGmailStore();
             folder = getFolder(this.name, store);
@@ -249,6 +260,30 @@ public class ImapGmailClient extends GmailClient {
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed marking"
                     + " GmailMessage as read : " + e);
+        } finally {
+            closeFolder(folder);
+        }
+    }
+    
+    /**
+     * Mark all {@link GmailMessage}(s) as read in a folder.
+     *
+     * @throws GmailException if unable to mark all {@link GmailMessage} as read
+     */
+    public void markAllAsRead() {
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.name, store);
+            folder.open(Folder.READ_WRITE);
+            for (final Message message : folder.search(new FlagTerm(
+                    new Flags(Flags.Flag.SEEN), false))) {
+                message.setFlag(Flags.Flag.SEEN, true);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed marking"
+                    + " all GmailMessage as read : " + e);
         } finally {
             closeFolder(folder);
         }
