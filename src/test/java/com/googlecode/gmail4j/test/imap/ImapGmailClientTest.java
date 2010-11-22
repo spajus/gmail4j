@@ -130,7 +130,8 @@ public class ImapGmailClientTest {
             if (messages.size() > 0) {
                 log.debug("Starting to mark message as read");
                 GmailMessage gmailMessage = messages.get(1);
-                log.debug("Msg Subject: " + gmailMessage.getSubject());
+                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
+                        + "been marked ar read");
                 client.markAsRead(gmailMessage.getMessageNumber());
                 log.debug("Finished marking message as read");
             }            

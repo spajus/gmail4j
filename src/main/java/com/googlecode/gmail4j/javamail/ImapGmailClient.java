@@ -29,7 +29,6 @@ import javax.mail.search.FlagTerm;
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
-import com.googlecode.gmail4j.util.CommonConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,7 +84,29 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ImapGmailClient extends GmailClient {
 
+    /**
+     * {@link Folder} name 
+     */
+    private final String name;
+
+    /**
+     * Constructor that defaults to {@code GmailClient.INBOX} 
+     * as source {@link Folder} name.
+     */
+    public ImapGmailClient() {
+        this.name = GmailClient.INBOX;
+    }
+    
      /**
+     * Constructor with the source {@link Folder} name 
+     * 
+     * @param name source {@link Folder} name
+     */
+    public ImapGmailClient(final String name) {
+        this.name = ((name == null) ? GmailClient.INBOX : name);
+    }
+        
+    /**
      * Logger
      */
     private static final Log LOG = LogFactory.getLog(ImapGmailClient.class);
@@ -95,7 +116,7 @@ public class ImapGmailClient extends GmailClient {
         try {
             final List<GmailMessage> unread = new ArrayList<GmailMessage>();
             final Store store = openGmailStore();
-            final Folder folder = getFolder(CommonConstants.GMAIL_INBOX,store);
+            final Folder folder = getFolder(this.name,store);
             folder.open(Folder.READ_ONLY);
             for (final Message msg : folder.search(new FlagTerm(
                     new Flags(Flags.Flag.SEEN), false))) {
@@ -174,31 +195,35 @@ public class ImapGmailClient extends GmailClient {
                     + " to move messages to trash folder");
             return;
         }
-        Folder inbox = null;
+        Folder folder = null;
         try {
             final Store store = openGmailStore();
-            inbox = getFolder(CommonConstants.GMAIL_INBOX,store);
-            inbox.open(Folder.READ_WRITE);
+            folder = getFolder(this.name,store);
+            folder.open(Folder.READ_WRITE);
 
             List<Message> markedMsgList = new ArrayList<Message>();
             for (GmailMessage gmailMessage : gmailMessages) {
                 // get only messages that match to the specified message number
-                Message message = inbox.getMessage(gmailMessage.getMessageNumber());
+                Message message = folder.getMessage(gmailMessage.getMessageNumber());
                 // mark message as delete
                 message.setFlag(Flags.Flag.DELETED, true);
                 markedMsgList.add(message);
             }
 
-            Folder trash = getFolder(CommonConstants.GMAIL_TRASH,store);
+            Folder trash = getFolder(GmailClient.TRASH,store);
+            if(folder.getFullName().equals(trash.getFullName())){
+                throw new GmailException("ImapGmailClient cannot move "
+                        + "GmailMessage(s) within same folder(trash to trash)");
+            }
             // move the marked messages to trash folder
             if (!markedMsgList.isEmpty()) {
-                inbox.copyMessages(markedMsgList.toArray(new Message[0]), trash);
+                folder.copyMessages(markedMsgList.toArray(new Message[0]), trash);
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed moving GmailMessage(s)"
                     + " to trash folder: " + e);
         } finally {
-            closeFolder(inbox);
+            closeFolder(folder);
         }
     }
     
@@ -212,12 +237,12 @@ public class ImapGmailClient extends GmailClient {
         if (messageNumber <= 0) {
             throw new GmailException("ImapGmailClient invalid GmailMessage number");
         }
-        Folder inbox = null;
+        Folder folder = null;
         try {
             final Store store = openGmailStore();
-            inbox = getFolder(CommonConstants.GMAIL_INBOX, store);
-            inbox.open(Folder.READ_WRITE);
-            Message message = inbox.getMessage(messageNumber);
+            folder = getFolder(this.name, store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
             if (!message.isSet(Flags.Flag.SEEN)) {
                 message.setFlag(Flags.Flag.SEEN, true);
             }
@@ -225,7 +250,7 @@ public class ImapGmailClient extends GmailClient {
             throw new GmailException("ImapGmailClient failed marking"
                     + " GmailMessage as read : " + e);
         } finally {
-            closeFolder(inbox);
+            closeFolder(folder);
         }
     }
 
@@ -240,9 +265,6 @@ public class ImapGmailClient extends GmailClient {
     private Folder getFolder(String name, final Store store) {
         if (store == null) {
             throw new GmailException("Gmail IMAP store cannot be null");
-        }
-        if (name == null) {
-            name = CommonConstants.GMAIL_INBOX;
         }
         try {
 

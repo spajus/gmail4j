@@ -30,8 +30,6 @@ package com.googlecode.gmail4j.util;
  */
 public class CommonConstants {
 
-    public static final String GMAIL_INBOX = "INBOX";
-    public static final String GMAIL_TRASH = "[Gmail]/Trash";
     public static final String GMAIL_EXTENTION = "@gmail.com";
     // used for messsage header information extraction tags
     public static final String MESSAGE_ID = "Message-ID";
