@@ -83,6 +83,16 @@ import org.apache.commons.logging.LogFactory;
  *     client.setConnection(conn);
  *     client.markAllAsRead();
  * </pre></blockquote></p>
+ * Example of message move to destination folder:
+ * <p><blockquote><pre>
+ *     // Constructor with the source folder name 
+ *     ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     // name the destination folder and the message # to be moved
+ *     client.moveTo(ImapGmailLabel.SPAM, 1);
+ * </pre></blockquote></p>
  * 
  * @see GmailClient
  * @see ImapGmailConnection
