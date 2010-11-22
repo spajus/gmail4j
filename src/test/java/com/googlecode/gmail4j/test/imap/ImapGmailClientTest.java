@@ -34,6 +34,7 @@ import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.ProxyAware;
 import com.googlecode.gmail4j.javamail.ImapGmailClient;
 import com.googlecode.gmail4j.javamail.ImapGmailConnection;
+import com.googlecode.gmail4j.javamail.ImapGmailLabel;
 import com.googlecode.gmail4j.javamail.JavaMailGmailMessage;
 import com.googlecode.gmail4j.test.TestConfigurer;
 
@@ -166,6 +167,33 @@ public class ImapGmailClientTest {
             List<GmailMessage> unreadMessages = client.getUnreadMessages();
             assertTrue("All messages are marked as read.",unreadMessages.isEmpty());       
             
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    /**
+     * Tests moving a message to a given destination folder.
+     */
+    @Test
+    public void testMoveTo() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to move message #1 to " + ImapGmailLabel.SPAM.getName());
+            client.moveTo(ImapGmailLabel.SPAM, 1);
+            log.debug("Finished moving message #1 to " + ImapGmailLabel.SPAM.getName());            
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());

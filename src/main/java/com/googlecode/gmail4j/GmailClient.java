@@ -41,15 +41,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 0.1
  */
 public abstract class GmailClient {
-
-    /**
-     * The GmailClient is accessing the gmail inbox folder.
-     */
-    public static final String INBOX = "INBOX";
-    /**
-     * The GmailClient is accessing the gmail trash folder.
-     */
-    public static final String TRASH = "[Gmail]/Trash";
     /**
      * Logger
      */
