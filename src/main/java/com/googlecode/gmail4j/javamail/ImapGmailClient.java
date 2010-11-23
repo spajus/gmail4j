@@ -335,7 +335,7 @@ public class ImapGmailClient extends GmailClient {
                 if (fromFolder.getFullName().equals(toFolder.getFullName())) {
                     throw new GmailException("ImapGmailClient cannot move "
                             + "GmailMessage within same folder "
-                            + "(from " + fromFolder.getFullName() + " to " 
+                            + "(from " + fromFolder.getFullName() + " to "
                             + toFolder.getFullName() + ")");
                 }
                 // copy from source folder to destination folder
@@ -343,10 +343,11 @@ public class ImapGmailClient extends GmailClient {
                 // move the copied message to trash folder
                 moveToTrash(new GmailMessage[]{new JavaMailGmailMessage(message)});
             }
+        } catch (GmailException ge) {
+            throw ge;
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed moving"
-                    + " GmailMessage from " + fromFolder.getFullName()
-                    + " to " + toFolder.getFullName(), e);
+                    + " GmailMessage from " + fromFolder.getFullName(), e);
         } finally {
             closeFolder(fromFolder);
         }

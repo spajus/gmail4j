@@ -19,6 +19,7 @@ package com.googlecode.gmail4j.test.imap;
 import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailConnection;
+import com.googlecode.gmail4j.GmailException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -181,7 +182,7 @@ public class ImapGmailClientTest {
      */
     @Test
     public void testMoveTo() {
-        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.INBOX);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
         try {
@@ -191,12 +192,38 @@ public class ImapGmailClientTest {
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
             client.setConnection(connection);
-            log.debug("Starting to move message #1 to " + ImapGmailLabel.SPAM.getName());
+            log.debug("Starting to move message #1 to " + ImapGmailLabel.INBOX.getName());
             client.moveTo(ImapGmailLabel.SPAM, 1);
             log.debug("Finished moving message #1 to " + ImapGmailLabel.SPAM.getName());            
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
+     /**
+     * Tests moving a message to the same source folder which will 
+     * throw {@link GmailException}.
+     */
+    @Test(expected = GmailException.class)
+    public void testMoveToSameFolder() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.INBOX);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to move message #1 to same " + ImapGmailLabel.INBOX.getName());
+            client.moveTo(ImapGmailLabel.INBOX, 1);
+            log.debug("Test Passes with expected exception");
         } finally {
             if (connection.isConnected()) {
                 connection.disconnect();
