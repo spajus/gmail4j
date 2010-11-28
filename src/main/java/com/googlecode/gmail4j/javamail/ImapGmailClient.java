@@ -304,7 +304,7 @@ public class ImapGmailClient extends GmailClient {
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed marking"
-                    + " GmailMessage as read : " + e);
+                    + " GmailMessage as read : " + messageNumber, e);
         } finally {
             closeFolder(folder);
         }
@@ -328,7 +328,7 @@ public class ImapGmailClient extends GmailClient {
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed marking"
-                    + " all GmailMessage as read : " + e);
+                    + " all GmailMessage as read" , e);
         } finally {
             closeFolder(folder);
         }
@@ -357,7 +357,7 @@ public class ImapGmailClient extends GmailClient {
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed marking"
-                    + " GmailMessage as unread : " + e);
+                    + " GmailMessage as unread : " + messageNumber , e);
         } finally {
             closeFolder(folder);
         }
@@ -386,7 +386,7 @@ public class ImapGmailClient extends GmailClient {
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed flagging"
-                    + " GmailMessage as starred : " + e);
+                    + " GmailMessage as starred : " + messageNumber ,e);
         } finally {
             closeFolder(folder);
         }        
@@ -415,7 +415,7 @@ public class ImapGmailClient extends GmailClient {
             }
         } catch (Exception e) {
             throw new GmailException("ImapGmailClient failed removing"
-                    + " GmailMessage star flag : " + e);
+                    + " GmailMessage star flag : " + messageNumber , e);
         } finally {
             closeFolder(folder);
         }                
