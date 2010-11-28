@@ -184,6 +184,70 @@ public class ImapGmailClientTest {
     }
     
     /**
+     * Tests flagging a message as starred
+     */
+    @Test
+    public void testAddStar() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            if (messages.size() > 0) {
+                log.debug("Starting to flag message as starred.");
+                GmailMessage gmailMessage = messages.get(1);   
+                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
+                        + "been flagged as starred.");
+                client.addStar(gmailMessage.getMessageNumber());
+                log.debug("Finished flagging message as starred.");
+            }            
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
+    /**
+     * Tests removing star flag from a star flagged message
+     */
+    @Test
+    public void testRemoveStar() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to remove star flag from starred message.");
+            client.removeStar(1);
+            log.debug("Finished removing star flag from starred message.");
+
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
+    /**
      * Tests marking all the messages as read
      */
     @Test
@@ -229,7 +293,7 @@ public class ImapGmailClientTest {
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
             client.setConnection(connection);
-            log.debug("Starting to move message #1 to " + ImapGmailLabel.INBOX.getName());
+            log.debug("Starting to move message #1 from " + ImapGmailLabel.INBOX.getName());
             client.moveTo(ImapGmailLabel.SPAM, 1);
             log.debug("Finished moving message #1 to " + ImapGmailLabel.SPAM.getName());            
         } catch (final Exception e) {

@@ -92,6 +92,24 @@ import org.apache.commons.logging.LogFactory;
  *     // now get a read GmailMessage item and pass it's message number
  *     client.markAsUnread(message.getMessageNumber());
  * </pre></blockquote></p>
+ * Example of flagging a message as starred:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     // now get a GmailMessage item and pass it's message number
+ *     client.addStar(message.getMessageNumber());
+ * </pre></blockquote></p>
+ * Example of removing a message flagged as starred:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     // now get a GmailMessage item and pass it's message number
+ *     client.removeStar(message.getMessageNumber());
+ * </pre></blockquote></p>
  * Example of message move to destination folder:
  * <p><blockquote><pre>
  *     // Constructor with the source folder name 
@@ -343,6 +361,64 @@ public class ImapGmailClient extends GmailClient {
         } finally {
             closeFolder(folder);
         }
+    }
+    
+    /**
+     * Flag a given {@link GmailMessage} as Starred.
+     *
+     * @param messageNumber the message number ex:{@code gmailMessage.getMessageNumber()}
+     * @throws GmailException if unable to flag {@link GmailMessage} as starred
+     */
+    public void addStar(int messageNumber){
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (!message.isSet(Flags.Flag.FLAGGED)) {
+                message.setFlag(Flags.Flag.FLAGGED, true);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed flagging"
+                    + " GmailMessage as starred : " + e);
+        } finally {
+            closeFolder(folder);
+        }        
+    }
+    
+    /**
+     * Removes Star Flag of a given Starred {@link GmailMessage}.
+     *
+     * @param messageNumber the message number ex:{@code gmailMessage.getMessageNumber()}
+     * @throws GmailException if unable to remove star flag from {@link GmailMessage}
+     */
+    public void removeStar(int messageNumber){
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(ImapGmailLabel.STARRED.getName(), store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.FLAGGED)) {
+                message.setFlag(Flags.Flag.FLAGGED, false);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed removing"
+                    + " GmailMessage star flag : " + e);
+        } finally {
+            closeFolder(folder);
+        }                
     }
         
     /**
