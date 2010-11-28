@@ -505,7 +505,7 @@ public class ImapGmailClient extends GmailClient {
                 if (folder.isOpen()) {
                     folder.close(true);
                 } else {
-                    LOG.info("{0} folder is already open" + folder.getName());
+                    LOG.info(folder.getName() + " folder is already open.");
                 }
             } catch (Exception e) {
                 LOG.warn("Cannot close folder : " + folder.getName(), e);
