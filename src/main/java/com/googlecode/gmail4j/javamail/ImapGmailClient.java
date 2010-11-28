@@ -83,6 +83,15 @@ import org.apache.commons.logging.LogFactory;
  *     client.setConnection(conn);
  *     client.markAllAsRead();
  * </pre></blockquote></p>
+ * Example of marking a message as unread:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     // now get a read GmailMessage item and pass it's message number
+ *     client.markAsUnread(message.getMessageNumber());
+ * </pre></blockquote></p>
  * Example of message move to destination folder:
  * <p><blockquote><pre>
  *     // Constructor with the source folder name 
@@ -307,6 +316,35 @@ public class ImapGmailClient extends GmailClient {
         }
     }
     
+    /**
+     * Mark a given {@link GmailMessage} as unread.
+     *
+     * @param messageNumber the message number ex:{@code gmailMessage.getMessageNumber()}
+     * @throws GmailException if unable to mark {@link GmailMessage} as unread
+     */
+    public void markAsUnread(int messageNumber) {
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.SEEN)) {
+                message.setFlag(Flags.Flag.SEEN, false);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed marking"
+                    + " GmailMessage as unread : " + e);
+        } finally {
+            closeFolder(folder);
+        }
+    }
+        
     /**
      * Move {@link GmailMessage} to a given destination folder.
      *

@@ -30,7 +30,8 @@ package com.googlecode.gmail4j.javamail;
  *     ImapGmailLabel.SPAM, 
  *     ImapGmailLabel.STARRED, 
  *     ImapGmailLabel.INBOX, 
- *     ImapGmailLabel.TRASH
+ *     ImapGmailLabel.TRASH,
+ *     ImapGmailLabel.IMPORTANT
  * </pre></blockquote><p>
  * 
  * @author Rajiv Perera &lt;rajivderas@gmail.com&gt;
@@ -65,7 +66,11 @@ public enum ImapGmailLabel {
     /**
      * Imap Gmail folder label name for {@code [Gmail]/Trash}
      */
-    TRASH("[Gmail]/Trash");
+    TRASH("[Gmail]/Trash"),
+    /**
+     * Imap Gmail folder label name for {@code [Gmail]/Important}
+     */
+    IMPORTANT("[Gmail]/Important");
    
     /**
      * Imap Gmail folder label name

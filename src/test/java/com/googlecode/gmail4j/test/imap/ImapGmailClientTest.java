@@ -134,7 +134,7 @@ public class ImapGmailClientTest {
                 log.debug("Starting to mark message as read.");
                 GmailMessage gmailMessage = messages.get(1);
                 log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
-                        + "been marked ar read.");
+                        + "been marked as read.");
                 client.markAsRead(gmailMessage.getMessageNumber());
                 log.debug("Finished marking message as read.");
             }            
@@ -147,6 +147,42 @@ public class ImapGmailClientTest {
             }
         }
     }
+        
+    /**
+     * Tests marking of a message as unread
+     */
+    @Test
+    public void testMarkAsUnread() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            if (messages.size() > 0) {
+                log.debug("Starting to mark message as unread.");
+                GmailMessage gmailMessage = messages.get(1);   
+                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
+                        + "been marked as unread.");
+                client.markAsUnread(gmailMessage.getMessageNumber());
+                log.debug("Finished marking message as unread.");
+            }            
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
     /**
      * Tests marking all the messages as read
      */
@@ -177,6 +213,7 @@ public class ImapGmailClientTest {
             }
         }
     }
+        
     /**
      * Tests moving a message to a given destination folder.
      */
@@ -210,7 +247,7 @@ public class ImapGmailClientTest {
      * throw {@link GmailException}.
      */
     @Test(expected = GmailException.class)
-    public void testMoveToSameFolder() {
+    public void testMoveTo_GmailException() {
         final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.INBOX);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
