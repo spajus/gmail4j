@@ -265,9 +265,9 @@ public class ImapGmailClient extends GmailClient {
             }
 
             Folder trash = getFolder(ImapGmailLabel.TRASH.getName(),store);
-            if(folder.getFullName().equals(trash.getFullName())){
-                throw new GmailException("ImapGmailClient cannot move "
-                        + "GmailMessage(s) within same folder(trash to trash)");
+            if(folder.getURLName().equals(trash.getURLName())){
+                LOG.warn("ImapGmailClient trying to move GmailMessage(s) within"
+                        + " same folder(ImapGmailLabel.TRASH.getName())");
             }
             // move the marked messages to trash folder
             if (!markedMsgList.isEmpty()) {
@@ -446,7 +446,7 @@ public class ImapGmailClient extends GmailClient {
             if (message != null) {
                 toFolder = getFolder(destFolder.getName(), store);
 
-                if (fromFolder.getFullName().equals(toFolder.getFullName())) {
+                if (fromFolder.getURLName().equals(toFolder.getURLName())) {
                     throw new GmailException("ImapGmailClient cannot move "
                             + "GmailMessage within same folder "
                             + "(from " + fromFolder.getFullName() + " to "

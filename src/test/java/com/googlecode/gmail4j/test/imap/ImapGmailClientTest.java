@@ -61,11 +61,61 @@ public class ImapGmailClientTest {
     private static final Log log = LogFactory.getLog(ImapGmailClientTest.class);
 
     /**
+     * Test a sending of a simple message
+     */
+    @Test
+    public void testSendMessage() {
+        final GmailClient client = new ImapGmailClient();
+        final GmailConnection connection = new ImapGmailConnection();
+        connection.setLoginCredentials(conf.getGmailCredentials());
+        if (conf.useProxy() && (connection instanceof ProxyAware)) {
+            ((ProxyAware) connection).setProxy(
+                    conf.getProxyHost(), conf.getProxyPort());
+            ((ProxyAware) connection).setProxyCredentials(
+                    conf.getProxyCredentials());
+        }
+        client.setConnection(connection);
+        GmailMessage msg = new JavaMailGmailMessage();
+        msg.setSubject("Test mail subject. Unicode: ąžuolėlį");
+        msg.setContentText("Test mail content. Unicode: ąžuolėlį");
+        msg.addTo(new EmailAddress(conf.getTestRecipient()));
+        client.send(msg);
+    }
+
+    /**
+     * Tests marking of a message as unread
+     */
+    @Test
+    public void testMarkAsUnread() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to mark message as unread.");
+            client.markAsUnread(1);
+            log.debug("Finished marking message as unread.");
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
      * Tests retrieval of unread messages
      */
     @Test
     public void testGetUnreadMessages() {
-        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
         try {
@@ -92,103 +142,11 @@ public class ImapGmailClientTest {
     }
 
     /**
-     * Test a sending of a simple message
-     */
-    @Test
-    public void testSendMessage() {
-        final GmailClient client = new ImapGmailClient();
-        final GmailConnection connection = new ImapGmailConnection();
-        connection.setLoginCredentials(conf.getGmailCredentials());
-        if (conf.useProxy() && (connection instanceof ProxyAware)) {
-            ((ProxyAware) connection).setProxy(
-                    conf.getProxyHost(), conf.getProxyPort());
-            ((ProxyAware) connection).setProxyCredentials(
-                    conf.getProxyCredentials());
-        }
-        client.setConnection(connection);
-        GmailMessage msg = new JavaMailGmailMessage();
-        msg.setSubject("Test mail subject. Unicode: ąžuolėlį");
-        msg.setContentText("Test mail content. Unicode: ąžuolėlį");
-        msg.addTo(new EmailAddress(conf.getTestRecipient()));
-        client.send(msg);
-    }
-    
-    /**
-     * Tests marking of a message as read
-     */
-    @Test
-    public void testMarkAsRead() {
-        final ImapGmailClient client = new ImapGmailClient();
-        final ImapGmailConnection connection = new ImapGmailConnection();
-
-        try {
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
-                connection.setProxyCredentials(conf.getProxyCredentials());
-            }
-            client.setConnection(connection);
-
-            final List<GmailMessage> messages = client.getUnreadMessages();
-            if (messages.size() > 0) {
-                log.debug("Starting to mark message as read.");
-                GmailMessage gmailMessage = messages.get(1);
-                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
-                        + "been marked as read.");
-                client.markAsRead(gmailMessage.getMessageNumber());
-                log.debug("Finished marking message as read.");
-            }            
-        } catch (final Exception e) {
-            log.error("Test Failed", e);
-            fail("Caught exception: " + e.getMessage());
-        } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
-        }
-    }
-        
-    /**
-     * Tests marking of a message as unread
-     */
-    @Test
-    public void testMarkAsUnread() {
-        final ImapGmailClient client = new ImapGmailClient();
-        final ImapGmailConnection connection = new ImapGmailConnection();
-
-        try {
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
-                connection.setProxyCredentials(conf.getProxyCredentials());
-            }
-            client.setConnection(connection);
-            
-            final List<GmailMessage> messages = client.getUnreadMessages();
-            if (messages.size() > 0) {
-                log.debug("Starting to mark message as unread.");
-                GmailMessage gmailMessage = messages.get(1);   
-                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
-                        + "been marked as unread.");
-                client.markAsUnread(gmailMessage.getMessageNumber());
-                log.debug("Finished marking message as unread.");
-            }            
-        } catch (final Exception e) {
-            log.error("Test Failed", e);
-            fail("Caught exception: " + e.getMessage());
-        } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
-        }
-    }
-    
-    /**
      * Tests flagging a message as starred
      */
     @Test
     public void testAddStar() {
-        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
         try {
@@ -198,16 +156,16 @@ public class ImapGmailClientTest {
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
             client.setConnection(connection);
-            
+
             final List<GmailMessage> messages = client.getUnreadMessages();
             if (messages.size() > 0) {
                 log.debug("Starting to flag message as starred.");
-                GmailMessage gmailMessage = messages.get(1);   
+                GmailMessage gmailMessage = messages.get(0);
                 log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
                         + "been flagged as starred.");
                 client.addStar(gmailMessage.getMessageNumber());
                 log.debug("Finished flagging message as starred.");
-            }            
+            }
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
@@ -217,13 +175,13 @@ public class ImapGmailClientTest {
             }
         }
     }
-    
+
     /**
      * Tests removing star flag from a star flagged message
      */
     @Test
     public void testRemoveStar() {
-        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
         try {
@@ -246,98 +204,13 @@ public class ImapGmailClientTest {
             }
         }
     }
-    
-    /**
-     * Tests marking all the messages as read
-     */
-    @Test
-    public void testMarkAllAsRead() {
-        final ImapGmailClient client = new ImapGmailClient();
-        final ImapGmailConnection connection = new ImapGmailConnection();
-
-        try {
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
-                connection.setProxyCredentials(conf.getProxyCredentials());
-            }
-            client.setConnection(connection);
-            log.debug("Starting to mark all the message's as read.");
-            client.markAllAsRead();
-            log.debug("Finished marking all the message's as read.");
-            List<GmailMessage> unreadMessages = client.getUnreadMessages();
-            assertTrue("All messages are marked as read.",unreadMessages.isEmpty());       
-            
-        } catch (final Exception e) {
-            log.error("Test Failed", e);
-            fail("Caught exception: " + e.getMessage());
-        } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
-        }
-    }
-        
-    /**
-     * Tests moving a message to a given destination folder.
-     */
-    @Test
-    public void testMoveTo() {
-        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.INBOX);
-        final ImapGmailConnection connection = new ImapGmailConnection();
-
-        try {
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
-                connection.setProxyCredentials(conf.getProxyCredentials());
-            }
-            client.setConnection(connection);
-            log.debug("Starting to move message #1 from " + ImapGmailLabel.INBOX.getName());
-            client.moveTo(ImapGmailLabel.SPAM, 1);
-            log.debug("Finished moving message #1 to " + ImapGmailLabel.SPAM.getName());            
-        } catch (final Exception e) {
-            log.error("Test Failed", e);
-            fail("Caught exception: " + e.getMessage());
-        } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
-        }
-    }
-    
-     /**
-     * Tests moving a message to the same source folder which will 
-     * throw {@link GmailException}.
-     */
-    @Test(expected = GmailException.class)
-    public void testMoveTo_GmailException() {
-        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.INBOX);
-        final ImapGmailConnection connection = new ImapGmailConnection();
-
-        try {
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
-                connection.setProxyCredentials(conf.getProxyCredentials());
-            }
-            client.setConnection(connection);
-            log.debug("Starting to move message #1 to same " + ImapGmailLabel.INBOX.getName());
-            client.moveTo(ImapGmailLabel.INBOX, 1);
-            log.debug("Test Passes with expected exception");
-        } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
-        }
-    }
 
     /**
      * Tests moving of message(s) to [Gmail]/Trash
      */
     @Test
     public void testMoveToTrash() {
-        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
         try {
@@ -358,6 +231,131 @@ public class ImapGmailClientTest {
             log.debug("Finished moving all selected message(s) to trash.");
             assertTrue("All unread messages are moved to trash.",
                     client.getUnreadMessages().isEmpty());
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests marking all the messages as read
+     */
+    @Test
+    public void testMarkAllAsRead() {
+        testSendMessage(); 
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            client.markAsUnread(1);
+            log.debug("Starting to mark all the message's as read.");
+            client.markAllAsRead();
+            log.debug("Finished marking all the message's as read.");
+            List<GmailMessage> unreadMessages = client.getUnreadMessages();
+            assertTrue("All messages are marked as read.", unreadMessages.isEmpty());
+
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests marking of a message as read
+     */
+    @Test
+    public void testMarkAsRead() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            client.markAsUnread(1);
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            if (messages.size() > 0) {
+                log.debug("Starting to mark message as read.");
+                GmailMessage gmailMessage = messages.get(0);
+                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
+                        + "been marked as read.");
+                client.markAsRead(gmailMessage.getMessageNumber());
+                log.debug("Finished marking message as read.");
+            }
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to the same source folder which will 
+     * throw {@link GmailException}.
+     */
+    @Test(expected = GmailException.class)
+    public void testMoveTo_GmailException() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to move message #1 to same " + 
+                    ImapGmailLabel.SENT_MAIL.getName());
+            client.moveTo(ImapGmailLabel.SENT_MAIL, 1);
+            log.debug("Test Passes with expected exception");
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to a given destination folder.
+     */
+    @Test
+    public void testMoveTo() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to move message #1 from " + 
+                    ImapGmailLabel.SENT_MAIL.getName());
+            client.moveTo(ImapGmailLabel.INBOX, 1);
+            log.debug("Finished moving message #1 to " + 
+                    ImapGmailLabel.INBOX.getName());
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
