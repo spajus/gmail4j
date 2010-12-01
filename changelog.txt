@@ -4,6 +4,28 @@ GMAIL4J CHANGELOG
 ===================
 http://gmail4j.googlecode.com
 
+Changes in version 0.4 (2010-12-01)
+-------------------------------------
+* Possibility to add/remove message flags (starred) in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=20
+* Possibility to mark a single message as unread in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=19
+* Possibility to move messages between source and destination folders in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=18
+* Possibility to mark all message as read in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=17
+* Possibility for JavaMail IMAP GmailClient to accept source folder name as an argument 
+  http://code.google.com/p/gmail4j/issues/detail?id=16
+* Possibility to mark a single message as read in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=15
+* Possibility to fetch message header information from GMailMessage
+  (Headers : Message-ID, Subject, In-Reply-To, References)
+  http://code.google.com/p/gmail4j/issues/detail?id=14
+* Connection Listeners implementation in IMAP for API users with event driven 
+  mail applications
+  http://code.google.com/p/gmail4j/issues/detail?id=13
+* Possibility to delete(move to trash) messages in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=12
 
 Changes in version 0.3 (2009-07-09)
 -------------------------------------

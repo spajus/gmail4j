@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <name>Gmail4J</name>
   <description>Gmail API for Java</description>
-  <version>0.3</version>
+  <version>0.4</version>
   <url>http://gmail4j.googlecode.com</url>
   <repositories>
     <repository>
@@ -27,6 +27,12 @@
       <name>Tomas Varaneckas</name>
       <email>tomas.varaneckas@gmail.com</email>
       <url>http://www.varaneckas.com</url>
+    </developer>
+    <developer>
+      <id>rajivderas</id>
+      <name>Rajiv Perera</name>
+      <email>rajivderas@gmail.com</email>
+      <url>http://lk.linkedin.com/in/rajivderas</url>
     </developer>
   </developers>
   <inceptionYear>2009</inceptionYear>
