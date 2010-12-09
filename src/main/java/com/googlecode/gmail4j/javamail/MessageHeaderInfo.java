@@ -86,8 +86,8 @@ public class MessageHeaderInfo implements Serializable {
      * @param reference Gmail conversation Message-ID Reference for the
      * incoming message.
      */
-    public boolean addReferences(String reference) {
-        return references.add(reference);
+    public void addReferences(String reference) {
+        references.add(reference);
     }
 
     /**

@@ -140,6 +140,37 @@ public class ImapGmailClientTest {
             }
         }
     }
+    
+    /**
+     * Tests retrieval of unread priority messages
+     */
+    @Test
+    public void testGetPriorityMessages() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread priority messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getPriorityMessages();
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Priority Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
 
     /**
      * Tests flagging a message as starred

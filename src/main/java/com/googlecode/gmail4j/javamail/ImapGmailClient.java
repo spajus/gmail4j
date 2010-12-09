@@ -44,6 +44,14 @@ import org.apache.commons.logging.LogFactory;
  *     client.setConnection(conn);
  *     List&lt;GmailMessage&gt; unreadMessages = client.getUnreadMessages();
  * </pre></blockquote><p>
+ * Example of getting unread priority messages:
+ * <p><blockquote><pre>
+ *     GmailConnection conn = new ImapGmailConnection();
+ *     //configure connection
+ *     GmailClient client = new ImapGmailClient();
+ *     client.setConnection(conn);
+ *     List&lt;GmailMessage&gt; unreadPriorityMessages = client.getPriorityMessages();
+ * </pre></blockquote></p>
  * Example of sending a simple message:
  * <p><blockquote><pre>
  *     GmailConnection conn = new ImapGmailConnection();
@@ -464,6 +472,29 @@ public class ImapGmailClient extends GmailClient {
                     + " GmailMessage from " + fromFolder.getFullName(), e);
         } finally {
             closeFolder(fromFolder);
+        }
+    }
+    
+    /**
+     * Returns list of unread priority {@link GmailMessage} objects
+     * 
+     * @return List of unread priority messages
+     * @throws GmailException if unable to get unread priority messages
+     */
+    public List<GmailMessage> getPriorityMessages(){
+        try {
+            final List<GmailMessage> unreadPriority = new ArrayList<GmailMessage>();
+            final Store store = openGmailStore();
+            Folder folder = getFolder(ImapGmailLabel.IMPORTANT.getName(),store);
+            folder.open(Folder.READ_ONLY);
+            for (final Message msg : folder.search(new FlagTerm(
+                    new Flags(Flags.Flag.SEEN), false))) {
+                unreadPriority.add(new JavaMailGmailMessage(msg));
+            }
+            
+            return unreadPriority;
+        } catch (final Exception e) {
+            throw new GmailException("Failed getting unread priority messages", e);
         }
     }
 
