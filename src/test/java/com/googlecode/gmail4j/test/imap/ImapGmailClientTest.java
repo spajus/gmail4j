@@ -145,7 +145,7 @@ public class ImapGmailClientTest {
      * Tests retrieval of unread priority messages
      */
     @Test
-    public void testGetPriorityMessages() {
+    public void testGetPriorityMessages_UnreadOnly() {
         final ImapGmailClient client = new ImapGmailClient();
         final ImapGmailConnection connection = new ImapGmailConnection();
 
@@ -157,11 +157,41 @@ public class ImapGmailClientTest {
             }
             log.debug("Getting unread priority messages");
             client.setConnection(connection);
-            final List<GmailMessage> messages = client.getPriorityMessages();
-            for (GmailMessage message : messages) {
+            final List<GmailMessage> unreadMessages = client.getPriorityMessages(true);
+            for (GmailMessage message : unreadMessages) {
                 log.debug(message);
             }
-            assertNotNull("Priority Messages are not null", messages);
+            assertNotNull("Unread Priority Messages are not null", unreadMessages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    /**
+     * Tests retrieval of read priority messages
+     */
+    @Test
+    public void testGetPriorityMessages_ReadOnly() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting read priority messages");
+            client.setConnection(connection);
+            final List<GmailMessage> readMessages = client.getPriorityMessages(false);
+            for (GmailMessage message : readMessages) {
+                log.debug(message);
+            }
+            assertNotNull("Read Priority Messages are not null", readMessages);
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());

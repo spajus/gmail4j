@@ -44,13 +44,15 @@ import org.apache.commons.logging.LogFactory;
  *     client.setConnection(conn);
  *     List&lt;GmailMessage&gt; unreadMessages = client.getUnreadMessages();
  * </pre></blockquote><p>
- * Example of getting unread priority messages:
+ * Example of getting priority messages:
  * <p><blockquote><pre>
  *     GmailConnection conn = new ImapGmailConnection();
  *     //configure connection
  *     GmailClient client = new ImapGmailClient();
  *     client.setConnection(conn);
- *     List&lt;GmailMessage&gt; unreadPriorityMessages = client.getPriorityMessages();
+ *     //set the {@code boolean} unreadOnly to {@code true} to retrive unread 
+ *     //priority messages only, {@code false} to read priority messages only
+ *     List&lt;GmailMessage&gt; priorityMessages = client.getPriorityMessages(true);
  * </pre></blockquote></p>
  * Example of sending a simple message:
  * <p><blockquote><pre>
@@ -476,25 +478,29 @@ public class ImapGmailClient extends GmailClient {
     }
     
     /**
-     * Returns list of unread priority {@link GmailMessage} objects
+     * Returns list of unread/read priority {@link GmailMessage} objects 
+     * based on the {@code unreadOnly} value
      * 
-     * @return List of unread priority messages
-     * @throws GmailException if unable to get unread priority messages
+     * @param unreadOnly {@code true} to unread priority {@link GmailMessage} 
+     * objects only, {@code false} to read priority {@link GmailMessage} 
+     * objects only
+     * @return List of unread/read priority messages
+     * @throws GmailException if unable to get unread/read priority messages
      */
-    public List<GmailMessage> getPriorityMessages(){
+    public List<GmailMessage> getPriorityMessages(boolean unreadOnly){
         try {
-            final List<GmailMessage> unreadPriority = new ArrayList<GmailMessage>();
+            final List<GmailMessage> priorityMessages = new ArrayList<GmailMessage>();
             final Store store = openGmailStore();
             Folder folder = getFolder(ImapGmailLabel.IMPORTANT.getName(),store);
-            folder.open(Folder.READ_ONLY);
+            folder.open(Folder.READ_ONLY); 
             for (final Message msg : folder.search(new FlagTerm(
-                    new Flags(Flags.Flag.SEEN), false))) {
-                unreadPriority.add(new JavaMailGmailMessage(msg));
+                    new Flags(Flags.Flag.SEEN), !unreadOnly))) {
+                priorityMessages.add(new JavaMailGmailMessage(msg));
             }
             
-            return unreadPriority;
+            return priorityMessages;
         } catch (final Exception e) {
-            throw new GmailException("Failed getting unread priority messages", e);
+            throw new GmailException("Failed getting priority messages", e);
         }
     }
 
