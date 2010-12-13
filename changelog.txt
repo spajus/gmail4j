@@ -6,6 +6,8 @@ http://gmail4j.googlecode.com
 
 Changes in version 0.4 (2010-12-01)
 -------------------------------------
+* Possibility to get read/unread priority messages from priority inbox in JavaMail IMAP GmailClient
+  http://code.google.com/p/gmail4j/issues/detail?id=21
 * Possibility to add/remove message flags (starred) in JavaMail IMAP GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=20
 * Possibility to mark a single message as unread in JavaMail IMAP GmailClient
