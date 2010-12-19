@@ -31,6 +31,8 @@ import java.io.Serializable;
  */
 public class ConnectionInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Gmail Username for mail authentication.
      */
@@ -43,15 +45,15 @@ public class ConnectionInfo implements Serializable {
      * Gmail SMTP/IMAP port for mail sending/receiving.
      */
     private final int port;
-    
+
     /**
-     * Constructor with Gmail user, host and port
-     *
+     * Constructor with Gmail user, host and port.
+     * 
      * @param user Gmail username
      * @param host Gmail SMTP/IMAP host for mail sending/receiving
      * @param port Gmail SMTP/IMAP port for mail sending/receiving
      */
-    public ConnectionInfo(String user, String host, int port) {
+    public ConnectionInfo(final String user, final String host, final int port) {
         this.user = user;
         this.host = host;
         this.port = port;
@@ -101,7 +103,7 @@ public class ConnectionInfo implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

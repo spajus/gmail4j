@@ -34,10 +34,12 @@ import java.util.List;
  */
 public class MessageHeaderInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Gmail Message-ID for unique mail identification.
      */
-    private String messageId;
+    private final String messageId;
     /**
      * Gmail message Subject of the incoming message.
      */
@@ -45,7 +47,7 @@ public class MessageHeaderInfo implements Serializable {
     /**
      * Gmail conversation Message-ID References for the incoming message.
      */
-    private List<String> references;
+    private final List<String> references;
     /**
      * Gmail conversation In-Reply-To Message-ID for the incoming message.
      */
@@ -56,7 +58,7 @@ public class MessageHeaderInfo implements Serializable {
      *
      * @param messageId Gmail Message-ID for unique mail identification.
      */
-    public MessageHeaderInfo(String messageId) {
+    public MessageHeaderInfo(final String messageId) {
         this.references = new ArrayList<String>();
         this.messageId = messageId;
     }
@@ -66,7 +68,7 @@ public class MessageHeaderInfo implements Serializable {
      * <p>
      * @param subject Gmail message Subject of the incoming message.
      */
-    public void setSubject(String subject) {
+    public void setSubject(final String subject) {
         this.subject = subject;
     }
 
@@ -76,7 +78,7 @@ public class MessageHeaderInfo implements Serializable {
      * @param inReplyTo Gmail conversation In-Reply-To Message-ID for the
      * incoming message.
      */
-    public void setInReplyTo(String inReplyTo) {
+    public void setInReplyTo(final String inReplyTo) {
         this.inReplyTo = inReplyTo;
     }
 
@@ -86,7 +88,7 @@ public class MessageHeaderInfo implements Serializable {
      * @param reference Gmail conversation Message-ID Reference for the
      * incoming message.
      */
-    public void addReferences(String reference) {
+    public void addReferences(final String reference) {
         references.add(reference);
     }
 
@@ -128,7 +130,7 @@ public class MessageHeaderInfo implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

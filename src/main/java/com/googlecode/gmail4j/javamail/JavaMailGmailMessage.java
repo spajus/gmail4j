@@ -260,6 +260,7 @@ public class JavaMailGmailMessage extends GmailMessage {
                 CommonConstants.MESSAGE_IN_REPLY_TO,
                 CommonConstants.MESSAGE_REFERENCES};
 
+            @SuppressWarnings("unchecked")
             Enumeration<Header> matchingHeaders =
                     source.getMatchingHeaders(headers);
 

@@ -4,8 +4,9 @@ GMAIL4J CHANGELOG
 ===================
 http://gmail4j.googlecode.com
 
-Changes in version 0.4 (2010-12-01)
+Changes in version 0.4 (2010-12-19)
 -------------------------------------
+* Changed maven groupId from com.googlecode to com.googlecode.gmail4j (central repo requirement).
 * Possibility to get read/unread priority messages from priority inbox in JavaMail IMAP GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=21
 * Possibility to add/remove message flags (starred) in JavaMail IMAP GmailClient
@@ -26,7 +27,7 @@ Changes in version 0.4 (2010-12-01)
 * Connection Listeners implementation in IMAP for API users with event driven 
   mail applications
   http://code.google.com/p/gmail4j/issues/detail?id=13
-* Possibility to delete(move to trash) messages in JavaMail IMAP GmailClient
+* Possibility to delete (move to trash) messages in JavaMail IMAP GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=12
 
 Changes in version 0.3 (2009-07-09)
