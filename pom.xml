@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -11,7 +10,7 @@
     <packaging>jar</packaging>
     <name>Gmail4J</name>
     <description>Gmail API for Java</description>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
     <url>http://gmail4j.googlecode.com</url>
     <developers>
         <developer>
@@ -40,9 +39,9 @@
         <url>http://code.google.com/p/gmail4j/issues/list</url>
     </issueManagement>
     <scm>
-        <connection>scm:svn:http://gmail4j.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://gmail4j.googlecode.com/svn/trunk</developerConnection>
-        <url>http://gmail4j.googlecode.com/svn/trunk</url>
+        <connection>scm:svn:http://gmail4j.googlecode.com/svn/tags/gmail4j-0.4</connection>
+        <developerConnection>scm:svn:https://gmail4j.googlecode.com/svn/tags/gmail4j-0.4</developerConnection>
+        <url>http://gmail4j.googlecode.com/svn/tags/gmail4j-0.4</url>
     </scm>
     <mailingLists>
         <mailingList>
