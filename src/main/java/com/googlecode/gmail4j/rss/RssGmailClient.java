@@ -59,7 +59,7 @@ public class RssGmailClient extends GmailClient {
      * 
      * @see #setGmailFeedUrl(String)
      */
-    private String gmailFeedUrl = "https://mail.google.com/mail/feed/atom";
+    private String gmailFeedUrl = "https://mail.google.com/mail/feed/atom/unread/";
 
     /**
      * Gets {@link #gmailFeedUrl}

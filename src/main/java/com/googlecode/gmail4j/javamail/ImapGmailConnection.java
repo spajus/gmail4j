@@ -62,11 +62,8 @@ import com.googlecode.gmail4j.util.CommonConstants;
  */
 public class ImapGmailConnection extends GmailConnection implements ProxyAware {
 
-
-    /**
-     * Logger
-     */
     private static final Log log = LogFactory.getLog(ImapGmailConnection.class);
+    
     /**
      * Gmail IMAP host. Should not be set unless Gmail server has moved.
      * 
@@ -74,6 +71,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setGmailImapHost(String)
      */
     private String gmailImapHost = "imap.gmail.com";
+    
     /**
      * Gmail IMAP port for mail receiving. Should not be set unless Gmail server
      * has moved.
@@ -82,6 +80,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setGmailImapPort(int)
      */
     private int gmailImapPort = 993;
+    
     /**
      * Gmail SMTP host for mail sending. Should not be set unless Gmail server 
      * has moved.
@@ -90,6 +89,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setGmailSmtpHost(String)
      */
     private String gmailSmtpHost = "smtp.gmail.com";
+    
     /**
      * Gmail SMTP port for mail sending. Should not be set unless Gmail server 
      * has moved.
@@ -98,10 +98,12 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setGmailSmtpPort(String)
      */
     private int gmailSmtpPort = 465;
+    
     /**
      * Proxy Credentials
      */
     private Credentials proxyCredentials;
+    
     /**
      * JavaMail configuration {@link Properties}. Derrived from {@link System}
      * properties.
@@ -110,20 +112,24 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see System#setProperty(String, String)
      */
     private Properties properties;
+    
     /**
      * Proxy in use
      */
     private Proxy proxy;
+    
     /**
      * JavaMail {@link Session}
      * 
      * @see #getSession()
      */
     private Session mailSession;
+    
     /**
      * JavaMail {@link Store}
      */
     private Store store;
+    
     /**
      * Contain the state of current connection {@link Store}.
      *
@@ -131,7 +137,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
      * @see #setConnected(boolean)
      */
     private boolean connected = false;
-
+    
     /**
      * Argless constructor.
      */
@@ -141,7 +147,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
     /**
      * Constructor with Gmail username and password 
      * 
-     * @param username Gmail username
+     * @param username Gmail username (can be full email)
      * @param password Gmail password
      */
     public ImapGmailConnection(final String username, final char[] password) {
@@ -157,7 +163,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
         this();
         this.loginCredentials = loginCredentials;
     }
-
+    
     /**
      * Gets {@link #gmailImapHost}
      * 
@@ -262,8 +268,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
                     new ConnectionInfo(loginCredentials.getUsername(),
                     gmailImapHost,
                     gmailImapPort)));
-            store.connect(gmailImapHost, loginCredentials.getUsername()
-                    .concat(CommonConstants.GMAIL_EXTENTION),
+            store.connect(gmailImapHost, getUsername(loginCredentials),
                     new String(loginCredentials.getPasword()));
             setConnected(store.isConnected());
         } catch (final Exception e) {
@@ -271,6 +276,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
         }
         return store;
     }
+
 
     /**
      * Gets Gmail {@link Transport}
@@ -382,6 +388,14 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
 
     public void setProxyCredentials(final String user, final char[] pass) {
         setProxyCredentials(new Credentials(user, pass));
+    }
+    
+    private String getUsername(Credentials loginCredentials) {
+        String username = loginCredentials.getUsername();
+        if (!username.contains("@")) {
+            username += CommonConstants.GMAIL_EXTENSION;
+	    }
+        return username;
     }
 
     @Override
