@@ -41,6 +41,6 @@ There are more examples in API docs.
 
 Maven Site
 ----------
-For reports, API docs and more, please check [Gmail4j Maven Site](http://www.varaneckas.com/gmail4j/0.4/).
+For reports, API docs and more, please check [Gmail4j Maven Site](http://spajus.github.com/gmail4j/0.4/).
 
 [Changelog](https://github.com/spajus/gmail4j/blob/master/changelog.txt)
