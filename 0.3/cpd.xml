@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="7" tokens="67">
+<file line="224" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java"/>
+<file line="112" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailMessage.java"/>
+<codefragment>
+<![CDATA[
+        toString = new StringBuilder();
+        toString.append("MailMessage:{from:").append(getFrom())
+            .append(";sendDate:").append(getSendDate())
+            .append(";subject:").append(getSubject())
+            .append(";preview:").append(getPreview()).append(";}");
+        return toString.toString();
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="12" tokens="59">
+<file line="175" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="149" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<codefragment>
+<![CDATA[
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public void setProxy(final String proxyHost, final int proxyPort) {
+        this.proxy = new Proxy(Type.HTTP, InetSocketAddress
+                .createUnresolved(proxyHost, proxyPort));
+    }
+
+    public void setProxyCredentials(final Credentials proxyCredentials) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="55">
+<file line="72" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="65" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="40">
+<file line="96" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="62" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            if (conf.useProxy()) {
+                ((ProxyAware) connection).setProxy(conf.getProxyHost(), 
+                        conf.getProxyPort());
+                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="32">
+<file line="203" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="162" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<codefragment>
+<![CDATA[
+        this.proxyCredentials = proxyCredentials;
+    }
+
+    public void setProxyCredentials(final String username, final char[] password) {
+        setProxyCredentials(new Credentials(username, password));
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="29">
+<file line="81" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="74" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        }
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="24">
+<file line="78" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/GmailConnection.java"/>
+<file line="138" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+    public ImapGmailConnection(final String username, final char[] password) {
+        this(new Credentials(username, password));
+    }
+    
+    /**
+     * Constructor with Gmail {@link Credentials}
+     * 
+     * @param loginCredentials Gmail login credentials
+     */
+    public ImapGmailConnection(final Credentials loginCredentials) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="3" tokens="23">
+<file line="68" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="94" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final GmailConnection connection = new ImapGmailConnection();
+        connection.setLoginCredentials(conf.getGmailCredentials());
+        if (conf.useProxy() && (connection instanceof ProxyAware)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="7" tokens="23">
+<file line="216" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java"/>
+<file line="105" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailMessage.java"/>
+<codefragment>
+<![CDATA[
+    }
+    
+    @Override
+    public String toString() {
+        if (toString != null) {
+            return toString.toString();
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="8" tokens="23">
+<file line="148" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<file line="297" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+        return this.proxy;
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+    
+    public void setProxy(final String host, final int port) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="7" tokens="22">
+<file line="175" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="298" path="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+    
+    public void setProxy(final String host, final int port) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="3" tokens="21">
+<file line="68" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="60" path="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            final GmailConnection connection = new HttpGmailConnection();
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

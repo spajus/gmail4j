@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.2" timestamp="2009-07-09T20:54:07.096">
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/GmailMessage.java">
+<violation beginline="75" endline="75" begincolumn="49" endcolumn="68" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer Rules" package="com.googlecode.gmail4j" class="GmailMessage" method="setSubject" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;This GmailMessage &quot; appears 11 times in this file; the first occurrence is on line 75
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java">
+<violation beginline="19" endline="19" begincolumn="1" endcolumn="27" rule="UnusedImports" ruleset="Import Statement Rules" package="com.googlecode.gmail4j.http" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.io.IOException'
+</violation>
+<violation beginline="19" endline="19" begincolumn="1" endcolumn="27" rule="UnusedImports" ruleset="Type Resolution Rules" package="com.googlecode.gmail4j.http" externalInfoUrl="http://pmd.sourceforge.net/rules/typeresolution.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.io.IOException'
+</violation>
+<violation beginline="167" endline="171" begincolumn="13" endcolumn="13" rule="ConfusingTernary" ruleset="Design Rules" package="com.googlecode.gmail4j.http" class="HttpGmailConnection" method="openConnection" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ConfusingTernary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java">
+<violation beginline="73" endline="73" begincolumn="9" endcolumn="68" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" variable="addr" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'addr' could be declared final
+</violation>
+<violation beginline="74" endline="74" begincolumn="9" endcolumn="51" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" variable="proxyClient" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'proxyClient' could be declared final
+</violation>
+<violation beginline="85" endline="85" begincolumn="9" endcolumn="64" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" variable="resp" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'resp' could be declared final
+</violation>
+<violation beginline="108" endline="108" begincolumn="67" endcolumn="74" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'port' is not assigned and could be declared final
+</violation>
+<violation beginline="109" endline="109" begincolumn="13" endcolumn="29" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'autoClose' is not assigned and could be declared final
+</violation>
+<violation beginline="124" endline="124" begincolumn="32" endcolumn="42" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg0' is not assigned and could be declared final
+</violation>
+<violation beginline="124" endline="124" begincolumn="45" endcolumn="52" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg1' is not assigned and could be declared final
+</violation>
+<violation beginline="130" endline="130" begincolumn="32" endcolumn="47" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg0' is not assigned and could be declared final
+</violation>
+<violation beginline="130" endline="130" begincolumn="50" endcolumn="57" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg1' is not assigned and could be declared final
+</violation>
+<violation beginline="135" endline="135" begincolumn="32" endcolumn="42" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg0' is not assigned and could be declared final
+</violation>
+<violation beginline="135" endline="135" begincolumn="45" endcolumn="52" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg1' is not assigned and could be declared final
+</violation>
+<violation beginline="135" endline="135" begincolumn="55" endcolumn="70" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg2' is not assigned and could be declared final
+</violation>
+<violation beginline="135" endline="135" begincolumn="73" endcolumn="80" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'arg3' is not assigned and could be declared final
+</violation>
+<violation beginline="143" endline="143" begincolumn="13" endcolumn="21" rule="MethodArgumentCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.http" class="HttpProxyAwareSslSocketFactory" method="createSocket" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'port2' is not assigned and could be declared final
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java">
+<violation beginline="72" endline="73" begincolumn="52" endcolumn="54" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.javamail" class="ImapGmailClient" method="getUnreadMessages" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+<violation beginline="74" endline="74" begincolumn="28" endcolumn="56" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.javamail" class="ImapGmailClient" method="getUnreadMessages" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java">
+<violation beginline="129" endline="130" begincolumn="12" endcolumn="5" rule="UncommentedEmptyConstructor" ruleset="Design Rules" package="com.googlecode.gmail4j.javamail" class="ImapGmailConnection" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#UncommentedEmptyConstructor" priority="3">
+Document empty constructor
+</violation>
+<violation beginline="244" endline="244" begincolumn="13" endcolumn="86" rule="PreserveStackTrace" ruleset="Design Rules" package="com.googlecode.gmail4j.javamail" class="ImapGmailConnection" method="getTransport" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+Caught exception is rethrown, original stack trace may be lost
+</violation>
+<violation beginline="270" endline="274" begincolumn="17" endcolumn="17" rule="ConfusingTernary" ruleset="Design Rules" package="com.googlecode.gmail4j.javamail" class="ImapGmailConnection" method="getSession" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ConfusingTernary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java">
+<violation beginline="141" endline="141" begincolumn="27" endcolumn="81" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.javamail" class="JavaMailGmailMessage" method="getAddresses" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailClient.java">
+<violation beginline="94" endline="94" begincolumn="13" endcolumn="56" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.rss" class="RssGmailClient" method="getUnreadMessages" variable="c" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'c' could be declared final
+</violation>
+<violation beginline="101" endline="101" begincolumn="34" endcolumn="71" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.rss" class="RssGmailClient" method="getUnreadMessages" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/TestConfigurer.java">
+<violation beginline="38" endline="156" begincolumn="8" endcolumn="1" rule="ClassWithOnlyPrivateConstructorsShouldBeFinal" ruleset="Design Rules" package="com.googlecode.gmail4j.test" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ClassWithOnlyPrivateConstructorsShouldBeFinal" priority="1">
+A class which only has private constructors should be final
+</violation>
+<violation beginline="67" endline="67" begincolumn="23" endcolumn="38" rule="AvoidThrowingRawExceptionTypes" ruleset="Strict Exception Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" externalInfoUrl="http://pmd.sourceforge.net/rules/strictexception.html#AvoidThrowingRawExceptionTypes" priority="1">
+Avoid throwing raw exception types.
+</violation>
+<violation beginline="87" endline="87" begincolumn="13" endcolumn="69" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getGmailCredentials" variable="user" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'user' could be declared final
+</violation>
+<violation beginline="88" endline="88" begincolumn="13" endcolumn="69" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getGmailCredentials" variable="pass" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'pass' could be declared final
+</violation>
+<violation beginline="89" endline="89" begincolumn="17" endcolumn="31" rule="PositionLiteralsFirstInComparisons" ruleset="Design Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getGmailCredentials" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PositionLiteralsFirstInComparisons" priority="3">
+Position literals first in String comparisons
+</violation>
+<violation beginline="89" endline="89" begincolumn="36" endcolumn="50" rule="PositionLiteralsFirstInComparisons" ruleset="Design Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getGmailCredentials" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PositionLiteralsFirstInComparisons" priority="3">
+Position literals first in String comparisons
+</violation>
+<violation beginline="144" endline="144" begincolumn="13" endcolumn="69" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getProxyCredentials" variable="user" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'user' could be declared final
+</violation>
+<violation beginline="145" endline="145" begincolumn="13" endcolumn="69" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getProxyCredentials" variable="pass" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'pass' could be declared final
+</violation>
+<violation beginline="146" endline="146" begincolumn="18" endcolumn="32" rule="PositionLiteralsFirstInComparisons" ruleset="Design Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getProxyCredentials" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PositionLiteralsFirstInComparisons" priority="3">
+Position literals first in String comparisons
+</violation>
+<violation beginline="146" endline="146" begincolumn="37" endcolumn="51" rule="PositionLiteralsFirstInComparisons" ruleset="Design Rules" package="com.googlecode.gmail4j.test" class="TestConfigurer" method="getProxyCredentials" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PositionLiteralsFirstInComparisons" priority="3">
+Position literals first in String comparisons
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java">
+<violation beginline="54" endline="54" begincolumn="28" endcolumn="31" rule="ImmutableField" ruleset="Design Rules" package="com.googlecode.gmail4j.test.imap" class="ImapGmailClientTest" variable="conf" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
+Private field 'conf' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="92" endline="108" begincolumn="12" endcolumn="5" rule="JUnitTestsShouldIncludeAssert" ruleset="JUnit Rules" package="com.googlecode.gmail4j.test.imap" class="ImapGmailClientTest" externalInfoUrl="http://pmd.sourceforge.net/rules/junit.html#JUnitTestsShouldIncludeAssert" priority="3">
+JUnit tests should include assert() or fail()
+</violation>
+<violation beginline="103" endline="103" begincolumn="9" endcolumn="53" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test.imap" class="ImapGmailClientTest" method="testSendMessage" variable="msg" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'msg' could be declared final
+</violation>
+</file>
+<file name="/home/spajus/Development/workspace/3.5/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java">
+<violation beginline="58" endline="58" begincolumn="13" endcolumn="62" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.test.rss" class="RssGmailClientTest" method="testGetUnreadMessages" variable="conf" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'conf' could be declared final
+</violation>
+</file>
+</pmd>

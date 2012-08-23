@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="13" tokens="88">
+<file line="209" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="273" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testMoveToTrash() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+
+            final List<GmailMessage> messages = client.getUnreadMessages();
+]]>
+</codefragment>
+</duplication>
+<duplication lines="14" tokens="82">
+<file line="125" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="65" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="12" tokens="80">
+<file line="89" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="244" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="378" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="404" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testMoveTo() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            log.debug("Starting to move message #1 from " + 
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="79">
+<file line="311" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="343" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            client.markAsUnread(1);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="76">
+<file line="89" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="209" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testAddStar() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="73">
+<file line="90" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="311" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="13" tokens="72">
+<file line="300" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="382" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+    public void addStar(int messageNumber){
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (!message.isSet(Flags.Flag.FLAGGED)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="71">
+<file line="148" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="178" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testGetPriorityMessages_ReadOnly() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting read priority messages");
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="70">
+<file line="89" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="117" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+    public void testGetUnreadMessages() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="9" tokens="67">
+<file line="118" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="311" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="7" tokens="67">
+<file line="228" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java"/>
+<file line="112" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailMessage.java"/>
+<codefragment>
+<![CDATA[
+        toString = new StringBuilder();
+        toString.append("MailMessage:{from:").append(getFrom())
+            .append(";sendDate:").append(getSendDate())
+            .append(";subject:").append(getSubject())
+            .append(";preview:").append(getPreview()).append(";}");
+        return toString.toString();
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="13" tokens="63">
+<file line="300" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="353" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+    public void markAsUnread(int messageNumber) {
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.SEEN)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="61">
+<file line="118" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="149" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread priority messages");
+]]>
+</codefragment>
+</duplication>
+<duplication lines="12" tokens="59">
+<file line="175" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="149" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<codefragment>
+<![CDATA[
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public void setProxy(final String proxyHost, final int proxyPort) {
+        this.proxy = new Proxy(Type.HTTP, InetSocketAddress
+                .createUnresolved(proxyHost, proxyPort));
+    }
+
+    public void setProxyCredentials(final Credentials proxyCredentials) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="9" tokens="57">
+<file line="90" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="149" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="17" tokens="55">
+<file line="294" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="326" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            assertTrue("All messages are marked as read.", unreadMessages.isEmpty());
+
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests marking of a message as read
+     */
+    @Test
+    public void testMarkAsRead() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="16" tokens="51">
+<file line="102" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="133" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="164" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="194" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="257" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="294" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                    client.getUnreadMessages().isEmpty());
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests marking all the messages as read
+     */
+    @Test
+    public void testMarkAllAsRead() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="15" tokens="50">
+<file line="230" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="259" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving of message(s) to [Gmail]/Trash
+     */
+    @Test
+    public void testMoveToTrash() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="17" tokens="50">
+<file line="228" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="361" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                log.debug("Finished marking message as read.");
+            }
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to the same source folder which will 
+     * throw {@link GmailException}.
+     */
+    @Test(expected = GmailException.class)
+]]>
+</codefragment>
+</duplication>
+<duplication lines="15" tokens="50">
+<file line="103" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="230" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests removing star flag from a star flagged message
+     */
+    @Test
+    public void testRemoveStar() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="49">
+<file line="294" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="419" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                    ImapGmailLabel.INBOX.getName());
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="15" tokens="48">
+<file line="259" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="363" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to the same source folder which will 
+     * throw {@link GmailException}.
+     */
+    @Test(expected = GmailException.class)
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="48">
+<file line="96" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ConnectionInfo.java"/>
+<file line="232" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java"/>
+<codefragment>
+<![CDATA[
+                    .append(";preview:").append(getPreview()).append(";}");
+            return toString.toString();
+        } catch (final Exception e) {
+            toString = null;
+            return super.toString().concat("(e:").concat(e.getMessage())
+                    .concat(")");
+        }
+    }
+
+    @Override
+    public int getMessageNumber() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="47">
+<file line="102" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="419" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                    ImapGmailLabel.INBOX.getName());
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="9" tokens="46">
+<file line="363" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="420" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="11" tokens="39">
+<file line="103" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ConnectionInfo.java"/>
+<file line="130" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/MessageHeaderInfo.java"/>
+<codefragment>
+<![CDATA[
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MessageHeaderInfo other = (MessageHeaderInfo) obj;
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="38">
+<file line="300" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="411" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+    public void removeStar(int messageNumber){
+        if (messageNumber <= 0) {
+            throw new GmailException("ImapGmailClient invalid "
+                    + "GmailMessage number");
+        }
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(ImapGmailLabel.STARRED.getName(), store);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="5" tokens="36">
+<file line="80" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapConnectionHandler.java"/>
+<file line="89" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapConnectionHandler.java"/>
+<codefragment>
+<![CDATA[
+    public void disconnected(ConnectionEvent e) {
+        if (LOG.isDebugEnabled()) {
+            long upTime = (System.currentTimeMillis() - startTime) / 1000;
+            LOG.debug("ImapGmailConnection " + connectionInfo 
+                    + "has been disconnectedafter " + upTime + " seconds.");
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="34">
+<file line="177" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="494" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            Folder folder = getFolder(ImapGmailLabel.IMPORTANT.getName(),store);
+            folder.open(Folder.READ_ONLY); 
+            for (final Message msg : folder.search(new FlagTerm(
+                    new Flags(Flags.Flag.SEEN), !unreadOnly))) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="32">
+<file line="203" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="162" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<codefragment>
+<![CDATA[
+        this.proxyCredentials = proxyCredentials;
+    }
+
+    public void setProxyCredentials(final String username, final char[] password) {
+        setProxyCredentials(new Credentials(username, password));
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="31">
+<file line="305" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="329" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+            folder.open(Folder.READ_WRITE);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="30">
+<file line="362" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="420" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            folder = getFolder(ImapGmailLabel.STARRED.getName(), store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.FLAGGED)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="29">
+<file line="312" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="336" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+                    new Flags(Flags.Flag.SEEN), false))) {
+                message.setFlag(Flags.Flag.SEEN, true);
+            }
+        } catch (Exception e) {
+            throw new GmailException("ImapGmailClient failed marking"
+                    + " all GmailMessage as read" , e);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="5" tokens="28">
+<file line="257" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="74" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="28">
+<file line="219" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="353" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            client.markAsUnread(1);
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            if (messages.size() > 0) {
+                log.debug("Starting to mark message as read.");
+]]>
+</codefragment>
+</duplication>
+<duplication lines="5" tokens="28">
+<file line="164" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="74" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/rss/RssGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="13" tokens="25">
+<file line="105" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="392" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            log.debug("Test Passes with expected exception");
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to a given destination folder.
+     */
+    @Test
+    public void testMoveTo() {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="24">
+<file line="223" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="356" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+                log.debug("Starting to mark message as read.");
+                GmailMessage gmailMessage = messages.get(0);
+                log.debug("Msg Subject: " + gmailMessage.getSubject() + " has "
+                        + "been marked as read.");
+]]>
+</codefragment>
+</duplication>
+<duplication lines="6" tokens="24">
+<file line="256" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="304" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+        }
+        Folder folder = null;
+        
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="24">
+<file line="78" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/GmailConnection.java"/>
+<file line="147" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+    public ImapGmailConnection(final String username, final char[] password) {
+        this(new Credentials(username, password));
+    }
+
+    /**
+     * Constructor with Gmail {@link Credentials}
+     * 
+     * @param loginCredentials Gmail login credentials
+     */
+    public ImapGmailConnection(final Credentials loginCredentials) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="12" tokens="23">
+<file line="365" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<file line="392" path="/home/tomasv/Development/Misc/gmail4j/src/test/java/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java"/>
+<codefragment>
+<![CDATA[
+            log.debug("Test Passes with expected exception");
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Tests moving a message to a given destination folder.
+     */
+    @Test
+]]>
+</codefragment>
+</duplication>
+<duplication lines="7" tokens="23">
+<file line="220" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java"/>
+<file line="105" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailMessage.java"/>
+<codefragment>
+<![CDATA[
+    }
+    
+    @Override
+    public String toString() {
+        if (toString != null) {
+            return toString.toString();
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="5" tokens="23">
+<file line="257" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="329" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+        Folder folder = null;
+
+        try {
+            final Store store = openGmailStore();
+            folder = getFolder(this.srcFolder, store);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="2" tokens="23">
+<file line="179" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="335" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            for (final Message message : folder.search(new FlagTerm(
+                    new Flags(Flags.Flag.SEEN), false))) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="8" tokens="23">
+<file line="148" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java"/>
+<file line="367" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+        return this.proxy;
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public void setProxy(final String host, final int port) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="2" tokens="22">
+<file line="394" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="423" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            if (message.isSet(Flags.Flag.FLAGGED)) {
+                message.setFlag(Flags.Flag.FLAGGED, false);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="22">
+<file line="391" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="420" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            folder = getFolder(ImapGmailLabel.STARRED.getName(), store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.FLAGGED)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="2" tokens="22">
+<file line="312" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="365" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            if (message.isSet(Flags.Flag.SEEN)) {
+                message.setFlag(Flags.Flag.SEEN, false);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="4" tokens="22">
+<file line="309" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<file line="420" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailClient.java"/>
+<codefragment>
+<![CDATA[
+            folder = getFolder(ImapGmailLabel.STARRED.getName(), store);
+            folder.open(Folder.READ_WRITE);
+            Message message = folder.getMessage(messageNumber);
+            if (message.isSet(Flags.Flag.FLAGGED)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="10" tokens="22">
+<file line="122" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ConnectionInfo.java"/>
+<file line="142" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/MessageHeaderInfo.java"/>
+<codefragment>
+<![CDATA[
+                : !this.messageId.equals(other.messageId)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (this.messageId != null
+]]>
+</codefragment>
+</duplication>
+<duplication lines="7" tokens="22">
+<file line="175" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java"/>
+<file line="368" path="/home/tomasv/Development/Misc/gmail4j/src/main/java/com/googlecode/gmail4j/javamail/ImapGmailConnection.java"/>
+<codefragment>
+<![CDATA[
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public void setProxy(final String host, final int port) {
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

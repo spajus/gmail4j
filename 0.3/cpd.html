@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Gmail4J - CPD Results</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <div id="banner">
+                    <span id="bannerLeft">
+    
+            Gmail4J
+    
+            </span>
+                    <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+  
+  
+    
+            <div class="xleft">
+        Last Published: 2009-07-09
+                      </div>
+            <div class="xright">            <a href="">Gmail4J</a>
+            
+  
+
+  
+    
+  
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+  
+  
+    
+                             <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-info.html">Project Information</a>
+                </li>
+              
+                
+              
+      
+            
+            
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+            <li class="expanded">
+                    <a href="project-reports.html">Project Reports</a>
+                  <ul>
+                  
+    <li class="none">
+                    <a href="cobertura/index.html">Cobertura Test Coverage</a>
+          </li>
+                  
+    <li class="none">
+              <strong>CPD Report</strong>
+        </li>
+                  
+    <li class="none">
+                    <a href="apidocs/index.html">JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="pmd.html">PMD Report</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="xref/index.html">Source Xref</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="surefire-report.html">Surefire Report</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="testapidocs/index.html">Test JavaDocs</a>
+          </li>
+                  
+    <li class="none">
+                    <a href="xref-test/index.html">Test Source Xref</a>
+          </li>
+              </ul>
+        </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+  
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>CPD Results</h2>
+<p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.2.2.</p>
+</div>
+<div class="section"><h2>Duplications</h2>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.html#224">224</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/rss/RssGmailMessage.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/rss/RssGmailMessage.html#112">112</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        toString = new StringBuilder();
+        toString.append(&quot;MailMessage:{from:&quot;).append(getFrom())
+            .append(&quot;;sendDate:&quot;).append(getSendDate())
+            .append(&quot;;subject:&quot;).append(getSubject())
+            .append(&quot;;preview:&quot;).append(getPreview()).append(&quot;;}&quot;);
+        return toString.toString();
+    }</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/http/HttpGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpGmailConnection.html#175">175</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.html#149">149</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public void setProxy(final String proxyHost, final int proxyPort) {
+        this.proxy = new Proxy(Type.HTTP, InetSocketAddress
+                .createUnresolved(proxyHost, proxyPort));
+    }
+
+    public void setProxyCredentials(final Credentials proxyCredentials) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#72">72</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/test/rss/RssGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/rss/RssGmailClientTest.html#65">65</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
+            }
+            log.debug(&quot;Getting unread messages&quot;);
+            client.setConnection(connection);
+            final List&lt;GmailMessage&gt; messages = client.getUnreadMessages();
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull(&quot;Messages are not null&quot;, messages);</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#96">96</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/test/rss/RssGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/rss/RssGmailClientTest.html#62">62</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>            if (conf.useProxy()) {
+                ((ProxyAware) connection).setProxy(conf.getProxyHost(), 
+                        conf.getProxyPort());
+                ((ProxyAware) connection).setProxyCredentials(
+                        conf.getProxyCredentials());
+            }</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/http/HttpGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpGmailConnection.html#203">203</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.html#162">162</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        this.proxyCredentials = proxyCredentials;
+    }
+
+    public void setProxyCredentials(final String username, final char[] password) {
+        setProxyCredentials(new Credentials(username, password));
+    }</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#81">81</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/test/rss/RssGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/rss/RssGmailClientTest.html#74">74</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>            assertNotNull(&quot;Messages are not null&quot;, messages);
+        } catch (final Exception e) {
+            log.error(&quot;Test Failed&quot;, e);
+            fail(&quot;Caught exception: &quot; + e.getMessage());
+        }
+    }</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/GmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/GmailConnection.html#78">78</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/javamail/ImapGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/javamail/ImapGmailConnection.html#138">138</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    public ImapGmailConnection(final String username, final char[] password) {
+        this(new Credentials(username, password));
+    }
+    
+    /**
+     * Constructor with Gmail {@link Credentials}
+     * 
+     * @param loginCredentials Gmail login credentials
+     */
+    public ImapGmailConnection(final Credentials loginCredentials) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#68">68</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#94">94</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        final GmailConnection connection = new ImapGmailConnection();
+        connection.setLoginCredentials(conf.getGmailCredentials());
+        if (conf.useProxy() &amp;&amp; (connection instanceof ProxyAware)) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/javamail/JavaMailGmailMessage.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/javamail/JavaMailGmailMessage.html#216">216</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/rss/RssGmailMessage.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/rss/RssGmailMessage.html#105">105</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    }
+    
+    @Override
+    public String toString() {
+        if (toString != null) {
+            return toString.toString();
+        }</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpProxyAwareSslSocketFactory.html#148">148</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/javamail/ImapGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/javamail/ImapGmailConnection.html#297">297</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        return this.proxy;
+    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+    
+    public void setProxy(final String host, final int port) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/http/HttpGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/http/HttpGmailConnection.html#175">175</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/javamail/ImapGmailConnection.java</td>
+<td><a href="./xref/com/googlecode/gmail4j/javamail/ImapGmailConnection.html#298">298</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    }
+
+    public void setProxy(final Proxy proxy) {
+        this.proxy = proxy;
+    }
+    
+    public void setProxy(final String host, final int port) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>com/googlecode/gmail4j/test/imap/ImapGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/imap/ImapGmailClientTest.html#68">68</a></td>
+</tr>
+<tr class="a"><td>com/googlecode/gmail4j/test/rss/RssGmailClientTest.java</td>
+<td><a href="./xref-test/com/googlecode/gmail4j/test/rss/RssGmailClientTest.html#60">60</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>            final GmailConnection connection = new HttpGmailConnection();
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2009
+    
+          
+  
+
+  
+    
+  
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>

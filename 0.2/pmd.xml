@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.2" timestamp="2009-03-24T19:49:24.326">
+<file name="/Users/spajus/Development/workspace/gmail4j/src/main/java/com/googlecode/gmail4j/GmailMessage.java">
+<violation beginline="83" endline="83" begincolumn="49" endcolumn="68" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer Rules" package="com.googlecode.gmail4j" class="GmailMessage" method="getTo" externalInfoUrl="http://pmd.sourceforge.net/rules/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;This GmailMessage &quot; appears 5 times in this file; the first occurrence is on line 83
+</violation>
+</file>
+<file name="/Users/spajus/Development/workspace/gmail4j/src/main/java/com/googlecode/gmail4j/http/HttpGmailConnection.java">
+<violation beginline="68" endline="69" begincolumn="12" endcolumn="5" rule="UncommentedEmptyConstructor" ruleset="Design Rules" package="com.googlecode.gmail4j.http" class="HttpGmailConnection" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#UncommentedEmptyConstructor" priority="3">
+Document empty constructor
+</violation>
+<violation beginline="144" endline="148" begincolumn="13" endcolumn="13" rule="ConfusingTernary" ruleset="Design Rules" package="com.googlecode.gmail4j.http" class="HttpGmailConnection" method="openConnection" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ConfusingTernary" priority="3">
+Avoid if (x != y) ..; else ..;
+</violation>
+</file>
+<file name="/Users/spajus/Development/workspace/gmail4j/src/main/java/com/googlecode/gmail4j/rss/RssGmailClient.java">
+<violation beginline="92" endline="92" begincolumn="13" endcolumn="56" rule="LocalVariableCouldBeFinal" ruleset="Optimization Rules" package="com.googlecode.gmail4j.rss" class="RssGmailClient" method="getUnreadMessages" variable="c" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'c' could be declared final
+</violation>
+<violation beginline="99" endline="99" begincolumn="34" endcolumn="71" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization Rules" package="com.googlecode.gmail4j.rss" class="RssGmailClient" method="getUnreadMessages" externalInfoUrl="http://pmd.sourceforge.net/rules/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+</file>
+</pmd>
