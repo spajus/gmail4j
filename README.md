@@ -11,6 +11,14 @@ Add the dependency to your pom.xml:
       <artifactId>gmail4j</artifactId>
       <version>0.4</version>
     </dependency>
+    
+Or use the latest and greatest snapshot:
+
+    <dependency>
+      <groupId>com.googlecode.gmail4j</groupId>
+      <artifactId>gmail4j</artifactId>
+      <version>0.5-SNAPSHOT</version>
+    </dependency>
 
 Example code
 ------------
