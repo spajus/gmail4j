@@ -35,7 +35,7 @@ import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.HttpProxyAwareSslSocketFactory;
 import com.googlecode.gmail4j.http.ProxyAware;
-import com.googlecode.gmail4j.util.CommonConstants;
+import com.googlecode.gmail4j.util.Constants;
 
 /**
  * JavaMail based IMAP {@link GmailConnection} implementation.
@@ -392,7 +392,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
     private String getUsername(Credentials loginCredentials) {
         String username = loginCredentials.getUsername();
         if (!username.contains("@")) {
-            username += CommonConstants.GMAIL_EXTENSION;
+            username += Constants.GMAIL_EXTENSION;
 	    }
         return username;
     }

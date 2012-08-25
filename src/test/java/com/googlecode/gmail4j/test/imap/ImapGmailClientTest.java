@@ -38,6 +38,7 @@ import com.googlecode.gmail4j.javamail.ImapGmailConnection;
 import com.googlecode.gmail4j.javamail.ImapGmailLabel;
 import com.googlecode.gmail4j.javamail.JavaMailGmailMessage;
 import com.googlecode.gmail4j.test.TestConfigurer;
+import com.googlecode.gmail4j.util.Constants;
 
 /**
  * {@link ImapGmailClient} tests
@@ -453,6 +454,50 @@ public class ImapGmailClientTest {
             	String text = message.getContentText();
             	log.debug("Got text: " + text);
             	assertTrue("Text is not empty", text.length() > 0);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
+    @Test
+    public void testGetPreview() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            
+            // Send a message so we have one
+	        GmailMessage msg = new JavaMailGmailMessage();
+	        msg.setSubject("Test mail subject. Unicode: ąžuolėlį");
+	        msg.setContentText("Let's try to write a very long message and see" +
+	        		"if it will get trimmed when preview is called. It has to " +
+	        		"be over ? chars long so it will get trimmed. Now this text " +
+	        		"is over ? chars long, it should really get trimmed good.");
+	        msg.addTo(new EmailAddress(conf.getTestRecipient()));
+	        client.send(msg);
+	        
+            log.debug("Getting messages");
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            log.debug("Got " + messages.size() + " messages");
+            for (GmailMessage message : messages) {
+            	String text = message.getPreview();
+            	log.debug("Got text: " + text);
+            	assertTrue("Text is not empty", text.length() > 0);
+            	assertTrue("Text is not too long", 
+            			text.length() <= Constants.PREVIEW_LENGTH);
             }
             assertNotNull("Messages are not null", messages);
         } catch (final Exception e) {

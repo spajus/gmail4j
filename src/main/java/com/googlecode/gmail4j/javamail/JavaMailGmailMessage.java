@@ -38,7 +38,7 @@ import javax.mail.internet.MimeMessage;
 import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
-import com.googlecode.gmail4j.util.CommonConstants;
+import com.googlecode.gmail4j.util.Constants;
 /**
  * <a href="http://java.sun.com/products/javamail/">JavaMail</a> implementation 
  * of {@link GmailMessage}
@@ -249,11 +249,11 @@ public class JavaMailGmailMessage extends GmailMessage {
 
     @Override
     public String getPreview() {
-        try {
-            return source.getContent().toString();
-        } catch (final Exception e) {
-            throw new GmailException("Failed getting message preview", e);
-        }
+    	String text = getContentText();
+    	if (text.length() > Constants.PREVIEW_LENGTH) {
+    		return text.substring(0, Constants.PREVIEW_LENGTH - 3) + "...";
+    	}
+    	return text;
     }
 
     @Override
@@ -292,10 +292,10 @@ public class JavaMailGmailMessage extends GmailMessage {
 
             // message header tags used to get header information
             String[] headers = new String[]{
-                CommonConstants.MESSAGE_ID,
-                CommonConstants.MESSAGE_SUBJECT,
-                CommonConstants.MESSAGE_IN_REPLY_TO,
-                CommonConstants.MESSAGE_REFERENCES};
+                Constants.MESSAGE_ID,
+                Constants.MESSAGE_SUBJECT,
+                Constants.MESSAGE_IN_REPLY_TO,
+                Constants.MESSAGE_REFERENCES};
 
             @SuppressWarnings("unchecked")
             Enumeration<Header> matchingHeaders =
@@ -307,10 +307,10 @@ public class JavaMailGmailMessage extends GmailMessage {
             }
 
             if (!registry.isEmpty()) {
-                String messageId = registry.get(CommonConstants.MESSAGE_ID);
-                String subject = registry.get(CommonConstants.MESSAGE_SUBJECT);
-                String inReplyTo = registry.get(CommonConstants.MESSAGE_IN_REPLY_TO);
-                String references = registry.get(CommonConstants.MESSAGE_REFERENCES);
+                String messageId = registry.get(Constants.MESSAGE_ID);
+                String subject = registry.get(Constants.MESSAGE_SUBJECT);
+                String inReplyTo = registry.get(Constants.MESSAGE_IN_REPLY_TO);
+                String references = registry.get(Constants.MESSAGE_REFERENCES);
 
                 if (messageId != null) {
                     headerInfo = new MessageHeaderInfo(messageId);

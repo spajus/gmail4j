@@ -8,6 +8,8 @@ Changes in version 0.5 (2012-09-??)
 * Project moved to github: http://github.com/spajus/gmail4j
 * Implemented JavaMailGmailMessage.getContentText()
   https://code.google.com/p/gmail4j/issues/detail?id=28
+* Improved JavaMailGmailMessage.getPreview()
+  https://code.google.com/p/gmail4j/issues/detail?id=27
 
 Changes in version 0.4 (2010-12-19)
 -------------------------------------

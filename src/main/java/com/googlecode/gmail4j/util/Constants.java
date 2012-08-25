@@ -21,13 +21,13 @@ package com.googlecode.gmail4j.util;
  * <p>
  * Example use:
  * <p><blockquote><pre>
- *     store.getFolder(CommonConstants.GMAIL_INBOX);
+ *     store.getFolder(Constants.GMAIL_INBOX);
  * </pre></blockquote>
  *
  * @author Rajiv Perera &lt;rajivderas@gmail.com&gt;
  * @since 0.4
  */
-public class CommonConstants {
+public class Constants {
 
     public static final String GMAIL_EXTENSION = "@gmail.com";
     // used for messsage header information extraction tags
@@ -35,4 +35,5 @@ public class CommonConstants {
     public static final String MESSAGE_SUBJECT = "Subject";
     public static final String MESSAGE_IN_REPLY_TO = "In-Reply-To";
     public static final String MESSAGE_REFERENCES = "References";
+    public static final int PREVIEW_LENGTH = 80;
 }
