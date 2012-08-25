@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,6 @@ import com.googlecode.gmail4j.auth.Credentials;
  * @see GmailClient
  * @see Credentials
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id$
  * @since 0.2
  */
 public class GmailConnection {
@@ -101,14 +100,4 @@ public class GmailConnection {
             final char[] password) {
         setLoginCredentials(new Credentials(username, password));
     }
-
-    //FIXME Use Finalization Only When You Must.
-    // Don't rely on finalizers to release non-memory resources.
-    /**
-    @Override
-    protected void finalize() throws Throwable {
-        loginCredentials.dispose();
-        super.finalize();
-    }**/
-    
 }

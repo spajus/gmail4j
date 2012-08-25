@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,6 @@ package com.googlecode.gmail4j.util;
  * </pre></blockquote>
  *
  * @author Rajiv Perera &lt;rajivderas@gmail.com&gt;
- * @version $Id: CommonConstants.java 37 2010-10-20 13:15:32Z rajiv.perera $
  * @since 0.4
  */
 public class CommonConstants {

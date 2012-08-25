@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,6 @@ import org.apache.commons.logging.LogFactory;
  * </pre></blockquote></p>
  *
  * @author Rajiv Perera &lt;rajivderas@gmail.com&gt;
- * @version $Id: ImapConnectionHandler.java 42 2010-10-23 ‏‎15:04:41Z rajivderas@gmail.com $
  * @since 0.4
  */
 public class ImapConnectionHandler extends ConnectionAdapter {

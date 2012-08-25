@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +47,6 @@ import com.googlecode.gmail4j.test.TestConfigurer;
  * @see Credentials
  * @see TestConfigurer
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id$
  */
 public class ImapGmailClientTest {
 
@@ -145,7 +144,7 @@ public class ImapGmailClientTest {
      * Tests retrieval of unread priority messages
      */
     @Test
-    public void testGetPriorityMessages_UnreadOnly() {
+    public void testGetPriorityMessagesUnreadOnly() {
         final ImapGmailClient client = new ImapGmailClient();
         final ImapGmailConnection connection = new ImapGmailConnection();
 
@@ -175,7 +174,7 @@ public class ImapGmailClientTest {
      * Tests retrieval of read priority messages
      */
     @Test
-    public void testGetPriorityMessages_ReadOnly() {
+    public void testGetPriorityMessagesReadOnly() {
         final ImapGmailClient client = new ImapGmailClient();
         final ImapGmailConnection connection = new ImapGmailConnection();
 
@@ -375,7 +374,7 @@ public class ImapGmailClientTest {
      * throw {@link GmailException}.
      */
     @Test(expected = GmailException.class)
-    public void testMoveTo_GmailException() {
+    public void testMoveToGmailException() {
         final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
@@ -417,6 +416,45 @@ public class ImapGmailClientTest {
             client.moveTo(ImapGmailLabel.INBOX, 1);
             log.debug("Finished moving message #1 to " + 
                     ImapGmailLabel.INBOX.getName());
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            if (connection.isConnected()) {
+                connection.disconnect();
+            }
+        }
+    }
+    
+    @Test
+    public void testGetContentText() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            
+            // Send a message so we have one
+	        GmailMessage msg = new JavaMailGmailMessage();
+	        msg.setSubject("Test mail subject. Unicode: ąžuolėlį");
+	        msg.setContentText("Test mail content. Unicode: ąžuolėlį");
+	        msg.addTo(new EmailAddress(conf.getTestRecipient()));
+	        client.send(msg);
+	        
+            log.debug("Getting messages");
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            log.debug("Got " + messages.size() + " messages");
+            for (GmailMessage message : messages) {
+            	String text = message.getContentText();
+            	log.debug("Got text: " + text);
+            	assertTrue("Text is not empty", text.length() > 0);
+            }
+            assertNotNull("Messages are not null", messages);
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());

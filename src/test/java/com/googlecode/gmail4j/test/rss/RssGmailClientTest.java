@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,6 @@ import com.googlecode.gmail4j.test.TestConfigurer;
  * @see Credentials
  * @see TestConfigurer
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id$
  */
 public class RssGmailClientTest {
 

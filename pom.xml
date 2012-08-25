@@ -11,7 +11,7 @@
     <name>Gmail4J</name>
     <description>Gmail API for Java</description>
     <version>0.5-SNAPSHOT</version>
-    <url>http://gmail4j.googlecode.com</url>
+    <url>http://github.com/spajus/gmail4j</url>
     <developers>
         <developer>
             <id>spajus</id>
@@ -35,13 +35,13 @@
         </license>
     </licenses>
     <issueManagement>
-        <system>Google Code Issue Tracker</system>
-        <url>http://code.google.com/p/gmail4j/issues/list</url>
+        <system>Github Issue Tracker</system>
+        <url>https://github.com/spajus/gmail4j/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:svn:http://gmail4j.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://gmail4j.googlecode.com/svn/trunk</developerConnection>
-        <url>http://gmail4j.googlecode.com/svn/trunk</url>
+        <connection>https://github.com/spajus/gmail4j.git</connection>
+        <developerConnection>https://github.com/spajus/gmail4j.git</developerConnection>
+        <url>https://github.com/spajus/gmail4j.git</url>
     </scm>
     <mailingLists>
         <mailingList>

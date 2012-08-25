@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,6 @@ import java.io.Serializable;
  * <p>
  *
  * @author Rajiv Perera &lt;rajivderas@gmail.com&gt;
- * @version $Id: ConnectionInfo.java 42 2010-10-23 ‏‎‏‎23:18:41Z rajivderas@gmail.com $
  * @since 0.4
  */
 public class ConnectionInfo implements Serializable {

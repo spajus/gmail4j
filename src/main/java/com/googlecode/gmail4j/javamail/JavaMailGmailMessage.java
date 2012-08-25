@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 Tomas Varaneckas
+ * Copyright (c) 2008-2012 Tomas Varaneckas
  * http://www.varaneckas.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,25 +19,26 @@ package com.googlecode.gmail4j.javamail;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Header;
 import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.Header;
 
 import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.util.CommonConstants;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
 /**
  * <a href="http://java.sun.com/products/javamail/">JavaMail</a> implementation 
  * of {@link GmailMessage}
@@ -52,9 +53,15 @@ import java.util.StringTokenizer;
  *     message.addTo(new EmailAddress("j.smith@example.com");
  *     client.send(message);
  * </pre></blockquote></p> 
+ * <p>
+ * To get full power from JavaMail gmail message you should do this:
+ * <p><blockquote><pre>
+ *     JavaMailGmailMessage message = (JavaMailGmailMessage) gmailMessage; // cast from GmailMessage 
+ *     Message rawJavaMailMessage = message.getMessage();
+ *     // now use the full power of JavaMail to fit your needs
+ * </pre></blockquote></p> 
  * 
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
- * @version $Id$
  * @since 0.3
  */
 public class JavaMailGmailMessage extends GmailMessage {
@@ -95,6 +102,36 @@ public class JavaMailGmailMessage extends GmailMessage {
      */
     public Message getMessage() {
         return source;
+    }
+    
+    /**
+     * Gets plain text version of the content. Has some limitations - won't 
+     * handle nested attachments well.
+     * 
+     * @return String representation of the message
+     */
+    @Override
+    public String getContentText() {
+    	try {
+	    	Object content = source.getContent();
+	    	StringBuilder result = new StringBuilder();
+	    	if (content instanceof String) {
+	    		result.append(content);
+	    	} else if (content instanceof Multipart) {
+	    		Multipart parts = (Multipart) content;
+	    		for (int i = 0; i < parts.getCount(); i++) {
+	    			BodyPart part = parts.getBodyPart(i);
+	    			if (part.getContent() instanceof String) {
+	    				result.append(part.getContent());
+	    			}
+	    		}
+	    	}
+    		return result.toString();
+    	} catch (Exception e) {
+    		throw new GmailException("Failed getting text content from " +
+    				"JavaMailGmailMessage. You could try handling " +
+    				"((JavaMailGmailMessage).getMessage()) manually", e);
+    	}
     }
 
     @Override
