@@ -39,9 +39,9 @@
         <url>https://github.com/spajus/gmail4j/issues</url>
     </issueManagement>
     <scm>
-        <connection>https://github.com/spajus/gmail4j.git</connection>
-        <developerConnection>https://github.com/spajus/gmail4j.git</developerConnection>
-        <url>https://github.com/spajus/gmail4j.git</url>
+        <connection>scm:git:git@github.com/spajus/gmail4j.git</connection>
+        <developerConnection>scm:git:git@github.com/spajus/gmail4j.git</developerConnection>
+        <url>git@github.com/spajus/gmail4j.git</url>
     </scm>
     <mailingLists>
         <mailingList>
