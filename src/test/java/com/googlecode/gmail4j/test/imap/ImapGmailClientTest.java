@@ -80,6 +80,7 @@ public class ImapGmailClientTest {
         msg.setContentText("Test mail content. Unicode: ąžuolėlį");
         msg.addTo(new EmailAddress(conf.getTestRecipient()));
         client.send(msg);
+        client.disconnect();
     }
 
     /**
@@ -104,9 +105,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+            client.disconnect();
         }
     }
 
@@ -135,9 +134,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
     
@@ -166,9 +163,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
     /**
@@ -196,9 +191,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -231,9 +224,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -260,9 +251,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -296,9 +285,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -329,9 +316,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -364,9 +349,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -391,9 +374,7 @@ public class ImapGmailClientTest {
             client.moveTo(ImapGmailLabel.SENT_MAIL, 1);
             log.debug("Test Passes with expected exception");
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 
@@ -421,9 +402,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
     
@@ -460,9 +439,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
     
@@ -504,9 +481,7 @@ public class ImapGmailClientTest {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
         } finally {
-            if (connection.isConnected()) {
-                connection.disconnect();
-            }
+        	client.disconnect();
         }
     }
 }
