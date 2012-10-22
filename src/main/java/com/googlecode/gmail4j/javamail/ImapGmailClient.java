@@ -548,4 +548,11 @@ public class ImapGmailClient extends GmailClient {
             }
         }
     }
+    
+    @Override
+    public void disconnect() {
+    	if (connection != null) {
+    		connection.disconnect();
+    	}
+    }
 }

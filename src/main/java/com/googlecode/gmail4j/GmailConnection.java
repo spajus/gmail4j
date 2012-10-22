@@ -100,4 +100,10 @@ public class GmailConnection {
             final char[] password) {
         setLoginCredentials(new Credentials(username, password));
     }
+    
+    /**
+     * Disconnects from Gmail
+     */
+    public void disconnect() {    	
+    }
 }
