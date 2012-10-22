@@ -131,4 +131,7 @@ public class RssGmailClient extends GmailClient {
         		"capable of sending messages.");
     }
     
+    @Override
+    public void disconnect() {
+    }    
 }

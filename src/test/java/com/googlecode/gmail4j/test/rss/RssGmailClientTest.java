@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.googlecode.gmail4j.GmailConnection;
@@ -47,25 +49,37 @@ public class RssGmailClientTest {
      * Logger
      */
     private static final Log log = LogFactory.getLog(RssGmailClientTest.class);
-
+    private RssGmailClient client;    
+    
+    @Before
+    public void connect() {
+        TestConfigurer conf = TestConfigurer.getInstance();            
+        client = new RssGmailClient();
+        final GmailConnection connection = new HttpGmailConnection();
+        connection.setLoginCredentials(conf.getGmailCredentials());
+        if (conf.useProxy()) {
+            ((ProxyAware) connection).setProxy(conf.getProxyHost(), 
+                    conf.getProxyPort());
+            ((ProxyAware) connection).setProxyCredentials(
+                    conf.getProxyCredentials());
+        }
+        client.setConnection(connection);    	
+    }
+    
+    @After
+    public void disconnect() {
+    	if (client != null)
+    		client.disconnect();
+    }
+    
     /**
      * Tests retrieval of unread messages
      */
     @Test
     public void testGetUnreadMessages() {
         try {
-            TestConfigurer conf = TestConfigurer.getInstance();            
-            final RssGmailClient client = new RssGmailClient();
-            final GmailConnection connection = new HttpGmailConnection();
-            connection.setLoginCredentials(conf.getGmailCredentials());
-            if (conf.useProxy()) {
-                ((ProxyAware) connection).setProxy(conf.getProxyHost(), 
-                        conf.getProxyPort());
-                ((ProxyAware) connection).setProxyCredentials(
-                        conf.getProxyCredentials());
-            }
             log.debug("Getting unread messages");
-            client.setConnection(connection);
+
             final List<GmailMessage> messages = client.getUnreadMessages();
             for (GmailMessage message : messages) {
                 log.debug(message);

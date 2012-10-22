@@ -82,4 +82,8 @@ public abstract class GmailClient {
      */
     public abstract void send(final GmailMessage message);
     
+    /**
+     * Disconnects from Gmail
+     */
+    public abstract void disconnect();
 }
