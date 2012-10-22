@@ -332,9 +332,7 @@ public class ImapGmailConnection extends GmailConnection implements ProxyAware {
         return mailSession;
     }
 
-    /**
-     * Disconnects from Gmail
-     */
+    @Override
     public void disconnect() {
         try {
             if (isConnected()) {

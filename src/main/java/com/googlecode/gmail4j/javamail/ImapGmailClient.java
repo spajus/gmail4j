@@ -535,7 +535,7 @@ public class ImapGmailClient extends GmailClient {
      *
      * @param folder {@link Folder} to be closed
      */
-    public void closeFolder(Folder folder) {
+    private void closeFolder(Folder folder) {
         if (folder != null) {
             try {
                 if (folder.isOpen()) {
@@ -547,5 +547,12 @@ public class ImapGmailClient extends GmailClient {
                 LOG.warn("Cannot close folder : " + folder.getName(), e);
             }
         }
+    }
+    
+    @Override
+    public void disconnect() {
+    	if (connection != null) {
+    		connection.disconnect();
+    	}
     }
 }
