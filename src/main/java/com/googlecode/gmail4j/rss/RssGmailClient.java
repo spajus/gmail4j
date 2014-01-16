@@ -109,7 +109,14 @@ public class RssGmailClient extends GmailClient {
         }
         return messages;
     }
-    
+
+    @Override
+    public List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value)
+    {
+        throw new UnsupportedOperationException("RssGmailClient is not " +
+                "capable of advanced fetching.");
+    }
+
     /**
      * Gets {@link HttpGmailConnection} (casts it from parent 
      * {@link GmailConnection})
