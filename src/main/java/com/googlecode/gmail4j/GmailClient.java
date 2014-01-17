@@ -101,6 +101,4 @@ public abstract class GmailClient {
      * Disconnects from Gmail
      */
     public abstract void disconnect();
-
-
 }

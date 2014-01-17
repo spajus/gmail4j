@@ -246,7 +246,6 @@ public class ImapGmailClient extends GmailClient {
         }
     }
 
-
     /**
      * Opens Gmail {@link Store}
      * 
