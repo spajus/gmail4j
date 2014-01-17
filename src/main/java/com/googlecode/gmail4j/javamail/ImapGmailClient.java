@@ -25,7 +25,13 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Store;
 import javax.mail.Transport;
-import javax.mail.search.*;
+import javax.mail.search.FlagTerm;
+import javax.mail.search.SubjectTerm;
+import javax.mail.search.RecipientStringTerm;
+import javax.mail.search.SearchTerm;
+import javax.mail.search.FromStringTerm;
+import javax.mail.search.SentDateTerm;
+import javax.mail.search.BodyTerm;
 
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
@@ -182,31 +188,45 @@ public class ImapGmailClient extends GmailClient {
         {
             case SUBJECT:
                 seekStrategy =  new SubjectTerm(value);
-                LOG.info("Fetching emails with a subject of \"" + value + "\"");
+                LOG.debug("Fetching emails with a subject of \"" + value + "\"");
                 break;
             case TO:
                 seekStrategy = new RecipientStringTerm(Message.RecipientType.TO,value);
-                LOG.info("Fetching emails sent to \"" + value + "\"");
+                LOG.debug("Fetching emails sent to \"" + value + "\"");
                 break;
             case FROM:
                 seekStrategy = new FromStringTerm(value);
-                LOG.info("Fetching emails sent from \"" + value + "\"");
+                LOG.debug("Fetching emails sent from \"" + value + "\"");
                 break;
             case CC:
                 seekStrategy = new RecipientStringTerm(Message.RecipientType.CC,value);
-                LOG.info("Fetching emails CC'd to \"" + value + "\"");
+                LOG.debug("Fetching emails CC'd to \"" + value + "\"");
                 break;
-            case DATE:
-                seekStrategy = new SentDateTerm(SentDateTerm.GT,new Date(Date.parse(value)));
-                LOG.info("Fetching emails with a send date newer than \"" + value + "\"");
+            case DATE_GT:
+                seekStrategy = new SentDateTerm(SentDateTerm.GT,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
+                break;
+            case DATE_LT:
+                seekStrategy = new SentDateTerm(SentDateTerm.LT,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
+                break;
+            case DATE_EQ:
+                seekStrategy = new SentDateTerm(SentDateTerm.EQ,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
                 break;
             case KEYWORD:
                 seekStrategy = new BodyTerm(value);
-                LOG.info("Fetching emails containing the keyword \"" + value + "\"");
+                LOG.debug("Fetching emails containing the keyword \"" + value + "\"");
                 break;
             case UNREAD:
                 seekStrategy = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-                LOG.info("Fetching all unread emails");
+                LOG.debug("Fetching all unread emails");
                 break;
         }
         try {
@@ -219,7 +239,7 @@ public class ImapGmailClient extends GmailClient {
                 found.add(new JavaMailGmailMessage(msg));
                 counter++;
             }
-            LOG.info("Found " + found.size() + " emails");
+            LOG.debug("Found " + found.size() + " emails");
             return found;
         } catch (final Exception e) {
             throw new GmailException("Failed getting unread messages", e);

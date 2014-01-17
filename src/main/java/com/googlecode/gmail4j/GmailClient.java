@@ -49,7 +49,7 @@ public abstract class GmailClient {
      * Strategies to fetch emails with
      */
     public enum EmailSearchStrategy {
-        SUBJECT(), DATE(), TO(), FROM(), KEYWORD(), CC(), UNREAD();
+        SUBJECT(), DATE_GT(), DATE_LT(), DATE_EQ, TO(), FROM(), KEYWORD(), CC(), UNREAD();
     };
 
     /**

@@ -143,7 +143,7 @@ public class ImapGmailClientTest {
      * Tests retrieval of messages by date
      */
     @Test
-    public void testGetMessagesByDate() {
+    public void testGetMessagesByDateGreaterThan() {
         final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
         final ImapGmailConnection connection = new ImapGmailConnection();
 
@@ -155,7 +155,9 @@ public class ImapGmailClientTest {
             }
             log.debug("Getting unread messages");
             client.setConnection(connection);
-            final List<GmailMessage> messages = client.getMessagesBy(GmailClient.EmailSearchStrategy.DATE,new Date().toString());
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.DATE_GT,
+                    new Date().toString());
             for (GmailMessage message : messages) {
                 log.debug(message);
             }
@@ -184,7 +186,9 @@ public class ImapGmailClientTest {
             }
             log.debug("Getting unread messages");
             client.setConnection(connection);
-            final List<GmailMessage> messages = client.getMessagesBy(GmailClient.EmailSearchStrategy.SUBJECT,"Test mail subject. Unicode: ąžuolėlį");
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.SUBJECT,
+                    "Test mail subject. Unicode: ąžuolėlį");
             for (GmailMessage message : messages) {
                 log.debug(message);
             }
@@ -213,7 +217,8 @@ public class ImapGmailClientTest {
             }
             log.debug("Getting unread messages");
             client.setConnection(connection);
-            final List<GmailMessage> messages = client.getMessagesBy(GmailClient.EmailSearchStrategy.KEYWORD,"Unicode");
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.KEYWORD,"Unicode");
             for (GmailMessage message : messages) {
                 log.debug(message);
             }
