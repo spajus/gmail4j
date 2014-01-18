@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -137,7 +138,99 @@ public class ImapGmailClientTest {
         	client.disconnect();
         }
     }
-    
+
+    /**
+     * Tests retrieval of messages by date
+     */
+    @Test
+    public void testGetMessagesByDateGreaterThan() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.DATE_GT,
+                    new Date().toString());
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            client.disconnect();
+        }
+    }
+
+    /**
+     * Tests retrieval of messages by subject
+     */
+    @Test
+    public void testGetMessagesBySubject() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.SUBJECT,
+                    "Test mail subject. Unicode: ąžuolėlį");
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            client.disconnect();
+        }
+    }
+
+    /**
+     * Tests retrieval of messages by keyword
+     */
+    @Test
+    public void testGetMessagesByKeyword() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.KEYWORD,"Unicode");
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            client.disconnect();
+        }
+    }
+
     /**
      * Tests retrieval of unread priority messages
      */

@@ -44,7 +44,14 @@ public abstract class GmailClient {
      * Logger
      */
     protected final Log log = LogFactory.getLog(getClass());
-    
+
+    /**
+     * Strategies to fetch emails with
+     */
+    public enum EmailSearchStrategy {
+        SUBJECT(), DATE_GT(), DATE_LT(), DATE_EQ, TO(), FROM(), KEYWORD(), CC(), UNREAD();
+    };
+
     /**
      * Gmail Connection 
      * 
@@ -74,6 +81,14 @@ public abstract class GmailClient {
      * @return List of unread messages
      */
     public abstract List<GmailMessage> getUnreadMessages();
+
+    /**
+     * Returns list of matching {@link GmailMessage} objects
+     *
+     * @param strategy search strategy
+     * @param value the value to look for
+     */
+    public abstract List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value);
     
     /**
      * Sends the message

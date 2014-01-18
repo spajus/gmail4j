@@ -17,6 +17,7 @@
 package com.googlecode.gmail4j.javamail;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.Flags;
@@ -25,6 +26,12 @@ import javax.mail.Message;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.search.FlagTerm;
+import javax.mail.search.SubjectTerm;
+import javax.mail.search.RecipientStringTerm;
+import javax.mail.search.SearchTerm;
+import javax.mail.search.FromStringTerm;
+import javax.mail.search.SentDateTerm;
+import javax.mail.search.BodyTerm;
 
 import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
@@ -170,16 +177,70 @@ public class ImapGmailClient extends GmailClient {
 
     @Override
     public List<GmailMessage> getUnreadMessages() {
+        return getMessagesBy(EmailSearchStrategy.UNREAD,"");
+    }
+
+    @Override
+    public List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value)
+    {
+        SearchTerm seekStrategy = null;
+        switch(strategy)
+        {
+            case SUBJECT:
+                seekStrategy =  new SubjectTerm(value);
+                LOG.debug("Fetching emails with a subject of \"" + value + "\"");
+                break;
+            case TO:
+                seekStrategy = new RecipientStringTerm(Message.RecipientType.TO,value);
+                LOG.debug("Fetching emails sent to \"" + value + "\"");
+                break;
+            case FROM:
+                seekStrategy = new FromStringTerm(value);
+                LOG.debug("Fetching emails sent from \"" + value + "\"");
+                break;
+            case CC:
+                seekStrategy = new RecipientStringTerm(Message.RecipientType.CC,value);
+                LOG.debug("Fetching emails CC'd to \"" + value + "\"");
+                break;
+            case DATE_GT:
+                seekStrategy = new SentDateTerm(SentDateTerm.GT,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
+                break;
+            case DATE_LT:
+                seekStrategy = new SentDateTerm(SentDateTerm.LT,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
+                break;
+            case DATE_EQ:
+                seekStrategy = new SentDateTerm(SentDateTerm.EQ,
+                        new Date(Date.parse(value)));
+                LOG.debug(
+                        "Fetching emails with a send date newer than \"" + value + "\"");
+                break;
+            case KEYWORD:
+                seekStrategy = new BodyTerm(value);
+                LOG.debug("Fetching emails containing the keyword \"" + value + "\"");
+                break;
+            case UNREAD:
+                seekStrategy = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+                LOG.debug("Fetching all unread emails");
+                break;
+        }
         try {
-            final List<GmailMessage> unread = new ArrayList<GmailMessage>();
+            final List<GmailMessage> found = new ArrayList<GmailMessage>();
             final Store store = openGmailStore();
             final Folder folder = getFolder(this.srcFolder,store);
             folder.open(Folder.READ_ONLY);
-            for (final Message msg : folder.search(new FlagTerm(
-                    new Flags(Flags.Flag.SEEN), false))) {
-                unread.add(new JavaMailGmailMessage(msg));
+            int counter = 1;
+            for (final Message msg : folder.search(seekStrategy)) {
+                found.add(new JavaMailGmailMessage(msg));
+                counter++;
             }
-            return unread;
+            LOG.debug("Found " + found.size() + " emails");
+            return found;
         } catch (final Exception e) {
             throw new GmailException("Failed getting unread messages", e);
         }
@@ -241,7 +302,7 @@ public class ImapGmailClient extends GmailClient {
     }
 
     /**
-     * Moves given {@link GmailMessage}'s to {@link ImapGmailLabel.Trash} folder.
+     * Moves given {@link GmailMessage}'s to {@link ImapGmailLabel.TRASH} folder.
      *
      * @param gmailMessages {@link GmailMessage} message(s)
      * @throws GmailException if unable to move {@link GmailMessage}'s to

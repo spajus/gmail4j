@@ -39,6 +39,45 @@ for (GmailMessage message : messages) {
 }
 ```
 
+### Get messages by subject
+
+```java
+GmailClient client = new RssGmailClient();
+GmailConnection connection = new HttpGmailConnection(LoginDialog.getInstance().show("Enter Gmail Login"));
+client.setConnection(connection);
+final List<GmailMessage> messages = client.getMessagesBy(GmailClient.EmailSearchStrategy.SUBJECT,
+        "Test mail subject. Unicode: ąžuolėlį");
+for (GmailMessage message : messages) {
+    System.out.println(message);
+}
+```
+
+### Get messages by sent date greater than
+
+```java
+GmailClient client = new RssGmailClient();
+GmailConnection connection = new HttpGmailConnection(LoginDialog.getInstance().show("Enter Gmail Login"));
+client.setConnection(connection);
+final List<GmailMessage> messages = client.getMessagesBy(GmailClient.EmailSearchStrategy.DATE_GT,
+        new Date().toString());
+for (GmailMessage message : messages) {
+    System.out.println(message);
+}
+```
+
+### Get messages by keyword
+
+```java
+GmailClient client = new RssGmailClient();
+GmailConnection connection = new HttpGmailConnection(LoginDialog.getInstance().show("Enter Gmail Login"));
+client.setConnection(connection);
+final List<GmailMessage> messages = client.getMessagesBy(
+        GmailClient.EmailSearchStrategy.KEYWORD,"Unicode");
+for (GmailMessage message : messages) {
+    System.out.println(message);
+}
+```
+
 ### Get unread messages via proxy
 
 ```java
