@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 
-public class GmailMessageList implements List{
+public class GmailMessageList implements List<GmailMessage>{
 
     /**
      * Logger
@@ -169,16 +169,16 @@ public class GmailMessageList implements List{
         return emails.toArray();
     }
 
-    public boolean add(Object o) {
+    public boolean add(GmailMessage o) {
         return emails.add((GmailMessage)o);
     }
 
     public boolean remove(Object o) {
-        return emails.remove((GmailMessage)o);
+        return emails.remove(o);
     }
 
     public boolean containsAll(Collection<?> c) {
-        return emails.containsAll((Collection <GmailMessage>)c);
+        return emails.containsAll(c);
     }
 
     public boolean addAll(Collection c) {
@@ -190,39 +190,39 @@ public class GmailMessageList implements List{
     }
 
     public boolean removeAll(Collection<?> c) {
-        return emails.removeAll((Collection<GmailMessage>) c);
+        return emails.removeAll(c);
     }
 
     public boolean retainAll(Collection<?> c) {
-        return emails.retainAll((Collection<GmailMessage>) c);
+        return emails.retainAll(c);
     }
 
     public void clear() {
         emails.clear();
     }
 
-    public Object get(int index) {
+    public GmailMessage get(int index) {
         return emails.get(index);
     }
 
-    public Object set(int index, Object element) {
+    public GmailMessage set(int index, GmailMessage element) {
         return emails.set(index,(GmailMessage)element);
     }
 
-    public void add(int index, Object element) {
+    public void add(int index, GmailMessage element) {
         emails.add(index,(GmailMessage)element);
     }
 
-    public Object remove(int index) {
+    public GmailMessage remove(int index) {
         return emails.remove(index);
     }
 
     public int indexOf(Object o) {
-        return emails.indexOf((GmailMessage)o);
+        return emails.indexOf(o);
     }
 
     public int lastIndexOf(Object o) {
-        return emails.lastIndexOf((GmailMessage)o);
+        return emails.lastIndexOf(o);
     }
 
     public ListIterator listIterator() {
