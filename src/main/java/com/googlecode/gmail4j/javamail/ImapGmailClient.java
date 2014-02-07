@@ -37,6 +37,7 @@ import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 
+import com.googlecode.gmail4j.GmailMessageList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -181,7 +182,7 @@ public class ImapGmailClient extends GmailClient {
     }
 
     @Override
-    public List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value)
+    public GmailMessageList getMessagesBy(EmailSearchStrategy strategy, String value)
     {
         SearchTerm seekStrategy = null;
         switch(strategy)
@@ -230,7 +231,7 @@ public class ImapGmailClient extends GmailClient {
                 break;
         }
         try {
-            final List<GmailMessage> found = new ArrayList<GmailMessage>();
+            final GmailMessageList found = new GmailMessageList();
             final Store store = openGmailStore();
             final Folder folder = getFolder(this.srcFolder,store);
             folder.open(Folder.READ_ONLY);

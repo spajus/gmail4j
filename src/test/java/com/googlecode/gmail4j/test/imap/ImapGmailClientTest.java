@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -153,11 +154,16 @@ public class ImapGmailClientTest {
                 connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
-            log.debug("Getting unread messages");
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.DATE, -1);
+            date = cal.getTime();
+            log.debug("Getting messages newer than yesterday" + date.toString());
             client.setConnection(connection);
             final List<GmailMessage> messages = client.getMessagesBy(
                     GmailClient.EmailSearchStrategy.DATE_GT,
-                    new Date().toString());
+                    date.toString());
             for (GmailMessage message : messages) {
                 log.debug(message);
             }
@@ -184,7 +190,7 @@ public class ImapGmailClientTest {
                 connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
-            log.debug("Getting unread messages");
+            log.debug("Getting messages by subject");
             client.setConnection(connection);
             final List<GmailMessage> messages = client.getMessagesBy(
                     GmailClient.EmailSearchStrategy.SUBJECT,
@@ -215,10 +221,42 @@ public class ImapGmailClientTest {
                 connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
                 connection.setProxyCredentials(conf.getProxyCredentials());
             }
-            log.debug("Getting unread messages");
+            log.debug("Getting messages by keyword");
             client.setConnection(connection);
             final List<GmailMessage> messages = client.getMessagesBy(
                     GmailClient.EmailSearchStrategy.KEYWORD,"Unicode");
+            for (GmailMessage message : messages) {
+                log.debug(message);
+            }
+            assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            client.disconnect();
+        }
+    }
+
+    /**
+     * Tests retrieval of messages by keyword as well as chained filtering
+     * with the GmailMessageList class
+     */
+    @Test
+    public void testGetMessagesByMultipleKeywords() {
+        final ImapGmailClient client = new ImapGmailClient(ImapGmailLabel.SENT_MAIL);
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            log.debug("Getting unread messages");
+            client.setConnection(connection);
+            final List<GmailMessage> messages = client.getMessagesBy(
+                    GmailClient.EmailSearchStrategy.KEYWORD,"Unicode")
+                    .filterMessagesBy(GmailClient.EmailSearchStrategy.KEYWORD,"ąžuolėlį");
             for (GmailMessage message : messages) {
                 log.debug(message);
             }
