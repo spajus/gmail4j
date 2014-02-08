@@ -16,6 +16,8 @@
  */
 package com.googlecode.gmail4j.javamail;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -203,22 +205,16 @@ public class ImapGmailClient extends GmailClient {
                 LOG.debug("Fetching emails CC'd to \"" + value + "\"");
                 break;
             case DATE_GT:
-                seekStrategy = new SentDateTerm(SentDateTerm.GT,
-                        new Date(Date.parse(value)));
-                LOG.debug(
-                        "Fetching emails with a send date newer than \"" + value + "\"");
+                seekStrategy = new SentDateTerm(SentDateTerm.GT, parseDate(value));
+                LOG.debug("Fetching emails with a send date newer than \"" + value + "\"");
                 break;
             case DATE_LT:
-                seekStrategy = new SentDateTerm(SentDateTerm.LT,
-                        new Date(Date.parse(value)));
-                LOG.debug(
-                        "Fetching emails with a send date newer than \"" + value + "\"");
+                seekStrategy = new SentDateTerm(SentDateTerm.LT, parseDate(value));
+                LOG.debug("Fetching emails with a send date newer than \"" + value + "\"");
                 break;
             case DATE_EQ:
-                seekStrategy = new SentDateTerm(SentDateTerm.EQ,
-                        new Date(Date.parse(value)));
-                LOG.debug(
-                        "Fetching emails with a send date newer than \"" + value + "\"");
+                seekStrategy = new SentDateTerm(SentDateTerm.EQ,parseDate(value));
+                LOG.debug("Fetching emails with a send date newer than \"" + value + "\"");
                 break;
             case KEYWORD:
                 seekStrategy = new BodyTerm(value);
@@ -234,10 +230,8 @@ public class ImapGmailClient extends GmailClient {
             final Store store = openGmailStore();
             final Folder folder = getFolder(this.srcFolder,store);
             folder.open(Folder.READ_ONLY);
-            int counter = 1;
             for (final Message msg : folder.search(seekStrategy)) {
                 found.add(new JavaMailGmailMessage(msg));
-                counter++;
             }
             LOG.debug("Found " + found.size() + " emails");
             return found;
@@ -610,10 +604,25 @@ public class ImapGmailClient extends GmailClient {
         }
     }
     
+    /**
+     * Parse a date in "yyyy-MM-dd HH:mm:ss" format
+     * 
+     * @param date
+     * @return
+     */
+    private Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+        } catch (ParseException e) {
+            LOG.error("Bad date format in " + date + ". Use yyyy-MM-dd HH:mm:ss");
+            return new Date();
+        }
+    }
+    
     @Override
     public void disconnect() {
-    	if (connection != null) {
-    		connection.disconnect();
-    	}
+        if (connection != null) {
+            connection.disconnect();
+        }
     }
 }
