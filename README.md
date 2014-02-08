@@ -94,6 +94,19 @@ for (GmailMessage message : messages) {
 
 There are more examples in API docs.
 
+Compiling
+---------
+To build a jar, run:
+
+`mvn clean package`
+
+You will be asked for valid Gmail account username/password to run the tests. You can register
+Gmail account for this purpose or use your own. Registering fresh test account is recommended.
+
+You can also skip tests when building a jar:
+
+`mvn clean package -Dmaven.test.skip=true`
+
 Maven Site
 ----------
 For reports, API docs and more, please check [Gmail4j Maven Site](http://spajus.github.com/gmail4j/0.4/).
