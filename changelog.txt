@@ -1,10 +1,12 @@
 ===================
 GMAIL4J CHANGELOG
 ===================
-http://gmail4j.googlecode.com
+https://github.com/spajus/gmail4j
 
-Changes in version 0.5 (2012-09-??)
+Changes in version 0.5 (2014-??-??)
 -------------------------------------
+* Added capability to fetch emails by various strategies
+  https://github.com/spajus/gmail4j/pull/8
 * Project moved to github: http://github.com/spajus/gmail4j
 * Implemented JavaMailGmailMessage.getContentText()
   https://code.google.com/p/gmail4j/issues/detail?id=28
@@ -24,14 +26,14 @@ Changes in version 0.4 (2010-12-19)
   http://code.google.com/p/gmail4j/issues/detail?id=18
 * Possibility to mark all message as read in JavaMail IMAP GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=17
-* Possibility for JavaMail IMAP GmailClient to accept source folder name as an argument 
+* Possibility for JavaMail IMAP GmailClient to accept source folder name as an argument
   http://code.google.com/p/gmail4j/issues/detail?id=16
 * Possibility to mark a single message as read in JavaMail IMAP GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=15
 * Possibility to fetch message header information from GMailMessage
   (Headers : Message-ID, Subject, In-Reply-To, References)
   http://code.google.com/p/gmail4j/issues/detail?id=14
-* Connection Listeners implementation in IMAP for API users with event driven 
+* Connection Listeners implementation in IMAP for API users with event driven
   mail applications
   http://code.google.com/p/gmail4j/issues/detail?id=13
 * Possibility to delete (move to trash) messages in JavaMail IMAP GmailClient
@@ -51,8 +53,8 @@ Changes in version 0.2 (2009-03-24)
 -------------------------------------
 * Updated Maven dependencies (ROME 0.9 to 1.0)
   http://code.google.com/p/gmail4j/issues/detail?id=4
-* Refactored Gmail4J API to use GmailConnection as an object instead of a state 
-  of GmailClient  
+* Refactored Gmail4J API to use GmailConnection as an object instead of a state
+  of GmailClient
   http://code.google.com/p/gmail4j/issues/detail?id=3
 * Rss Gmail Client can now use Proxy with or without authentication
   http://code.google.com/p/gmail4j/issues/detail?id=2
