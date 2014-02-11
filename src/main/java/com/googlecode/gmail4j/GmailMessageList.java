@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 
-public class GmailMessageList implements List<GmailMessage>{
+public class GmailMessageList implements List<GmailMessage> {
 
     /**
      * Logger
@@ -25,13 +25,11 @@ public class GmailMessageList implements List<GmailMessage>{
 
     private List<GmailMessage> emails;
 
-    public GmailMessageList()
-    {
+    public GmailMessageList() {
         emails = new LinkedList<GmailMessage>();
     }
 
-    public GmailMessageList(List<GmailMessage> emails)
-    {
+    public GmailMessageList(List<GmailMessage> emails) {
         this.emails = emails;
     }
 
@@ -41,94 +39,78 @@ public class GmailMessageList implements List<GmailMessage>{
      * @param strategy search strategy
      * @param value the value to look for
      */
-    public GmailMessageList filterMessagesBy(GmailClient.EmailSearchStrategy strategy, String value)    throws Exception
-    {
+    public GmailMessageList filterMessagesBy(GmailClient.EmailSearchStrategy strategy, String value)
+            throws Exception {
         LOG.debug("Retrieving emails where " + strategy.name() + " equals " + value);
         List<GmailMessage> matchedEmails = new LinkedList<GmailMessage>();
         Date dateToLookFor = null;
         if (strategy == GmailClient.EmailSearchStrategy.DATE_EQ
                 || strategy == GmailClient.EmailSearchStrategy.DATE_GT
-                || strategy == GmailClient.EmailSearchStrategy.DATE_LT)
-        {
+                || strategy == GmailClient.EmailSearchStrategy.DATE_LT) {
             dateToLookFor = new Date(Date.parse(value));
         }
         int total = emails.size();
         int counter = 0;
         boolean wasFound;
-        for (GmailMessage message : emails)
-        {
-            switch (strategy)
-            {
+        for (GmailMessage message : emails) {
+            switch (strategy) {
                 case SUBJECT:
-                    if (message.getSubject().equals(value))
-                    {
+                    if (message.getSubject().equals(value)) {
                         matchedEmails.add(message);
                     }
                     break;
                 case DATE_EQ:
-                    if (message.getSendDate().compareTo(dateToLookFor)== 0)
-                    {
+                    if (message.getSendDate().compareTo(dateToLookFor) == 0) {
                         matchedEmails.add(message);
                     }
                     break;
                 case DATE_GT:
-                    if (message.getSendDate().compareTo(dateToLookFor) > 0)
-                    {
+                    if (message.getSendDate().compareTo(dateToLookFor) > 0) {
                         matchedEmails.add(message);
                     }
                     break;
                 case DATE_LT:
-                    if (message.getSendDate().compareTo(dateToLookFor) < 0)
-                    {
+                    if (message.getSendDate().compareTo(dateToLookFor) < 0) {
                         matchedEmails.add(message);
                     }
                     break;
                 case TO:
                     wasFound = false;
                     List<EmailAddress> emailAddressesTo = message.getTo();
-                    for (EmailAddress address : emailAddressesTo)
-                    {
-                        if (address.getEmail().equalsIgnoreCase(value))
-                        {
+                    for (EmailAddress address : emailAddressesTo) {
+                        if (address.getEmail().equalsIgnoreCase(value)) {
                             wasFound = true;
                         }
                     }
-                    if (wasFound)
-                    {
+                    if (wasFound) {
                         matchedEmails.add(message);
                     }
                     break;
                 case FROM:
-                    if (message.getFrom().getEmail().equalsIgnoreCase(value))
-                    {
+                    if (message.getFrom().getEmail().equalsIgnoreCase(value)) {
                         matchedEmails.add(message);
                     }
                     break;
                 case KEYWORD:
-                    if (((JavaMailGmailMessage)message).getMessage().match(new BodyTerm(value)))
-                    {
+                    if (((JavaMailGmailMessage)message).getMessage().match(new BodyTerm(value))) {
                         matchedEmails.add(message);
                     }
                     break;
                 case CC:
                     wasFound = false;
                     List<EmailAddress> emailAddressesCC = message.getCc();
-                    for (EmailAddress address : emailAddressesCC)
-                    {
-                        if (address.getEmail().equalsIgnoreCase(value))
-                        {
+                    for (EmailAddress address : emailAddressesCC) {
+                        if (address.getEmail().equalsIgnoreCase(value)) {
                             wasFound = true;
                         }
                     }
-                    if (wasFound)
-                    {
+                    if (wasFound) {
                         matchedEmails.add(message);
                     }
                     break;
                 case UNREAD:
                     if (((JavaMailGmailMessage)message).getMessage()
-                            .match(new FlagTerm(new Flags(Flags.Flag.SEEN), false)))
-                    {
+                            .match(new FlagTerm(new Flags(Flags.Flag.SEEN), false))) {
                         matchedEmails.add(message);
                     }
                     break;
@@ -137,12 +119,10 @@ public class GmailMessageList implements List<GmailMessage>{
                     + Math.round( ((double)counter * 100) / ((double)total) ) + "% done");
             counter++;
         }
-        if (matchedEmails.size() == 0)
-        {
+        if (matchedEmails.size() == 0) {
             LOG.debug("No emails found with " + strategy.name() + " of " + value);
         }
-        else
-        {
+        else {
             LOG.debug("Filtered down to " + matchedEmails.size() + " from " + this.emails.size()
                     + " on criteria " + strategy.name() + " equal to " + value);
         }
