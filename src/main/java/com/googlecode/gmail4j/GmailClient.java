@@ -88,7 +88,7 @@ public abstract class GmailClient {
      * @param strategy search strategy
      * @param value the value to look for
      */
-    public abstract List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value);
+    public abstract GmailMessageList getMessagesBy(EmailSearchStrategy strategy, String value);
     
     /**
      * Sends the message
