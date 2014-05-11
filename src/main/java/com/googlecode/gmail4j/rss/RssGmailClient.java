@@ -24,6 +24,7 @@ import com.googlecode.gmail4j.GmailClient;
 import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
+import com.googlecode.gmail4j.GmailMessageList;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -111,7 +112,7 @@ public class RssGmailClient extends GmailClient {
     }
 
     @Override
-    public List<GmailMessage> getMessagesBy(EmailSearchStrategy strategy, String value)
+    public GmailMessageList getMessagesBy(EmailSearchStrategy strategy, String value)
     {
         throw new UnsupportedOperationException("RssGmailClient is not " +
                 "capable of advanced fetching.");

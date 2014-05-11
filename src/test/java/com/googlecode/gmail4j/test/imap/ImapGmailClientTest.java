@@ -16,22 +16,26 @@
  */
 package com.googlecode.gmail4j.test.imap;
 
-import com.googlecode.gmail4j.EmailAddress;
-import com.googlecode.gmail4j.GmailClient;
-import com.googlecode.gmail4j.GmailConnection;
-import com.googlecode.gmail4j.GmailException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import com.googlecode.gmail4j.EmailAddress;
+import com.googlecode.gmail4j.GmailAttachment;
+import com.googlecode.gmail4j.GmailClient;
+import com.googlecode.gmail4j.GmailConnection;
+import com.googlecode.gmail4j.GmailException;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.auth.Credentials;
 import com.googlecode.gmail4j.http.ProxyAware;
@@ -61,6 +65,7 @@ public class ImapGmailClientTest {
      * Logger
      */
     private static final Log log = LogFactory.getLog(ImapGmailClientTest.class);
+	private static final String TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT = "Test mail with attachements";
 
     /**
      * Test a sending of a simple message
@@ -608,6 +613,57 @@ public class ImapGmailClientTest {
                         text.length() <= Constants.PREVIEW_LENGTH);
             }
             assertNotNull("Messages are not null", messages);
+        } catch (final Exception e) {
+            log.error("Test Failed", e);
+            fail("Caught exception: " + e.getMessage());
+        } finally {
+            client.disconnect();
+        }
+    }
+    
+    @Test
+    public void testGetAttachements() {
+        final ImapGmailClient client = new ImapGmailClient();
+        final ImapGmailConnection connection = new ImapGmailConnection();
+
+        try {
+            connection.setLoginCredentials(conf.getGmailCredentials());
+            if (conf.useProxy()) {
+                connection.setProxy(conf.getProxyHost(), conf.getProxyPort());
+                connection.setProxyCredentials(conf.getProxyCredentials());
+            }
+            client.setConnection(connection);
+            
+            // Send a message so we have one
+            GmailMessage msg = new JavaMailGmailMessage();
+            msg.setSubject(TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT);
+            msg.setContentText("This email have two attachements. One png and one zip.");
+            msg.addTo(new EmailAddress(conf.getTestRecipient()));
+            
+            URL url = this.getClass().getClassLoader().getResource("attachement1.png");
+            msg.addAttachement(new File(url.toURI()));
+            url = this.getClass().getClassLoader().getResource("attachement2.zip");
+            msg.addAttachement(new File(url.toURI()));
+            client.send(msg);
+            
+            log.debug("Getting messages");
+            final List<GmailMessage> messages = client.getUnreadMessages();
+            log.debug("Got " + messages.size() + " messages");
+            for (GmailMessage message : messages) {
+            	if(message.getSubject().equals(TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT)) {
+            		/* Try to get attachements. */
+            		List<GmailAttachment> attachements = message.getAttachements();
+            		assertTrue(attachements.size() > 0);
+            		for (GmailAttachment gmailAttachment : attachements) {
+						log.debug(gmailAttachment.toString());
+						byte[] data1 = IOUtils.toByteArray(gmailAttachment.getData());
+						assertTrue(data1.length > 0);
+						byte[] data2 = IOUtils.toByteArray(message.getAttachment(gmailAttachment.getPartIndex()).getData());
+						assertTrue(data2.length > 0);
+					}
+            		break;
+            	}
+            }
         } catch (final Exception e) {
             log.error("Test Failed", e);
             fail("Caught exception: " + e.getMessage());
