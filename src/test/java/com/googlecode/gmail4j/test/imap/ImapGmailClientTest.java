@@ -65,7 +65,22 @@ public class ImapGmailClientTest {
      * Logger
      */
     private static final Log log = LogFactory.getLog(ImapGmailClientTest.class);
-	private static final String TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT = "Test mail with attachements";
+    /**
+     * Test mail with attachements subject
+     */
+    private static final String TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT = "Test mail with attachements";
+    /**
+     * Test mail with attachement content
+     */
+    private static final String TEST_MAIL_WITH_ATTACHEMENT_CONTENT = "This email have two attachements. One png and one zip.";
+    /**
+     * Attachement 1 file name
+     */
+    private static final String ATTACHEMENT_1_FILENAME = "attachement1.png";
+    /**
+     * Attachement 2 file name
+     */
+    private static final String ATTACHEMENT_2_FILENAME = "attachement2.zip";
 
     /**
      * Test a sending of a simple message
@@ -637,32 +652,30 @@ public class ImapGmailClientTest {
             // Send a message so we have one
             GmailMessage msg = new JavaMailGmailMessage();
             msg.setSubject(TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT);
-            msg.setContentText("This email have two attachements. One png and one zip.");
+            msg.setContentText(TEST_MAIL_WITH_ATTACHEMENT_CONTENT);
             msg.addTo(new EmailAddress(conf.getTestRecipient()));
             
-            URL url = this.getClass().getClassLoader().getResource("attachement1.png");
+            URL url = this.getClass().getClassLoader().getResource(ATTACHEMENT_1_FILENAME);
             msg.addAttachement(new File(url.toURI()));
-            url = this.getClass().getClassLoader().getResource("attachement2.zip");
+            url = this.getClass().getClassLoader().getResource(ATTACHEMENT_2_FILENAME);
             msg.addAttachement(new File(url.toURI()));
             client.send(msg);
             
-            log.debug("Getting messages");
             final List<GmailMessage> messages = client.getUnreadMessages();
-            log.debug("Got " + messages.size() + " messages");
             for (GmailMessage message : messages) {
-            	if(message.getSubject().equals(TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT)) {
-            		/* Try to get attachements. */
-            		List<GmailAttachment> attachements = message.getAttachements();
-            		assertTrue(attachements.size() > 0);
-            		for (GmailAttachment gmailAttachment : attachements) {
-						log.debug(gmailAttachment.toString());
-						byte[] data1 = IOUtils.toByteArray(gmailAttachment.getData());
-						assertTrue(data1.length > 0);
-						byte[] data2 = IOUtils.toByteArray(message.getAttachment(gmailAttachment.getPartIndex()).getData());
-						assertTrue(data2.length > 0);
-					}
-            		break;
-            	}
+                if (message.getSubject().equals(TEST_MAIL_WITH_ATTACHEMENTS_SUBJECT)) {
+                    /* Try to get attachements. */
+                    List<GmailAttachment> attachements = message.getAttachements();
+                    assertTrue(attachements.size() > 0);
+                    for (GmailAttachment gmailAttachment : attachements) {
+                        log.debug(gmailAttachment.toString());
+                        byte[] data1 = IOUtils.toByteArray(gmailAttachment.getData());
+                        assertTrue(data1.length > 0);
+                        byte[] data2 = IOUtils.toByteArray(message.getAttachment(gmailAttachment.getPartIndex()).getData());
+                        assertTrue(data2.length > 0);
+                    }
+                    break;
+                }
             }
         } catch (final Exception e) {
             log.error("Test Failed", e);

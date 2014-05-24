@@ -43,6 +43,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.googlecode.gmail4j.EmailAddress;
 import com.googlecode.gmail4j.GmailAttachment;
 import com.googlecode.gmail4j.GmailException;
@@ -74,7 +77,11 @@ import com.googlecode.gmail4j.util.Constants;
  * @since 0.3
  */
 public class JavaMailGmailMessage extends GmailMessage {
-        
+      
+    /**
+     * Logger
+     */
+    private static final Log log = LogFactory.getLog(JavaMailGmailMessage.class);
     /**
      * Original JavaMail {@link Message}
      */
@@ -121,26 +128,26 @@ public class JavaMailGmailMessage extends GmailMessage {
      */
     @Override
     public String getContentText() {
-    	try {
-	    	Object content = source.getContent();
-	    	StringBuilder result = new StringBuilder();
-	    	if (content instanceof String) {
-	    		result.append(content);
-	    	} else if (content instanceof Multipart) {
-	    		Multipart parts = (Multipart) content;
-	    		for (int i = 0; i < parts.getCount(); i++) {
-	    			BodyPart part = parts.getBodyPart(i);
-	    			if (part.getContent() instanceof String) {
-	    				result.append(part.getContent());
-	    			}
-	    		}
-	    	}
-    		return result.toString();
-    	} catch (Exception e) {
-    		throw new GmailException("Failed getting text content from " +
-    				"JavaMailGmailMessage. You could try handling " +
-    				"((JavaMailGmailMessage).getMessage()) manually", e);
-    	}
+        try {
+            Object content = source.getContent();
+            StringBuilder result = new StringBuilder();
+            if (content instanceof String) {
+                result.append(content);
+            } else if (content instanceof Multipart) {
+                Multipart parts = (Multipart) content;
+                for (int i = 0; i < parts.getCount(); i++) {
+                    BodyPart part = parts.getBodyPart(i);
+                    if (part.getContent() instanceof String) {
+                        result.append(part.getContent());
+                    }
+                }
+            }
+            return result.toString();
+        } catch (Exception e) {
+            throw new GmailException("Failed getting text content from " +
+                    "JavaMailGmailMessage. You could try handling " +
+                    "((JavaMailGmailMessage).getMessage()) manually", e);
+        }
     }
 
     @Override
@@ -258,11 +265,11 @@ public class JavaMailGmailMessage extends GmailMessage {
 
     @Override
     public String getPreview() {
-    	String text = getContentText();
-    	if (text.length() > Constants.PREVIEW_LENGTH) {
-    		return text.substring(0, Constants.PREVIEW_LENGTH - 3) + "...";
-    	}
-    	return text;
+        String text = getContentText();
+        if (text.length() > Constants.PREVIEW_LENGTH) {
+            return text.substring(0, Constants.PREVIEW_LENGTH - 3) + "...";
+        }
+        return text;
     }
 
     @Override
@@ -343,93 +350,94 @@ public class JavaMailGmailMessage extends GmailMessage {
     
     @Override
     public void addAttachement(File file) {
-    	try {
-    		/* Check if email has already some contents. */
-    		Object content;
-    		try {
-    			content = this.source.getContent();
-			} catch (IOException e) {
-				/* If no content, then content is null.*/
-				content = null;
-			}
-	    	if(content != null) {
-		    	if (content instanceof String) {
-		    		/* This message is not multipart yet. Change it to multipart. */
-		    		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		    		messageBodyPart.setText((String)this.source.getContent());
-		    		
-		    		Multipart multipart = new MimeMultipart();
-		    		multipart.addBodyPart(messageBodyPart);
-		    		this.source.setContent(multipart);
-		    	}
-	    	}
-	    	else {
-	    		/* No content, then create initial multipart content. */
-	    		Multipart multipart = new MimeMultipart();
-	    		this.source.setContent(multipart);
-	    	}
-	    	
-	    	/* Get current content. */
-	    	Multipart multipart = (Multipart)this.source.getContent();
-	        /* add attachment as a new part. */
-	    	MimeBodyPart attachementPart = new MimeBodyPart();
-	        DataSource fileSource = new FileDataSource(file);
-	        DataHandler fileDataHandler = new DataHandler(fileSource);
-	        attachementPart.setDataHandler(fileDataHandler);
-	        attachementPart.setFileName(file.getName());
-	        multipart.addBodyPart(attachementPart);
-		} catch (Exception e) {
-			throw new GmailException("Failed to add attachement", e);
-		}
+        try {
+            /* Check if email has already some contents. */
+            Object content;
+            try {
+                content = this.source.getContent();
+            } catch (IOException e) {
+                /* If no content, then content is null.*/
+                content = null;
+                log.warn("Email content is empty.", e);
+            }
+            if (content != null) {
+                if (content instanceof String) {
+                    /* This message is not multipart yet. Change it to multipart. */
+                    MimeBodyPart messageBodyPart = new MimeBodyPart();
+                    messageBodyPart.setText((String)this.source.getContent());
+                    
+                    Multipart multipart = new MimeMultipart();
+                    multipart.addBodyPart(messageBodyPart);
+                    this.source.setContent(multipart);
+                }
+            }
+            else {
+                /* No content, then create initial multipart content. */
+                Multipart multipart = new MimeMultipart();
+                this.source.setContent(multipart);
+            }
+            
+            /* Get current content. */
+            Multipart multipart = (Multipart)this.source.getContent();
+            /* add attachment as a new part. */
+            MimeBodyPart attachementPart = new MimeBodyPart();
+            DataSource fileSource = new FileDataSource(file);
+            DataHandler fileDataHandler = new DataHandler(fileSource);
+            attachementPart.setDataHandler(fileDataHandler);
+            attachementPart.setFileName(file.getName());
+            multipart.addBodyPart(attachementPart);
+        } catch (Exception e) {
+            throw new GmailException("Failed to add attachement", e);
+        }
     }
 
-	@Override
-	public List<GmailAttachment> getAttachements() {
-		List<GmailAttachment> result = new ArrayList<GmailAttachment>(); 
-		
-		try {
-			Object content = this.source.getContent();
-			 if (content instanceof Multipart) {
-				 Multipart multipart = (Multipart)content;
-				 for(int i = 0; i < multipart.getCount(); i++) {
-					 Part bodyPart = multipart.getBodyPart(i);
-					 if(bodyPart.getDisposition() != null) {
-						 if(bodyPart.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
-							 result.add(new GmailAttachment(i, bodyPart.getFileName(), bodyPart.getContentType(), bodyPart.getInputStream()));
-						 }
-					 }
-				 } 
-			 }
-		} catch (Exception e) {
-			throw new GmailException("Failed to get attachements", e);
-		}
-		
-		return result;
-	}
+    @Override
+    public List<GmailAttachment> getAttachements() {
+        List<GmailAttachment> result = new ArrayList<GmailAttachment>(); 
+        
+        try {
+            Object content = this.source.getContent();
+             if (content instanceof Multipart) {
+                 Multipart multipart = (Multipart)content;
+                 for(int i = 0; i < multipart.getCount(); i++) {
+                     Part bodyPart = multipart.getBodyPart(i);
+                     if (bodyPart.getDisposition() != null) {
+                         if (bodyPart.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
+                             result.add(new GmailAttachment(i, bodyPart.getFileName(), bodyPart.getContentType(), bodyPart.getInputStream()));
+                         }
+                     }
+                 } 
+             }
+        } catch (Exception e) {
+            throw new GmailException("Failed to get attachements", e);
+        }
+        
+        return result;
+    }
     
-	@Override
-	public GmailAttachment getAttachment(int partIndex) {
-		GmailAttachment result = null;
-		
-		try {
-			Object content = this.source.getContent();
-			 if (content instanceof Multipart) {
-				 Multipart multipart = (Multipart)content;
-				 Part bodyPart = multipart.getBodyPart(partIndex);
-				 if(bodyPart.getDisposition() != null) {
-					 if(bodyPart.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
-						 result = new GmailAttachment(partIndex, bodyPart.getFileName(), bodyPart.getContentType(), bodyPart.getInputStream());
-					 }
-				 } 
-			 }
-			 else {
-				 throw new GmailException("Failed to get attachement with partIndex :" + partIndex);
-			 }
-		} catch (Exception e) {
-			throw new GmailException("Failed to get attachement with partIndex :" + partIndex, e);
-		}
-		
-		return result;
-	}
+    @Override
+    public GmailAttachment getAttachment(int partIndex) {
+        GmailAttachment result = null;
+        
+        try {
+            Object content = this.source.getContent();
+             if (content instanceof Multipart) {
+                 Multipart multipart = (Multipart)content;
+                 Part bodyPart = multipart.getBodyPart(partIndex);
+                 if (bodyPart.getDisposition() != null) {
+                     if (bodyPart.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
+                         result = new GmailAttachment(partIndex, bodyPart.getFileName(), bodyPart.getContentType(), bodyPart.getInputStream());
+                     }
+                 } 
+             }
+             else {
+                 throw new GmailException("Failed to get attachement with partIndex :" + partIndex);
+             }
+        } catch (Exception e) {
+            throw new GmailException("Failed to get attachement with partIndex :" + partIndex, e);
+        }
+        
+        return result;
+    }
     
 }
