@@ -16,20 +16,24 @@
  */
 package com.googlecode.gmail4j;
 
-import com.googlecode.gmail4j.javamail.MessageHeaderInfo;
-
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import com.googlecode.gmail4j.javamail.MessageHeaderInfo;
+
 /**
- * Gmail message interface. 
+ * Gmail message interface.
  * <p>
- * Implementations that do not provide some functionality (i.e. 
- * {@link #getContentText()}) throw {@link UnsupportedOperationException}
- * for those methods by default. 
+ * Implementations that do not provide some functionality (i.e.
+ * {@link #getContentText()}) throw {@link UnsupportedOperationException} for
+ * those methods by default.
  * <p>
  * Example: Print unread messages:
- * <p><blockquote><pre>
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
  *     GmailClient client = //...instantate
  *     //configure the client...
  *     for (GmailMessage message : client.getUnreadMessages()) {
@@ -40,9 +44,15 @@ import java.util.List;
  *         System.out.println(message.getLink());
  *         System.out.println(message.getContentText());
  *     }
- * </pre></blockquote><p>
+ * </pre>
+ * 
+ * </blockquote>
+ * <p>
  * Example: Send a simple message:
- * <p><blockquote><pre>
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
  *     GmailClient client = //...instantate
  *     //configure the client...
  *     GmailMessage message = //new GmailMessage instance
@@ -50,7 +60,10 @@ import java.util.List;
  *     message.setContentText("Content");
  *     message.addTo(new EmailAddress("j.smith@example.com");
  *     client.send(message);
- * </pre></blockquote></p>
+ * </pre>
+ * 
+ * </blockquote>
+ * </p>
  * 
  * @see GmailMessage
  * @author Tomas Varaneckas &lt;tomas.varaneckas@gmail.com&gt;
@@ -68,9 +81,10 @@ public abstract class GmailMessage {
     /**
      * Sets message subject
      * 
-     * @param subject Subject to be set
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
+     * @param subject
+     *            Subject to be set
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this feature.
      */
     public void setSubject(final String subject) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -94,9 +108,10 @@ public abstract class GmailMessage {
     /**
      * Sets message sender's {@link EmailAddress}
      * 
-     * @param from Sender's email address
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
+     * @param from
+     *            Sender's email address
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this feature.
      */
     public void setFrom(final EmailAddress from) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -104,11 +119,12 @@ public abstract class GmailMessage {
     }
 
     /**
-     * Gets a list of message "To:" recipient {@link EmailAddress}<code>es</code>
+     * Gets a list of message "To:" recipient {@link EmailAddress}
+     * <code>es</code>
      * 
      * @return list of message "To:" recipient email addresses
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public List<EmailAddress> getTo() {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -116,11 +132,12 @@ public abstract class GmailMessage {
     }
 
     /**
-     * Gets a list of message "Cc:" recipient {@link EmailAddress}<code>es</code>
+     * Gets a list of message "Cc:" recipient {@link EmailAddress}
+     * <code>es</code>
      * 
      * @return list of message "Cc:" recipient email addresses
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public List<EmailAddress> getCc() {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -130,9 +147,10 @@ public abstract class GmailMessage {
     /**
      * Adds carbon copy message recipient's {@link EmailAddress}
      * 
-     * @param cc Carbon copy recipient's email address
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
+     * @param cc
+     *            Carbon copy recipient's email address
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this feature.
      */
     public void addCc(final EmailAddress cc) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -142,9 +160,10 @@ public abstract class GmailMessage {
     /**
      * Adds blind carbon copy message recipient's {@link EmailAddress}
      * 
-     * @param bcc Blind carbon copy recipient's email address
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
+     * @param bcc
+     *            Blind carbon copy recipient's email address
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this feature.
      */
     public void addBcc(final EmailAddress bcc) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -154,9 +173,10 @@ public abstract class GmailMessage {
     /**
      * Adds message recipient's {@link EmailAddress}
      * 
-     * @param to Recipient's email address
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this feature.
+     * @param to
+     *            Recipient's email address
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this feature.
      */
     public void addTo(final EmailAddress to) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -167,8 +187,8 @@ public abstract class GmailMessage {
      * Gets a direct link to this Gmail message
      * 
      * @return Web link to this message
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public String getLink() {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -179,8 +199,8 @@ public abstract class GmailMessage {
      * Gets a content text preview for this message
      * 
      * @return Text preview for this message
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public String getPreview() {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -191,8 +211,8 @@ public abstract class GmailMessage {
      * Gets content text for this message
      * 
      * @return Text content for this message
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public String getContentText() {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -203,8 +223,8 @@ public abstract class GmailMessage {
      * Sets content text for this message
      * 
      * @return Text content for this message
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
     public void setContentText(final String contentText) {
         throw new UnsupportedOperationException("This GmailMessage "
@@ -213,20 +233,54 @@ public abstract class GmailMessage {
 
     /**
      * Gets the message number
-     *
+     * 
      * @return Message number
      */
     public abstract int getMessageNumber();
 
     /**
-     * Gets message headers from this part and wrap as {@link MessageHeaderInfo}.
+     * Gets message headers from this part and wrap as {@link MessageHeaderInfo}
+     * .
      * 
      * @return {@link MessageHeaderInfo} object
-     * @throws UnsupportedOperationException if implementation does not provide
-     *         this functionality
+     * @throws UnsupportedOperationException
+     *             if implementation does not provide this functionality
      */
-    public MessageHeaderInfo getMessageHeaderInfo(){
+    public MessageHeaderInfo getMessageHeaderInfo() {
         throw new UnsupportedOperationException("This GmailMessage "
                 + "implementation does not provide getMessageHeaderInfo()");
+    }
+
+    /**
+     * AddAttachement to the message.
+     * 
+     * @param file
+     *            file to attach.
+     */
+    public void addAttachement(File file) {
+        throw new UnsupportedOperationException("This GmailMessage "
+                + "implementation does not provide addAttachement()");
+    }
+
+    /**
+     * Get a list of all message attachements.
+     * 
+     * @return list of all message attachements
+     */
+    public List<GmailAttachment> getAttachements() {
+        throw new UnsupportedOperationException("This GmailMessage "
+                + "implementation does not provide getAttachements()");
+    }
+
+    /**
+     * Get a specific attachement from part index. To get the part index a call
+     * to getAttachements can be necessary before calling this function.
+     * 
+     * @param partIndex Part index in the multipart message.
+     * @return attachement.
+     */
+    public GmailAttachment getAttachment(int partIndex) {
+        throw new UnsupportedOperationException("This GmailMessage "
+                + "implementation does not provide getAttachment()");
     }
 }
